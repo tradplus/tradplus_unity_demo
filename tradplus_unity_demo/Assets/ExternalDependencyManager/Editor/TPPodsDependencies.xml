@@ -1,0 +1,5 @@
+<dependencies>
+	<iosPods>
+		<iosPod name="Bugly"/>
+	</iosPods>
+</dependencies>

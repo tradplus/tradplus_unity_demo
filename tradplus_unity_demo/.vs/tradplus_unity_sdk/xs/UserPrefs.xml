@@ -1,0 +1,51 @@
+﻿<Properties StartupConfiguration="{3A80D8F4-34E3-FEAC-031F-B9010B27F984}|">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/TradplusSDK/Api/TradplusNative.cs">
+    <Files>
+      <File FileName="Assets/Scenes/MainUI.cs" Line="19" Column="1" />
+      <File FileName="Assets/Scenes/PrivacyUI.cs" />
+      <File FileName="Assets/ExternalDependencyManager/Editor/TPPodSet.cs" />
+      <File FileName="Assets/ExternalDependencyManager/Editor/TPPodsDependencies.xml" />
+      <File FileName="Assets/TradplusSDK/Api/TradplusNativeBanner.cs" />
+      <File FileName="Assets/TradplusSDK/Api/TradplusInterstitial.cs" />
+      <File FileName="Assets/TradplusSDK/Api/TradplusBanner.cs" />
+      <File FileName="Assets/TradplusSDK/Platforms/Android/TradplusNativeBannerAndroid.cs" />
+      <File FileName="Assets/TradplusSDK/Platforms/Android/TradplusNativeAndroid.cs" />
+      <File FileName="Assets/TradplusSDK/Api/TradplusAds.cs" />
+      <File FileName="Assets/TradplusSDK/Api/TradplusBase.cs" />
+      <File FileName="Assets/TradplusSDK/Platforms/Android/TradplusOfferwallAndroid.cs" />
+      <File FileName="Assets/Scenes/NativeUI.cs" Line="138" Column="49" />
+      <File FileName="Assets/TradplusSDK/Api/TradplusNative.cs" Line="106" Column="74" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="tradplus_unity_sdk" expanded="True">
+            <Node name="Assets" expanded="True">
+              <Node name="ExternalDependencyManager" expanded="True">
+                <Node name="Editor" expanded="True" />
+              </Node>
+              <Node name="Plugins" expanded="True" />
+              <Node name="Scenes" expanded="True" />
+              <Node name="TradplusSDK" expanded="True">
+                <Node name="Api" expanded="True">
+                  <Node name="TradplusNative.cs" selected="True" />
+                </Node>
+                <Node name="Platforms" expanded="True">
+                  <Node name="Android" expanded="True" />
+                  <Node name="iOS" expanded="True" />
+                </Node>
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="9ee07dd2-6ae5-4f90-8f1d-1f089779172f" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>
