@@ -3,7 +3,6 @@ ScriptsOnlyBuild:
     Assembly-CSharp.dll:
     - BannerUI
     - InterstitialUI
-    - LogUI
     - MainUI
     - NativeBannerUI
     - NativeUI
@@ -39,7 +38,7 @@ ScriptsOnlyBuild:
     - Class: 108
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 13180}
+      Script: {instanceID: 13192}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 157
@@ -68,36 +67,7 @@ ScriptsOnlyBuild:
     - Class: 108
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 14128}
-    - Class: 115
-      Script: {instanceID: 0}
-    - Class: 157
-      Script: {instanceID: 0}
-    - Class: 196
-      Script: {instanceID: 0}
-    Assets/Scenes/Log.unity:
-    - Class: 1
-      Script: {instanceID: 0}
-    - Class: 4
-      Script: {instanceID: 0}
-    - Class: 20
-      Script: {instanceID: 0}
-    - Class: 21
-      Script: {instanceID: 0}
-    - Class: 28
-      Script: {instanceID: 0}
-    - Class: 48
-      Script: {instanceID: 0}
-    - Class: 81
-      Script: {instanceID: 0}
-    - Class: 89
-      Script: {instanceID: 0}
-    - Class: 104
-      Script: {instanceID: 0}
-    - Class: 108
-      Script: {instanceID: 0}
-    - Class: 114
-      Script: {instanceID: 14000}
+      Script: {instanceID: 14140}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 157
@@ -126,7 +96,7 @@ ScriptsOnlyBuild:
     - Class: 108
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 13420}
+      Script: {instanceID: 13432}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 157
@@ -155,7 +125,7 @@ ScriptsOnlyBuild:
     - Class: 108
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 12620}
+      Script: {instanceID: 12626}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 157
@@ -184,7 +154,7 @@ ScriptsOnlyBuild:
     - Class: 108
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 14032}
+      Script: {instanceID: 14044}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 157
@@ -213,7 +183,7 @@ ScriptsOnlyBuild:
     - Class: 108
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 12202}
+      Script: {instanceID: 12208}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 157
@@ -242,7 +212,7 @@ ScriptsOnlyBuild:
     - Class: 108
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 12760}
+      Script: {instanceID: 12768}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 157
@@ -271,7 +241,7 @@ ScriptsOnlyBuild:
     - Class: 108
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 11422}
+      Script: {instanceID: 11428}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 157
@@ -684,12 +654,6 @@ ScriptsOnlyBuild:
   - hash:
       serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: LogUI
-  - hash:
-      serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
     assemblyName: UnityEngine.TestRunner.dll
     namespaceName: UnityEngine.TestRunner.Utils
     className: TestRunCallbackListener
@@ -763,5 +727,4 @@ ScriptsOnlyBuild:
   - Assets/Scenes/Offerwall.unity
   - Assets/Scenes/Rewarded.unity
   - Assets/Scenes/Privacy.unity
-  - Assets/Scenes/Log.unity
-  playerPath: /Users/xuejun/Desktop/test
+  playerPath: /Users/xuejun/Desktop/testDemou3d

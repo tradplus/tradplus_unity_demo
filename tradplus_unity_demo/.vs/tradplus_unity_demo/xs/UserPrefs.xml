@@ -2,18 +2,18 @@
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scenes/Configure.cs">
     <Files>
       <File FileName="Assets/ExternalDependencyManager/Editor/TPPodSet.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scenes/BannerUI.cs" />
-      <File FileName="Assets/Scenes/Configure.cs" Line="186" Column="6" />
-      <File FileName="Assets/Scenes/InterstitialUI.cs" Line="27" Column="49" />
-      <File FileName="Assets/Scenes/MainUI.cs" />
-      <File FileName="Assets/Scenes/NativeBannerUI.cs" />
-      <File FileName="Assets/Scenes/NativeUI.cs" Line="83" Column="49" />
-      <File FileName="Assets/Scenes/OfferwallUI.cs" />
-      <File FileName="Assets/Scenes/PrivacyUI.cs" />
-      <File FileName="Assets/Scenes/RewardedUI.cs" />
+      <File FileName="Assets/Scenes/BannerUI.cs" Line="169" Column="25" />
+      <File FileName="Assets/Scenes/Configure.cs" Line="220" Column="45" />
+      <File FileName="Assets/Scenes/InterstitialUI.cs" Line="73" Column="23" />
+      <File FileName="Assets/Scenes/MainUI.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scenes/NativeBannerUI.cs" Line="167" Column="23" />
+      <File FileName="Assets/Scenes/NativeUI.cs" Line="177" Column="25" />
+      <File FileName="Assets/Scenes/OfferwallUI.cs" Line="70" Column="22" />
+      <File FileName="Assets/Scenes/PrivacyUI.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scenes/RewardedUI.cs" Line="1" Column="1" />
       <File FileName="Assets/TradplusSDK/Api/TradplusInterstitial.cs" />
       <File FileName="Assets/TradplusSDK/Api/TradplusOfferwall.cs" />
-      <File FileName="Assets/TradplusSDK/Api/TradplusNativeBanner.cs" Line="1" Column="1" />
+      <File FileName="Assets/TradplusSDK/Api/TradplusNativeBanner.cs" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -21,12 +21,11 @@
           <Node name="tradplus_unity_demo" expanded="True">
             <Node name="Assets" expanded="True">
               <Node name="ExternalDependencyManager" expanded="True">
-                <Node name="Editor" expanded="True" />
+                <Node name="Editor" expanded="True">
+                  <Node name="TPPodsDependencies.xml" selected="True" />
+                </Node>
               </Node>
-              <Node name="Plugins" expanded="True" />
-              <Node name="Scenes" expanded="True">
-                <Node name="Configure.cs" selected="True" />
-              </Node>
+              <Node name="Scenes" expanded="True" />
               <Node name="TradplusSDK" expanded="True">
                 <Node name="Api" expanded="True" />
               </Node>
@@ -38,7 +37,7 @@
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="cc91371a-8eb1-4387-8e7c-da3ce8306e78" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="ba371a62-ab85-4747-b9d4-dc0ffa71af21" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

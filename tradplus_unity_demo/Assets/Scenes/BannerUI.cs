@@ -136,7 +136,13 @@ public class BannerUI : MonoBehaviour
             if (GUILayout.Button("展示"))
             {
                 infoStr = "";
-                TradplusBanner.Instance().ShowBannerAd(adUnitId, sceneId);
+                bool isReady = TradplusBanner.Instance().BannerAdReady(adUnitId);
+                //判断是否有广告
+                if (isReady)
+                {
+                    //展示广告
+                    TradplusBanner.Instance().ShowBannerAd(adUnitId, sceneId);
+                }
             }
             GUILayout.Space(20);
             GUILayout.Label(infoStr);
@@ -146,18 +152,21 @@ public class BannerUI : MonoBehaviour
             if (GUILayout.Button("隐藏"))
             {
                 infoStr = "已隐藏";
+                //隐藏横幅广告
                 TradplusBanner.Instance().HideBanner(adUnitId);
             }
 
             if (GUILayout.Button("显示"))
             {
                 infoStr = "取消隐藏";
+                //显示已隐藏的横幅广告
                 TradplusBanner.Instance().DisplayBanner(adUnitId);
             }
 
             if (GUILayout.Button("销毁"))
             {
                 infoStr = "已销毁";
+                //销毁横幅广告
                 TradplusBanner.Instance().DestroyBanner(adUnitId);
             }
 
@@ -166,6 +175,7 @@ public class BannerUI : MonoBehaviour
             GUILayout.Space(20);
             if (GUILayout.Button("进入广告场景"))
             {
+                //进入广告场景
                 TradplusBanner.Instance().EntryBannerAdScenario(adUnitId, sceneId);
             }
             GUILayout.Space(20);

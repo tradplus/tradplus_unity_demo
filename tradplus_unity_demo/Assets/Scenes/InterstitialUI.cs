@@ -66,13 +66,20 @@ public class InterstitialUI : MonoBehaviour
         if (GUILayout.Button("展示"))
         {
             infoStr = "";
-            TradplusInterstitial.Instance().ShowInterstitialAd(adUnitId, sceneId);
+            bool isReady = TradplusInterstitial.Instance().InterstitialAdReady(adUnitId);
+            //判断是否有广告
+            if (isReady)
+            {
+                //展示广告
+                TradplusInterstitial.Instance().ShowInterstitialAd(adUnitId, sceneId);
+            }
         }
         GUILayout.Space(20);
         GUILayout.Label(infoStr);
         GUILayout.Space(20);
         if (GUILayout.Button("进入广告场景"))
         {
+            //进入广告场景
             TradplusInterstitial.Instance().EntryInterstitialAdScenario(adUnitId, sceneId);
         }
         GUILayout.Space(20);

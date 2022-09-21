@@ -134,7 +134,13 @@ public class NativeBannerUI : MonoBehaviour
             if (GUILayout.Button("展示"))
             {
                 infoStr = "";
-                TradplusNativeBanner.Instance().ShowNativeBannerAd(adUnitId, sceneId);
+                bool isReady = TradplusNativeBanner.Instance().NativeBannerAdReady(adUnitId);
+                //判断是否有广告
+                if (isReady)
+                {
+                    //展示广告
+                    TradplusNativeBanner.Instance().ShowNativeBannerAd(adUnitId, sceneId);
+                }
             }
             GUILayout.Space(20);
             GUILayout.Label(infoStr);
@@ -144,18 +150,21 @@ public class NativeBannerUI : MonoBehaviour
             if (GUILayout.Button("隐藏"))
             {
                 infoStr = "已隐藏";
+                //隐藏广告
                 TradplusNativeBanner.Instance().HideNativeBanner(adUnitId);
             }
 
             if (GUILayout.Button("显示"))
             {
                 infoStr = "取消隐藏";
+                //显示已隐藏的广告
                 TradplusNativeBanner.Instance().DisplayNativeBanner(adUnitId);
             }
 
             if (GUILayout.Button("销毁"))
             {
                 infoStr = "已销毁";
+                //销毁广告
                 TradplusNativeBanner.Instance().DestroyNativeBanner(adUnitId);
             }
 
@@ -164,6 +173,7 @@ public class NativeBannerUI : MonoBehaviour
             GUILayout.Space(20);
             if (GUILayout.Button("进入广告场景"))
             {
+                //进入广告场景
                 TradplusNativeBanner.Instance().EntryNativeBannerAdScenario(adUnitId, sceneId);
             }
             GUILayout.Space(20);
