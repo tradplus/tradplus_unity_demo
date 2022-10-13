@@ -165,12 +165,6 @@ dependencies {
 //        implementation "com.yandex.android:mobileads:${yandex_version}"
 //        implementation "com.tradplusad:tradplus-yandex:50.${TRADPLUS_VERSION}"
 //
-    // 小布科技（东南亚 VPN切泰国）
-    implementation "com.tradplusad:tradplus-adfly:52.${TRADPLUS_VERSION}"
-    implementation "pub.adfly:adfly-sdk:${adfly_version}"
 
-    // Appic
-    implementation "com.tradplusad:tradplus-appic:54.${TRADPLUS_VERSION}"
-//        implementation 'com.tradplusad:appic-ads:4.5.7.0'
     implementation 'com.squareup.okhttp3:okhttp:3.12.0'
 }
