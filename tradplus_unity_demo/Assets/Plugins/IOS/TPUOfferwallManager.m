@@ -157,4 +157,17 @@
         MSLogInfo(@"Offerwall adUnitID:%@ not initialize",adUnitID);
     }
 }
+
+- (void)setCustomAdInfo:(NSDictionary *)customAdInfo adUnitID:(NSString *)adUnitID
+{
+    TPUOfferwall *offerwall = [self getOfferwallWithAdUnitID:adUnitID];
+    if(offerwall != nil)
+    {
+        [offerwall setCustomAdInfo:customAdInfo];
+    }
+    else
+    {
+        MSLogInfo(@"Offerwall adUnitID:%@ not initialize",adUnitID);
+    }
+}
 @end

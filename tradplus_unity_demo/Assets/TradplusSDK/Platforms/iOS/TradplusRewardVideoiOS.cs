@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using AOT;
 using TradplusSDK.Api;
 using TradplusSDK.ThirdParty.MiniJSON;
+using UnityEngine;
 
 namespace TradplusSDK.iOS
 {
@@ -56,7 +57,29 @@ namespace TradplusSDK.iOS
             TradplusEntryRewardVideoAdScenario(adUnitId,sceneId);
         }
 
-//回调部分
+        [DllImport("__Internal")]
+        private static extern void TradplusSetCustomAdInfoRewardVideo(string adUnitId, string customAdInfo);
+        public void SetCustomAdInfo(string adUnitId, Dictionary<string, string> customAdInfo)
+        {
+            if (customAdInfo != null)
+            {
+                string customAdInfoString = Json.Serialize(customAdInfo);
+                if (customAdInfoString != null)
+                {
+                    TradplusSetCustomAdInfoRewardVideo(adUnitId, customAdInfoString);
+                }
+                else
+                {
+                    Debug.LogError("customAdInfo wrong format");
+                }
+            }
+            else
+            {
+                Debug.LogError("customAdInfo is null");
+            }
+        }
+
+        //回调部分
         //注册回调
         [DllImport("__Internal")]
         private static extern void TradplusRewardVideoSetCallbacks(

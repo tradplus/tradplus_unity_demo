@@ -39,6 +39,7 @@ typedef void (*TPRewardVideoPlayAgainVideoPlayEndCallback)(const char* adUnitId,
 - (void)showWithAdUnitID:(NSString *)adUnitID sceneId:(NSString *)sceneId;
 - (BOOL)adReadyWithAdUnitID:(NSString *)adUnitID;
 - (void)entryAdScenarioWithAdUnitID:(NSString *)adUnitID sceneId:(NSString *)sceneId;
+- (void)setCustomAdInfo:(NSDictionary *)customAdInfo adUnitID:(NSString *)adUnitID;
 
 @property(nonatomic, assign) TPRewardVideoLoadedCallback loadedCallback;
 @property(nonatomic, assign) TPRewardVideoLoadFailedCallback loadFailedCallback;

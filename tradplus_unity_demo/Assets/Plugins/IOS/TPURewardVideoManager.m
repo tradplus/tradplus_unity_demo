@@ -109,4 +109,17 @@
         MSLogInfo(@"RewardVideo adUnitID:%@ not initialize",adUnitID);
     }
 }
+
+- (void)setCustomAdInfo:(NSDictionary *)customAdInfo adUnitID:(NSString *)adUnitID
+{
+    TPURewardVideo *rewardVideo = [self getRewardVideoWithAdUnitID:adUnitID];
+    if(rewardVideo != nil)
+    {
+        [rewardVideo setCustomAdInfo:customAdInfo];
+    }
+    else
+    {
+        MSLogInfo(@"RewardVideo adUnitID:%@ not initialize",adUnitID);
+    }
+}
 @end

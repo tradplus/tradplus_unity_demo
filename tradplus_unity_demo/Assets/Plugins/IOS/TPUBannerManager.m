@@ -147,4 +147,17 @@
         MSLogInfo(@"Banner adUnitID:%@ not initialize",adUnitID);
     }
 }
+
+- (void)setCustomAdInfo:(NSDictionary *)customAdInfo adUnitID:(NSString *)adUnitID
+{
+    TPUBanner *banner = [self getBannerWithAdUnitID:adUnitID];
+    if(banner != nil)
+    {
+        [banner setCustomAdInfo:customAdInfo];
+    }
+    else
+    {
+        MSLogInfo(@"Banner adUnitID:%@ not initialize",adUnitID);
+    }
+}
 @end

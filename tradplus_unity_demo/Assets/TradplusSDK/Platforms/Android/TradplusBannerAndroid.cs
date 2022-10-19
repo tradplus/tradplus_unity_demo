@@ -35,6 +35,7 @@ namespace TradplusSDK.Android
             info.Add("customMap", extra.customMap);
             info.Add("adPosition",(int)extra.adPosition);
             info.Add("closeAutoShow", extra.closeAutoShow);
+            info.Add("isSimpleListener", extra.isSimpleListener);
 
             info.Add("localParams", extra.localParams);
 
@@ -76,6 +77,12 @@ namespace TradplusSDK.Android
         public void DestroyBanner(string adUnitId)
         {
             TPBanner.Call("destroyBanner", adUnitId);
+
+        }
+
+        public void SetCustomAdInfo(string adUnitId, Dictionary<string, string> customAdInfo)
+        {
+            TPBanner.Call("setCustomShowData", adUnitId, Json.Serialize(customAdInfo));
 
         }
 

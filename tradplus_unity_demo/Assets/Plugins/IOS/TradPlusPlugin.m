@@ -175,6 +175,19 @@ void TradplusEntryInterstitialAdScenario(const char* adUnitId,const char* sceneI
     [[TPUInterstitialManager sharedInstance] entryAdScenarioWithAdUnitID:adUnitIDStr sceneId:sceneIDStr];
 }
 
+void TradplusSetCustomAdInfoInterstitial(const char* adUnitId,const char* customAdInfo)
+{
+    NSString *jsonString = stringFromUTF8String(customAdInfo);
+    NSDictionary *dic = nil;
+    if(jsonString != nil)
+    {
+        NSData *data = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+        dic = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+    }
+    NSString *adUnitIDStr = stringFromUTF8String(adUnitId);
+    [[TPUInterstitialManager sharedInstance] setCustomAdInfo:dic adUnitID:adUnitIDStr];
+}
+
 void TradplusInterstitialSetCallbacks(TPInterstitialLoadedCallback adLoadedCallback,
                                       TPInterstitialLoadFailedCallback adLoadFailedCallback,
                                       TPInterstitialImpressionCallback adImpressionCallback,
@@ -246,6 +259,19 @@ void TradplusEntryRewardVideoAdScenario(const char* adUnitId,const char* sceneId
     [[TPURewardVideoManager sharedInstance] entryAdScenarioWithAdUnitID:adUnitIDStr sceneId:sceneIDStr];
 }
 
+void TradplusSetCustomAdInfoRewardVideo(const char* adUnitId,const char* customAdInfo)
+{
+    NSString *jsonString = stringFromUTF8String(customAdInfo);
+    NSDictionary *dic = nil;
+    if(jsonString != nil)
+    {
+        NSData *data = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+        dic = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+    }
+    NSString *adUnitIDStr = stringFromUTF8String(adUnitId);
+    [[TPURewardVideoManager sharedInstance] setCustomAdInfo:dic adUnitID:adUnitIDStr];
+}
+
 void TradplusRewardVideoSetCallbacks(TPRewardVideoLoadedCallback adLoadedCallback,
                                      TPRewardVideoLoadFailedCallback adLoadFailedCallback,
                                      TPRewardVideoImpressionCallback adImpressionCallback,
@@ -293,7 +319,7 @@ void TradplusRewardVideoSetCallbacks(TPRewardVideoLoadedCallback adLoadedCallbac
     [TPURewardVideoManager sharedInstance].playAgainVideoPlayEndCallback = adPlayAgainVideoPlayEndCallback;
 }
 
-#pragma mark - RewardVideo
+#pragma mark - Offerwall
 
 void TradplusLoadOfferwallAd(const char* adUnitId,bool isAutoLoad,const char* customMap)
 {
@@ -351,6 +377,19 @@ void TradplusAwardBalance(const char* adUnitId, int count)
 {
     NSString *adUnitIDStr = stringFromUTF8String(adUnitId);
     [[TPUOfferwallManager sharedInstance] awardBalanceWithAdUnitID:adUnitIDStr count:count];
+}
+
+void TradplusSetCustomAdInfoOfferwall(const char* adUnitId,const char* customAdInfo)
+{
+    NSString *jsonString = stringFromUTF8String(customAdInfo);
+    NSDictionary *dic = nil;
+    if(jsonString != nil)
+    {
+        NSData *data = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+        dic = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+    }
+    NSString *adUnitIDStr = stringFromUTF8String(adUnitId);
+    [[TPUOfferwallManager sharedInstance] setCustomAdInfo:dic adUnitID:adUnitIDStr];
 }
 
 void TradplusOfferwallSetCallbacks(TPOfferwallLoadedCallback adLoadedCallback,
@@ -446,6 +485,19 @@ void TradplusDestroyBanner(const char* adUnitId)
     [[TPUBannerManager sharedInstance] destroyWithAdUnitID:adUnitIDStr];
 }
 
+void TradplusSetCustomAdInfoBanner(const char* adUnitId,const char* customAdInfo)
+{
+    NSString *jsonString = stringFromUTF8String(customAdInfo);
+    NSDictionary *dic = nil;
+    if(jsonString != nil)
+    {
+        NSData *data = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+        dic = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+    }
+    NSString *adUnitIDStr = stringFromUTF8String(adUnitId);
+    [[TPUBannerManager sharedInstance] setCustomAdInfo:dic adUnitID:adUnitIDStr];
+}
+
 void TradplusBannerSetCallbacks(TPBannerLoadedCallback adLoadedCallback,
                               TPBannerLoadFailedCallback adLoadFailedCallback,
                               TPBannerImpressionCallback adImpressionCallback,
@@ -527,6 +579,19 @@ void TradplusDestroyNative(const char* adUnitId)
 {
     NSString *adUnitIDStr = stringFromUTF8String(adUnitId);
     [[TPUNativeManager sharedInstance] destroyWithAdUnitID:adUnitIDStr];
+}
+
+void TradplusSetCustomAdInfoNative(const char* adUnitId,const char* customAdInfo)
+{
+    NSString *jsonString = stringFromUTF8String(customAdInfo);
+    NSDictionary *dic = nil;
+    if(jsonString != nil)
+    {
+        NSData *data = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+        dic = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+    }
+    NSString *adUnitIDStr = stringFromUTF8String(adUnitId);
+    [[TPUNativeManager sharedInstance] setCustomAdInfo:dic adUnitID:adUnitIDStr];
 }
 
 void TradplusNativeSetCallbacks(TPNativeLoadedCallback adLoadedCallback,
@@ -615,6 +680,19 @@ void TradplusDestroyNativeBanner(const char* adUnitId)
 {
     NSString *adUnitIDStr = stringFromUTF8String(adUnitId);
     [[TPUNativeBannerManager sharedInstance] destroyWithAdUnitID:adUnitIDStr];
+}
+
+void TradplusSetCustomAdInfoNativeBanner(const char* adUnitId,const char* customAdInfo)
+{
+    NSString *jsonString = stringFromUTF8String(customAdInfo);
+    NSDictionary *dic = nil;
+    if(jsonString != nil)
+    {
+        NSData *data = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+        dic = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+    }
+    NSString *adUnitIDStr = stringFromUTF8String(adUnitId);
+    [[TPUNativeBannerManager sharedInstance] setCustomAdInfo:dic adUnitID:adUnitIDStr];
 }
 
 void TradplusNativeBannerSetCallbacks(TPNativeBannerLoadedCallback adLoadedCallback,

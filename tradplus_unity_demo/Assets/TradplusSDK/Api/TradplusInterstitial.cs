@@ -22,6 +22,10 @@ namespace TradplusSDK.Api
     public class TPInterstitialExtra
     {
         ///<summary>
+        ///是否需要简易回调
+        ///</summary>
+        public bool isSimpleListener;
+        ///<summary>
         ///是否自动加载，默认true
         ///</summary>
         public bool isAutoLoad;
@@ -94,6 +98,18 @@ namespace TradplusSDK.Api
         public void EntryInterstitialAdScenario(string adUnitId, string sceneId = "")
         {
             TPInterstitial.Instance().EntryInterstitialAdScenario(adUnitId,sceneId);
+        }
+
+        ///<summary>
+        ///v1.0.1 新增。
+        ///开发者可在展示前通过此接口设置透传的adInfo信息。
+        ///透传信息可以在广告展示后的相关回调的adInfo中获取。
+        ///</summary>
+        ///<param name="adUnitId">广告位ID</param>
+        ///<param name="customAdInfo">自定义透传的adInfo信息</param>
+        public void SetCustomAdInfo(string adUnitId, Dictionary<string, string> customAdInfo)
+        {
+            TPInterstitial.Instance().SetCustomAdInfo(adUnitId, customAdInfo);
         }
 
 //接口回调

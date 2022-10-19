@@ -105,4 +105,17 @@
         MSLogInfo(@"interstitial adUnitID:%@ not initialize",adUnitID);
     }
 }
+
+- (void)setCustomAdInfo:(NSDictionary *)customAdInfo adUnitID:(NSString *)adUnitID
+{
+    TPUInterstitial *interstitial = [self getInterstitialWithAdUnitID:adUnitID];
+    if(interstitial != nil)
+    {
+        [interstitial setCustomAdInfo:customAdInfo];
+    }
+    else
+    {
+        MSLogInfo(@"interstitial adUnitID:%@ not initialize",adUnitID);
+    }
+}
 @end

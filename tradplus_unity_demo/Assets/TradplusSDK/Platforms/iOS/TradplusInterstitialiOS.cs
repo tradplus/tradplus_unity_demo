@@ -56,7 +56,29 @@ namespace TradplusSDK.iOS
             TradplusEntryInterstitialAdScenario(adUnitId,sceneId);
         }
 
-//回调部分
+        [DllImport("__Internal")]
+        private static extern void TradplusSetCustomAdInfoInterstitial(string adUnitId, string customAdInfo);
+        public void SetCustomAdInfo(string adUnitId, Dictionary<string, string> customAdInfo)
+        {
+            if (customAdInfo != null)
+            {
+                string customAdInfoString = Json.Serialize(customAdInfo);
+                if (customAdInfoString != null)
+                {
+                    TradplusSetCustomAdInfoInterstitial(adUnitId, customAdInfoString);
+                }
+                else
+                {
+                    Debug.LogError("customAdInfo wrong format");
+                }
+            }
+            else
+            {
+                Debug.LogError("customAdInfo is null");
+            }
+        }
+
+        //回调部分
 
         //注册回调
         [DllImport("__Internal")]

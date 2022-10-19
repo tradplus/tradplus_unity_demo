@@ -17,7 +17,7 @@ namespace TradplusSDK.Api
 
     public class TradplusAds
     {
-        public string PluginVersion = "1.0.0";
+        public string PluginVersion = "1.0.1";
 
         private static TradplusAds _instance;
 

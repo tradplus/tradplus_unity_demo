@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TradplusSDK.Api;
 using TradplusSDK.ThirdParty.MiniJSON;
+using System;
 
 public class InterstitialUI : MonoBehaviour
 {
@@ -70,6 +71,12 @@ public class InterstitialUI : MonoBehaviour
             //判断是否有广告
             if (isReady)
             {
+                //调用展示前设置自定义信息
+                Dictionary<string, string> customAdInfo = new Dictionary<string, string>();
+                customAdInfo.Add("act", "Show");
+                customAdInfo.Add("time", "" + DateTimeOffset.Now);
+                TradplusInterstitial.Instance().SetCustomAdInfo(adUnitId, customAdInfo);
+
                 //展示广告
                 TradplusInterstitial.Instance().ShowInterstitialAd(adUnitId, sceneId);
             }

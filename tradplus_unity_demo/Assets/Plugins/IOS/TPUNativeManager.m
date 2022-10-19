@@ -160,4 +160,17 @@
         MSLogInfo(@"Native adUnitID:%@ not initialize",adUnitID);
     }
 }
+
+- (void)setCustomAdInfo:(NSDictionary *)customAdInfo adUnitID:(NSString *)adUnitID
+{
+    TPUNative *native = [self getNativeWithAdUnitID:adUnitID];
+    if(native != nil)
+    {
+        [native setCustomAdInfo:customAdInfo];
+    }
+    else
+    {
+        MSLogInfo(@"Native adUnitID:%@ not initialize",adUnitID);
+    }
+}
 @end

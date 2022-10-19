@@ -129,6 +129,12 @@
     [self.adView removeFromSuperview];
 }
 
+- (void)setCustomAdInfo:(NSDictionary *)customAdInfo
+{
+    MSLogTrace(@"%s", __PRETTY_FUNCTION__);
+    self.native.customAdInfo = customAdInfo;
+}
+
 #pragma mark - TradPlusADNativeDelegate
 
 - (nullable UIViewController *)viewControllerForPresentingModalView

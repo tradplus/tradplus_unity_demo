@@ -41,6 +41,7 @@ typedef void (*TPOfferwallAwardCurrencyFailedCallback)(const char* adUnitId,cons
 - (void)getCurrencyBalanceWithAdUnitID:(NSString *)adUnitID;
 - (void)spendBalanceWithAdUnitID:(NSString *)adUnitID count:(int)count;
 - (void)awardBalanceWithAdUnitID:(NSString *)adUnitID count:(int)count;
+- (void)setCustomAdInfo:(NSDictionary *)customAdInfo adUnitID:(NSString *)adUnitID;
 
 @property(nonatomic, assign) TPOfferwallLoadedCallback loadedCallback;
 @property(nonatomic, assign) TPOfferwallLoadFailedCallback loadFailedCallback;

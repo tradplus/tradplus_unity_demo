@@ -36,6 +36,7 @@ typedef void (*TPNativeAllLoadedCallback)(const char* adUnitId,bool isSuccess);
 - (void)hideWithAdUnitID:(NSString *)adUnitID;
 - (void)displayWithAdUnitID:(NSString *)adUnitID;
 - (void)destroyWithAdUnitID:(NSString *)adUnitID;
+- (void)setCustomAdInfo:(NSDictionary *)customAdInfo adUnitID:(NSString *)adUnitID;
 
 @property(nonatomic, assign) TPNativeLoadedCallback loadedCallback;
 @property(nonatomic, assign) TPNativeLoadFailedCallback loadFailedCallback;

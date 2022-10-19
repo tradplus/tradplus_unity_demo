@@ -30,6 +30,8 @@ namespace TradplusSDK.Android
             info.Add("isAutoLoad", extra.isAutoLoad);
             info.Add("customMap", extra.customMap);
             info.Add("localParams", extra.localParams);
+            info.Add("isSimpleListener", extra.isSimpleListener);
+
 
             TPOfferWall.Call("loadAd", adUnitId, Json.Serialize(info), loadListenerAdapter);
         }
@@ -73,6 +75,12 @@ namespace TradplusSDK.Android
         public void AwardBalance(string adUnitId, int count)
         {
             TPOfferWall.Call("awardCurrency", adUnitId,count);
+
+        }
+
+        public void SetCustomAdInfo(string adUnitId, Dictionary<string, string> customAdInfo)
+        {
+            TPOfferWall.Call("setCustomShowData", adUnitId, Json.Serialize(customAdInfo));
 
         }
 

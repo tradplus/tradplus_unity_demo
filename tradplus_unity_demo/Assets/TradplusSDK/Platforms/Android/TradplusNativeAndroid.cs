@@ -38,6 +38,8 @@ namespace TradplusSDK.Android
             info.Add("customMap", extra.customMap);
             info.Add("adPosition", (int)extra.adPosition);
             info.Add("localParams", extra.localParams);
+            info.Add("isSimpleListener", extra.isSimpleListener);
+
 
 
             TPNative.Call("loadAd", adUnitId, Json.Serialize(info), loadListenerAdapter);
@@ -77,6 +79,12 @@ namespace TradplusSDK.Android
         public void DestroyNative(string adUnitId)
         {
             TPNative.Call("destroyBanner", adUnitId);
+
+        }
+
+        public void SetCustomAdInfo(string adUnitId, Dictionary<string, string> customAdInfo)
+        {
+            TPNative.Call("setCustomShowData", adUnitId, Json.Serialize(customAdInfo));
 
         }
 

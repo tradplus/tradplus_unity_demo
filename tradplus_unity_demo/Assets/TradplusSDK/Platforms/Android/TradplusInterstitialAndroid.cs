@@ -32,7 +32,9 @@ namespace TradplusSDK.Android
             info.Add("isAutoLoad", extra.isAutoLoad);
             info.Add("customMap", extra.customMap);
             info.Add("localParams", extra.localParams);
-           
+            info.Add("isSimpleListener", extra.isSimpleListener);
+
+
             TPInterstitial.Call("loadAd", adUnitId, Json.Serialize(info), loadListenerAdapter);
         }
 
@@ -50,6 +52,12 @@ namespace TradplusSDK.Android
         public void EntryInterstitialAdScenario(string adUnitId, string sceneId)
         {
             TPInterstitial.Call("entryAdScenario", adUnitId, sceneId);
+        }
+
+        public void SetCustomAdInfo(string adUnitId, Dictionary<string, string> customAdInfo)
+        {
+            TPInterstitial.Call("setCustomShowData", adUnitId, Json.Serialize(customAdInfo));
+
         }
 
         private class AdLoadListenerAdapter : AndroidJavaProxy

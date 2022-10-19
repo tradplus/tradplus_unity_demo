@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using TradplusSDK.Api;
 using TradplusSDK.ThirdParty.MiniJSON;
@@ -70,6 +71,12 @@ public class OfferwallUI : MonoBehaviour
             //判断是否有广告
             if (isReady)
             {
+                //调用展示前设置自定义信息
+                Dictionary<string, string> customAdInfo = new Dictionary<string, string>();
+                customAdInfo.Add("act", "Show");
+                customAdInfo.Add("time", "" + DateTimeOffset.Now);
+                TradplusOfferwall.Instance().SetCustomAdInfo(adUnitId, customAdInfo);
+
                 //展示积分墙
                 TradplusOfferwall.Instance().ShowOfferwallAd(adUnitId, sceneId);
             }

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using TradplusSDK.Api;
@@ -138,6 +139,12 @@ public class NativeBannerUI : MonoBehaviour
                 //判断是否有广告
                 if (isReady)
                 {
+                    //调用展示前设置自定义信息
+                    Dictionary<string, string> customAdInfo = new Dictionary<string, string>();
+                    customAdInfo.Add("act", "Show");
+                    customAdInfo.Add("time", "" + DateTimeOffset.Now);
+                    TradplusNativeBanner.Instance().SetCustomAdInfo(adUnitId, customAdInfo);
+
                     //展示广告
                     TradplusNativeBanner.Instance().ShowNativeBannerAd(adUnitId, sceneId);
                 }

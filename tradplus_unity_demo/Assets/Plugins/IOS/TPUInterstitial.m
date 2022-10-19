@@ -68,6 +68,12 @@
     return self.interstitial.isAdReady;
 }
 
+- (void)setCustomAdInfo:(NSDictionary *)customAdInfo
+{
+    MSLogTrace(@"%s", __PRETTY_FUNCTION__);
+    self.interstitial.customAdInfo = customAdInfo;
+}
+
 #pragma mark - TradPlusADInterstitialDelegate
 
 ///AD加载完成 首个广告源加载成功时回调 一次加载流程只会回调一次

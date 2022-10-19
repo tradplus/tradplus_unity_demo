@@ -34,6 +34,8 @@ namespace TradplusSDK.Android
             info.Add("localParams", extra.localParams);
             info.Add("userId", extra.userId);
             info.Add("customData", extra.customData);
+            info.Add("isSimpleListener", extra.isSimpleListener);
+
 
 
             TPReward.Call("loadAd",adUnitId,Json.Serialize(info),loadListenerAdapter);
@@ -53,6 +55,12 @@ namespace TradplusSDK.Android
         public void EntryRewardVideoAdScenario(string adUnitId, string sceneId)
         {
             TPReward.Call("entryAdScenario", adUnitId, sceneId);
+        }
+
+        public void SetCustomAdInfo(string adUnitId, Dictionary<string, string> customAdInfo)
+        {
+            TPReward.Call("setCustomShowData", adUnitId, Json.Serialize(customAdInfo));
+
         }
 
         private class AdLoadListenerAdapter : AndroidJavaProxy

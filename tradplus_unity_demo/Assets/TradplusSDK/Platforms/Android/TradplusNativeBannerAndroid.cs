@@ -39,6 +39,8 @@ namespace TradplusSDK.Android
             info.Add("closeAutoShow", extra.closeAutoShow);
             info.Add("x", extra.x);
             info.Add("y", extra.y);
+            info.Add("isSimpleListener", extra.isSimpleListener);
+
 
             info.Add("localParams", extra.localParams);
 
@@ -79,6 +81,12 @@ namespace TradplusSDK.Android
         public void DestroyNativeBanner(string adUnitId)
         {
             TPNativeBanner.Call("destroyBanner", adUnitId);
+
+        }
+
+        public void SetCustomAdInfo(string adUnitId, Dictionary<string, string> customAdInfo)
+        {
+            TPNativeBanner.Call("setCustomShowData", adUnitId, Json.Serialize(customAdInfo));
 
         }
 

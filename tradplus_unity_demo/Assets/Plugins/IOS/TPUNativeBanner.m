@@ -148,6 +148,12 @@
     [self.nativeBanner removeFromSuperview];
 }
 
+- (void)setCustomAdInfo:(NSDictionary *)customAdInfo
+{
+    MSLogTrace(@"%s", __PRETTY_FUNCTION__);
+    self.nativeBanner.customAdInfo = customAdInfo;
+}
+
 #pragma mark - TradPlusADNativeBannerDelegate
 
 - (nullable UIViewController *)viewControllerForPresentingModalView

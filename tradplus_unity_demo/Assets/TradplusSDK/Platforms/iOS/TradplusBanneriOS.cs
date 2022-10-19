@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using AOT;
 using TradplusSDK.Api;
 using TradplusSDK.ThirdParty.MiniJSON;
+using UnityEngine;
 
 namespace TradplusSDK.iOS
 {
@@ -74,6 +75,28 @@ namespace TradplusSDK.iOS
         public void DestroyBanner(string adUnitId)
         {
             TradplusDestroyBanner(adUnitId);
+        }
+
+        [DllImport("__Internal")]
+        private static extern void TradplusSetCustomAdInfoBanner(string adUnitId, string customAdInfo);
+        public void SetCustomAdInfo(string adUnitId, Dictionary<string, string> customAdInfo)
+        {
+            if(customAdInfo != null)
+            {
+                string customAdInfoString = Json.Serialize(customAdInfo);
+                if(customAdInfoString != null)
+                {
+                    TradplusSetCustomAdInfoBanner(adUnitId, customAdInfoString);
+                }
+                else
+                {
+                    Debug.LogError("customAdInfo wrong format");
+                }
+            }
+            else
+            {
+                Debug.LogError("customAdInfo is null");
+            }
         }
 
 //回调部分

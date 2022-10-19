@@ -5,6 +5,7 @@ using TradplusSDK.Api;
 using TradplusSDK.ThirdParty.MiniJSON;
 using UnityEngine.SceneManagement;
 using System.Text.RegularExpressions;
+using System;
 
 public class BannerUI : MonoBehaviour
 {
@@ -140,6 +141,12 @@ public class BannerUI : MonoBehaviour
                 //判断是否有广告
                 if (isReady)
                 {
+                    //调用展示前设置自定义信息
+                    Dictionary<string, string> customAdInfo = new Dictionary<string, string>();
+                    customAdInfo.Add("act", "Show");
+                    customAdInfo.Add("time", "" + DateTimeOffset.Now);
+                    TradplusBanner.Instance().SetCustomAdInfo(adUnitId, customAdInfo);
+
                     //展示广告
                     TradplusBanner.Instance().ShowBannerAd(adUnitId, sceneId);
                 }

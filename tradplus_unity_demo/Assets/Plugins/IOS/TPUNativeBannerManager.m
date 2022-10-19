@@ -147,4 +147,17 @@
         MSLogInfo(@"NativeBanner adUnitID:%@ not initialize",adUnitID);
     }
 }
+
+- (void)setCustomAdInfo:(NSDictionary *)customAdInfo adUnitID:(NSString *)adUnitID
+{
+    TPUNativeBanner *nativeBanner = [self getNativeBannerWithAdUnitID:adUnitID];
+    if(nativeBanner != nil)
+    {
+        [nativeBanner setCustomAdInfo:customAdInfo];
+    }
+    else
+    {
+        MSLogInfo(@"NativeBanner adUnitID:%@ not initialize",adUnitID);
+    }
+}
 @end

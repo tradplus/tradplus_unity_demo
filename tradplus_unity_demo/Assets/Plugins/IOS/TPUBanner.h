@@ -25,6 +25,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)hide;
 - (void)display;
 - (void)destroy;
+- (void)setCustomAdInfo:(NSDictionary *)customAdInfo;
+
 @property (nonatomic,assign)BOOL closeAutoShow;
 
 @property (nonatomic,strong)TradPlusAdBanner *banner;

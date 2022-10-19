@@ -33,6 +33,7 @@ typedef void (*TPInterstitialAllLoadedCallback)(const char* adUnitId,bool isSucc
 - (void)showWithAdUnitID:(NSString *)adUnitID sceneId:(NSString *)sceneId;
 - (BOOL)adReadyWithAdUnitID:(NSString *)adUnitID;
 - (void)entryAdScenarioWithAdUnitID:(NSString *)adUnitID sceneId:(NSString *)sceneId;
+- (void)setCustomAdInfo:(NSDictionary *)customAdInfo adUnitID:(NSString *)adUnitID;
 
 @property(nonatomic, assign) TPInterstitialLoadedCallback loadedCallback;
 @property(nonatomic, assign) TPInterstitialLoadFailedCallback loadFailedCallback;

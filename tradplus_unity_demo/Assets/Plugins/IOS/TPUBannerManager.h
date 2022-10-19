@@ -34,6 +34,7 @@ typedef void (*TPBannerAllLoadedCallback)(const char* adUnitId,bool isSuccess);
 - (void)hideWithAdUnitID:(NSString *)adUnitID;
 - (void)displayWithAdUnitID:(NSString *)adUnitID;
 - (void)destroyWithAdUnitID:(NSString *)adUnitID;
+- (void)setCustomAdInfo:(NSDictionary *)customAdInfo adUnitID:(NSString *)adUnitID;
 
 @property(nonatomic, assign) TPBannerLoadedCallback loadedCallback;
 @property(nonatomic, assign) TPBannerLoadFailedCallback loadFailedCallback;
