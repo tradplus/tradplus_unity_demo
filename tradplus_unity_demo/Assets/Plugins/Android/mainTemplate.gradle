@@ -45,7 +45,7 @@ android {
 }**REPOSITORIES****SOURCE_BUILD_SETUP**
 **EXTERNAL_SOURCES**
 dependencies {
-    def TRADPLUS_VERSION = "8.5.0.1"
+    def TRADPLUS_VERSION = "8.6.0.1"
 
     //TradPlus SDK
     implementation "com.tradplusad:tradplus:${TRADPLUS_VERSION}"
