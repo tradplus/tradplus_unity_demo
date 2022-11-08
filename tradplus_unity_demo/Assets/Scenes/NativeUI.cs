@@ -81,7 +81,7 @@ public class NativeUI : MonoBehaviour
         GUILayout.BeginArea(rect);
         GUILayout.Space(20);
 
-        float height = (Screen.height - 180) / 10 - 20;
+        float height = (Screen.height - 180) / 9 - 20;
         GUI.skin.button.fixedHeight = height;
         GUI.skin.button.fontSize = (int)(height / 3);
         GUI.skin.label.fontSize = (int)(height / 3);
@@ -181,11 +181,6 @@ public class NativeUI : MonoBehaviour
             if (GUILayout.Button("进入广告场景"))
             {
                 TradplusNative.Instance().EntryNativeAdScenario(adUnitId, sceneId);
-            }
-            GUILayout.Space(20);
-            if (GUILayout.Button("日志"))
-            {
-                SceneManager.LoadScene("Log");
             }
             GUILayout.Space(20);
             if (GUILayout.Button("返回首页"))

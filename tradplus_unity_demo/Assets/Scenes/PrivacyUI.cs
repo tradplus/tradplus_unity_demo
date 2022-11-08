@@ -77,7 +77,7 @@ public class PrivacyUI : MonoBehaviour
 
     private void OnGUI()
     {
-        float height = (Screen.height - 140) / 13 - 20;
+        float height = (Screen.height - 140) / 12 - 20;
         GUI.skin.button.fixedHeight = height;
         GUI.skin.button.fontSize = (int)(height / 3);
         GUI.skin.label.fontSize = (int)(height / 3);
@@ -99,6 +99,7 @@ public class PrivacyUI : MonoBehaviour
         {
             if (GUILayout.Button("设置为 允许上报"))
             {
+                //设置 GDPR
                 TradplusAds.Instance().SetGDPRDataCollection(true);
                 checkInfo();
             }
@@ -107,6 +108,7 @@ public class PrivacyUI : MonoBehaviour
         {
             if (GUILayout.Button("设置为 不允许上报"))
             {
+                //设置 GDPR
                 TradplusAds.Instance().SetGDPRDataCollection(false);
                 checkInfo();
             }
@@ -120,6 +122,7 @@ public class PrivacyUI : MonoBehaviour
         {
             if (GUILayout.Button("设置为 允许上报"))
             {
+                //设置 CCPA
                 TradplusAds.Instance().SetCCPADoNotSell(true);
                 checkInfo();
             }
@@ -128,6 +131,7 @@ public class PrivacyUI : MonoBehaviour
         {
             if (GUILayout.Button("设置为 不允许上报"))
             {
+                //设置 CCPA
                 TradplusAds.Instance().SetCCPADoNotSell(false);
                 checkInfo();
             }
@@ -141,6 +145,7 @@ public class PrivacyUI : MonoBehaviour
         {
             if (GUILayout.Button("设置为 儿童"))
             {
+                //设置 COPPA
                 TradplusAds.Instance().SetCOPPAIsAgeRestrictedUser(true);
                 checkInfo();
             }
@@ -149,6 +154,7 @@ public class PrivacyUI : MonoBehaviour
         {
             if (GUILayout.Button("设置为 不是儿童"))
             {
+                //设置 COPPA
                 TradplusAds.Instance().SetCOPPAIsAgeRestrictedUser(false);
                 checkInfo();
             }
@@ -162,6 +168,7 @@ public class PrivacyUI : MonoBehaviour
         {
             if (GUILayout.Button("设置为 开启"))
             {
+                //设置 国内个性化推荐
                 TradplusAds.Instance().SetOpenPersonalizedAd(true);
                 checkInfo();
             }
@@ -170,6 +177,7 @@ public class PrivacyUI : MonoBehaviour
         {
             if (GUILayout.Button("设置为 关闭"))
             {
+                //设置 国内个性化推荐
                 TradplusAds.Instance().SetOpenPersonalizedAd(false);
                 checkInfo();
             }
@@ -179,21 +187,17 @@ public class PrivacyUI : MonoBehaviour
         GUILayout.Space(10);
         if (GUILayout.Button("GDPR 授权页面"))
         {
+            //调用 GDRP授权页面
             TradplusAds.Instance().ShowGDPRDialog();
         }
 
         GUILayout.Space(10);
         if (GUILayout.Button("查询地区"))
         {
+            //查询地区信息
             TradplusAds.Instance().CheckCurrentArea();
         }
         GUILayout.Label(areaInfo);
-
-        GUILayout.Space(20);
-        if (GUILayout.Button("日志"))
-        {
-            SceneManager.LoadScene("Log");
-        }
         GUILayout.Space(20);
         if (GUILayout.Button("返回首页"))
         {

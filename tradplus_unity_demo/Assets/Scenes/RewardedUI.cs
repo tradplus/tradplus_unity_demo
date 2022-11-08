@@ -25,7 +25,7 @@ public class RewardedUI : MonoBehaviour
 
     private void OnGUI()
     {
-        float height = (Screen.height - 140) / 8 - 20;
+        float height = (Screen.height - 140) / 9 - 20;
         GUI.skin.button.fixedHeight = height;
         GUI.skin.button.fontSize = (int)(height / 3);
         GUI.skin.label.fontSize = (int)(height / 3);
@@ -94,11 +94,6 @@ public class RewardedUI : MonoBehaviour
         if (GUILayout.Button("进入广告场景"))
         {
             TradplusRewardVideo.Instance().EntryRewardVideoAdScenario(adUnitId, sceneId);
-        }
-        GUILayout.Space(20);
-        if (GUILayout.Button("日志"))
-        {
-            SceneManager.LoadScene("Log");
         }
         GUILayout.Space(20);
         if (GUILayout.Button("返回首页"))

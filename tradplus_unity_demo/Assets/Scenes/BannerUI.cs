@@ -82,7 +82,7 @@ public class BannerUI : MonoBehaviour
         GUILayout.BeginArea(rect);
         GUILayout.Space(20);
 
-        float height = (Screen.height - 180) / 10 - 20;
+        float height = (Screen.height - 180) / 9 - 20;
         GUI.skin.button.fixedHeight = height;
         GUI.skin.button.fontSize = (int)(height / 3);
         GUI.skin.label.fontSize = (int)(height / 3);
@@ -116,6 +116,7 @@ public class BannerUI : MonoBehaviour
 #endif
                 if (useClassName)
                 {
+                //设置自定义原生模版
 #if UNITY_ANDROID
                 extra.className = "tp_native_banner_ad_unit";
 #elif UNITY_IOS
@@ -190,11 +191,6 @@ public class BannerUI : MonoBehaviour
             if (GUILayout.Button("进入广告场景"))
             {
                 TradplusBanner.Instance().EntryBannerAdScenario(adUnitId, sceneId);
-            }
-            GUILayout.Space(20);
-            if (GUILayout.Button("日志"))
-            {
-                SceneManager.LoadScene("Log");
             }
             GUILayout.Space(20);
             if (GUILayout.Button("返回首页"))

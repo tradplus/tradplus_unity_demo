@@ -123,12 +123,6 @@ public class OfferwallUI : MonoBehaviour
         {
             TradplusOfferwall.Instance().EntryOfferwallAdScenario(adUnitId, sceneId);
         }
-
-        GUILayout.Space(20);
-        if (GUILayout.Button("日志"))
-        {
-            SceneManager.LoadScene("Log");
-        }
         GUILayout.Space(20);
         if (GUILayout.Button("返回首页"))
         {
