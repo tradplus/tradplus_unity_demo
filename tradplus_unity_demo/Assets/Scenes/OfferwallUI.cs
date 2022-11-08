@@ -41,6 +41,11 @@ public class OfferwallUI : MonoBehaviour
 
             TPOfferwallExtra extra = new TPOfferwallExtra();
             extra.isAutoLoad = Configure.Instance().AutoLoad;
+              #if UNITY_ANDROID
+
+                                  extra.isSimpleListener = Configure.Instance().SimplifyListener;
+                           #endif
+
             if (Configure.Instance().UseAdCustomMap)
             {
                 //流量分组相关
@@ -49,14 +54,19 @@ public class OfferwallUI : MonoBehaviour
                 customMap.Add("custom_data", "offerWall_TestIMP");
                 customMap.Add("segment_tag", "offerWall_segment_tag");
                 extra.customMap = customMap;
-                //Android设置特殊参数
+
                 Dictionary<string, string> localParams = new Dictionary<string, string>();
                 localParams.Add("user_id", "offerwall_userId");
                 localParams.Add("custom_data", "offerwall_customData");
                 extra.localParams = localParams;
             }
-            //加载积分墙
+
             TradplusOfferwall.Instance().LoadOfferwallAd(adUnitId, extra);
+
+            Dictionary<string, string> customAdInfo = new Dictionary<string, string>();
+            customAdInfo.Add("act", "Load");
+            customAdInfo.Add("time", "" + DateTimeOffset.Now);
+            TradplusOfferwall.Instance().SetCustomAdInfo(adUnitId, customAdInfo);
         }
         GUILayout.Space(20);
         if (GUILayout.Button("isReady"))
@@ -67,19 +77,15 @@ public class OfferwallUI : MonoBehaviour
         GUILayout.Space(20);
         if (GUILayout.Button("展示"))
         {
-            bool isReady = TradplusOfferwall.Instance().OfferwallAdReady(adUnitId);
-            //判断是否有广告
-            if (isReady)
-            {
-                //调用展示前设置自定义信息
-                Dictionary<string, string> customAdInfo = new Dictionary<string, string>();
-                customAdInfo.Add("act", "Show");
-                customAdInfo.Add("time", "" + DateTimeOffset.Now);
-                TradplusOfferwall.Instance().SetCustomAdInfo(adUnitId, customAdInfo);
 
-                //展示积分墙
-                TradplusOfferwall.Instance().ShowOfferwallAd(adUnitId, sceneId);
-            }
+            Dictionary<string, string> customAdInfo = new Dictionary<string, string>();
+            customAdInfo.Add("act", "Show");
+            customAdInfo.Add("time", "" + DateTimeOffset.Now);
+            TradplusOfferwall.Instance().SetCustomAdInfo(adUnitId, customAdInfo);
+
+            infoStr = "";
+
+            TradplusOfferwall.Instance().ShowOfferwallAd(adUnitId, sceneId);
         }
         GUILayout.Space(20);
         GUILayout.Label(infoStr);
@@ -89,13 +95,11 @@ public class OfferwallUI : MonoBehaviour
 
         if (GUILayout.Button("查询积分"))
         {
-            //查询用户积分
             TradplusOfferwall.Instance().GetCurrencyBalance(adUnitId);
         }
 
         if (GUILayout.Button("设置用户名"))
         {
-            //设置 userId
             TradplusOfferwall.Instance().SetUserId(adUnitId, "test_offerwall_userid");
         }
         GUILayout.EndHorizontal();
@@ -105,13 +109,11 @@ public class OfferwallUI : MonoBehaviour
         GUILayout.BeginHorizontal();
         if (GUILayout.Button("增加积分 20"))
         {
-            //增加用户积分
             TradplusOfferwall.Instance().AwardBalance(adUnitId,20);
         }
 
         if (GUILayout.Button("扣除积分 10"))
         {
-            //扣除用户积分
             TradplusOfferwall.Instance().SpendBalance(adUnitId, 10);
         }
         GUILayout.EndHorizontal();
@@ -119,8 +121,13 @@ public class OfferwallUI : MonoBehaviour
         GUILayout.Space(20);
         if (GUILayout.Button("进入广告场景"))
         {
-            //进入广告场景
             TradplusOfferwall.Instance().EntryOfferwallAdScenario(adUnitId, sceneId);
+        }
+
+        GUILayout.Space(20);
+        if (GUILayout.Button("日志"))
+        {
+            SceneManager.LoadScene("Log");
         }
         GUILayout.Space(20);
         if (GUILayout.Button("返回首页"))

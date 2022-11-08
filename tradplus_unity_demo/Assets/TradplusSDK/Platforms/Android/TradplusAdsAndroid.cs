@@ -212,6 +212,12 @@ namespace TradplusSDK.Android
 
         }
 
+        public void SetOpenDelayLoadAds(bool isOpen)
+        {
+            TradPlusSdk.CallStatic("setOpenDelayLoadAds", isOpen);
+
+        }
+
         public TradplusAdsAndroid()
         {
         }

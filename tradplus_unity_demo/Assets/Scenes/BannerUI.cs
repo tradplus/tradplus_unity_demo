@@ -21,6 +21,7 @@ public class BannerUI : MonoBehaviour
     string yStr = "0";
     string widthStr = "320";
     string heightStr = "50";
+    bool useClassName = false;
 
     private void checkEditInfo()
     {
@@ -81,7 +82,7 @@ public class BannerUI : MonoBehaviour
         GUILayout.BeginArea(rect);
         GUILayout.Space(20);
 
-        float height = (Screen.height - 180) / 9 - 20;
+        float height = (Screen.height - 180) / 10 - 20;
         GUI.skin.button.fixedHeight = height;
         GUI.skin.button.fontSize = (int)(height / 3);
         GUI.skin.label.fontSize = (int)(height / 3);
@@ -109,8 +110,20 @@ public class BannerUI : MonoBehaviour
                 extra.closeAutoShow = closeAutoShow;
                 extra.adPosition = adPostion;
                 extra.contentMode = contentMode;
+#if UNITY_ANDROID
+                extra.className = "tp_native_banner_ad_unit";
+                extra.isSimpleListener = Configure.Instance().SimplifyListener;
+#endif
+                if (useClassName)
+                {
+#if UNITY_ANDROID
+                extra.className = "tp_native_banner_ad_unit";
+#elif UNITY_IOS
+                extra.className = "NativeBannerTemplate";
+#endif
+                }
 
-                if(Configure.Instance().UseAdCustomMap)
+                if (Configure.Instance().UseAdCustomMap)
                 {
                     //流量分组相关
                     Dictionary<string, string> customMap = new Dictionary<string, string>();
@@ -118,14 +131,18 @@ public class BannerUI : MonoBehaviour
                     customMap.Add("custom_data", "banner_TestIMP");
                     customMap.Add("segment_tag", "banner_segment_tag");
                     extra.customMap = customMap;
-                    //Android设置特殊参数
+
                     Dictionary<string, string> localParams = new Dictionary<string, string>();
                     localParams.Add("user_id","banner_userId");
                     localParams.Add("custom_data", "banner_customData");
                     extra.localParams = localParams;
                 }
-                //加载横幅
                 TradplusBanner.Instance().LoadBannerAd(adUnitId, sceneId, extra);
+                
+                Dictionary<string, string> customAdInfo = new Dictionary<string, string>();
+                customAdInfo.Add("act", "Load");
+                customAdInfo.Add("time", "" + DateTimeOffset.Now);
+                TradplusBanner.Instance().SetCustomAdInfo(adUnitId, customAdInfo);
             }
             GUILayout.Space(20);
             if (GUILayout.Button("isReady"))
@@ -136,20 +153,13 @@ public class BannerUI : MonoBehaviour
             GUILayout.Space(20);
             if (GUILayout.Button("展示"))
             {
-                infoStr = "";
-                bool isReady = TradplusBanner.Instance().BannerAdReady(adUnitId);
-                //判断是否有广告
-                if (isReady)
-                {
-                    //调用展示前设置自定义信息
-                    Dictionary<string, string> customAdInfo = new Dictionary<string, string>();
-                    customAdInfo.Add("act", "Show");
-                    customAdInfo.Add("time", "" + DateTimeOffset.Now);
-                    TradplusBanner.Instance().SetCustomAdInfo(adUnitId, customAdInfo);
+                Dictionary<string, string> customAdInfo = new Dictionary<string, string>();
+                customAdInfo.Add("act", "Show");
+                customAdInfo.Add("time", "" + DateTimeOffset.Now);
+                TradplusBanner.Instance().SetCustomAdInfo(adUnitId, customAdInfo);
 
-                    //展示广告
-                    TradplusBanner.Instance().ShowBannerAd(adUnitId, sceneId);
-                }
+                infoStr = "";
+                TradplusBanner.Instance().ShowBannerAd(adUnitId, sceneId);
             }
             GUILayout.Space(20);
             GUILayout.Label(infoStr);
@@ -159,21 +169,18 @@ public class BannerUI : MonoBehaviour
             if (GUILayout.Button("隐藏"))
             {
                 infoStr = "已隐藏";
-                //隐藏横幅广告
                 TradplusBanner.Instance().HideBanner(adUnitId);
             }
 
             if (GUILayout.Button("显示"))
             {
                 infoStr = "取消隐藏";
-                //显示已隐藏的横幅广告
                 TradplusBanner.Instance().DisplayBanner(adUnitId);
             }
 
             if (GUILayout.Button("销毁"))
             {
                 infoStr = "已销毁";
-                //销毁横幅广告
                 TradplusBanner.Instance().DestroyBanner(adUnitId);
             }
 
@@ -182,8 +189,12 @@ public class BannerUI : MonoBehaviour
             GUILayout.Space(20);
             if (GUILayout.Button("进入广告场景"))
             {
-                //进入广告场景
                 TradplusBanner.Instance().EntryBannerAdScenario(adUnitId, sceneId);
+            }
+            GUILayout.Space(20);
+            if (GUILayout.Button("日志"))
+            {
+                SceneManager.LoadScene("Log");
             }
             GUILayout.Space(20);
             if (GUILayout.Button("返回首页"))
@@ -242,6 +253,17 @@ public class BannerUI : MonoBehaviour
             if (GUILayout.Button(title))
             {
                 closeAutoShow = !closeAutoShow;
+            }
+            GUILayout.Space(20);
+
+            title = "原生模版：默认";
+            if (useClassName)
+            {
+                title = "原生模版：className";
+            }
+            if (GUILayout.Button(title))
+            {
+                useClassName = !useClassName;
             }
             GUILayout.Space(20);
             string text = "";

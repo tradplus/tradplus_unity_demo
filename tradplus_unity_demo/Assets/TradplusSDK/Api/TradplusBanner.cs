@@ -21,6 +21,10 @@ namespace TradplusSDK.Api
     public class TPBannerExtra
     {
         ///<summary>
+        ///自定义模版名称
+        ///</summary>
+        public string className;
+        ///<summary>
         ///是否需要简易回调
         ///</summary>
         public bool isSimpleListener;

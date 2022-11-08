@@ -81,7 +81,7 @@ public class NativeUI : MonoBehaviour
         GUILayout.BeginArea(rect);
         GUILayout.Space(20);
 
-        float height = (Screen.height - 180) / 9 - 20;
+        float height = (Screen.height - 180) / 10 - 20;
         GUI.skin.button.fixedHeight = height;
         GUI.skin.button.fontSize = (int)(height / 3);
         GUI.skin.label.fontSize = (int)(height / 3);
@@ -108,6 +108,10 @@ public class NativeUI : MonoBehaviour
                 extra.height = int.Parse(heightStr);
                 extra.adPosition = adPostion;
                 extra.isAutoLoad = autoLoad;
+                   #if UNITY_ANDROID
+
+                                       extra.isSimpleListener = Configure.Instance().SimplifyListener;
+                                #endif
 
                 if (Configure.Instance().UseAdCustomMap)
                 {
@@ -117,14 +121,19 @@ public class NativeUI : MonoBehaviour
                     customMap.Add("custom_data", "native_TestIMP");
                     customMap.Add("segment_tag", "native_segment_tag");
                     extra.customMap = customMap;
-                    //Android设置特殊参数
+
                     Dictionary<string, string> localParams = new Dictionary<string, string>();
                     localParams.Add("user_id", "native_userId");
                     localParams.Add("custom_data", "native_customData");
                     extra.localParams = localParams;
                 }
-                //加载原生广告
+
                 TradplusNative.Instance().LoadNativeAd(adUnitId, extra);
+
+                Dictionary<string, string> customAdInfo = new Dictionary<string, string>();
+                customAdInfo.Add("act", "Load");
+                customAdInfo.Add("time", "" + DateTimeOffset.Now);
+                TradplusNative.Instance().SetCustomAdInfo(adUnitId, customAdInfo);
             }
             GUILayout.Space(20);
             if (GUILayout.Button("isReady"))
@@ -135,20 +144,13 @@ public class NativeUI : MonoBehaviour
             GUILayout.Space(20);
             if (GUILayout.Button("展示"))
             {
-                infoStr = "";
-                bool isReady = TradplusNative.Instance().NativeAdReady(adUnitId);
-                //判断是否有广告
-                if (isReady)
-                {
-                    //调用展示前设置自定义信息
-                    Dictionary<string, string> customAdInfo = new Dictionary<string, string>();
-                    customAdInfo.Add("act", "Show");
-                    customAdInfo.Add("time", "" + DateTimeOffset.Now);
-                    TradplusNative.Instance().SetCustomAdInfo(adUnitId, customAdInfo);
+                Dictionary<string, string> customAdInfo = new Dictionary<string, string>();
+                customAdInfo.Add("act", "Show");
+                customAdInfo.Add("time", "" + DateTimeOffset.Now);
+                TradplusNative.Instance().SetCustomAdInfo(adUnitId, customAdInfo);
 
-                    //展示广告
-                    TradplusNative.Instance().ShowNativeAd(adUnitId, sceneId);
-                }
+                infoStr = "";
+                TradplusNative.Instance().ShowNativeAd(adUnitId, sceneId);
             }
             GUILayout.Space(20);
             GUILayout.Label(infoStr);
@@ -158,21 +160,18 @@ public class NativeUI : MonoBehaviour
             if (GUILayout.Button("隐藏"))
             {
                 infoStr = "已隐藏";
-                //隐藏广告
                 TradplusNative.Instance().HideNative(adUnitId);
             }
 
             if (GUILayout.Button("显示"))
             {
                 infoStr = "取消隐藏";
-                //显示已隐藏的广告
                 TradplusNative.Instance().DisplayNative(adUnitId);
             }
 
             if (GUILayout.Button("销毁"))
             {
                 infoStr = "已销毁";
-                //销毁广告
                 TradplusNative.Instance().DestroyNative(adUnitId);
             }
 
@@ -181,8 +180,12 @@ public class NativeUI : MonoBehaviour
             GUILayout.Space(20);
             if (GUILayout.Button("进入广告场景"))
             {
-                //进入广告场景
                 TradplusNative.Instance().EntryNativeAdScenario(adUnitId, sceneId);
+            }
+            GUILayout.Space(20);
+            if (GUILayout.Button("日志"))
+            {
+                SceneManager.LoadScene("Log");
             }
             GUILayout.Space(20);
             if (GUILayout.Button("返回首页"))

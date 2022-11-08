@@ -25,7 +25,7 @@ public class InterstitialUI : MonoBehaviour
 
     private void OnGUI()
     {
-        float height = (Screen.height - 140) / 9 - 20;
+        float height = (Screen.height - 140) / 8 - 20;
         GUI.skin.button.fixedHeight = height;
         GUI.skin.button.fontSize = (int)(height / 3);
         GUI.skin.label.fontSize = (int)(height / 3);
@@ -40,6 +40,10 @@ public class InterstitialUI : MonoBehaviour
             infoStr = "开始加载";
             TPInterstitialExtra extra = new TPInterstitialExtra();
             extra.isAutoLoad = Configure.Instance().AutoLoad;
+               #if UNITY_ANDROID
+
+                                   extra.isSimpleListener = Configure.Instance().SimplifyListener;
+                            #endif
             if (Configure.Instance().UseAdCustomMap)
             {
                 //流量分组相关
@@ -48,14 +52,18 @@ public class InterstitialUI : MonoBehaviour
                 customMap.Add("custom_data", "interstitial_TestIMP");
                 customMap.Add("segment_tag", "interstitial_segment_tag");
                 extra.customMap = customMap;
-                //Android设置特殊参数
+
                 Dictionary<string, string> localParams = new Dictionary<string, string>();
                 localParams.Add("user_id", "interstitial_userId");
                 localParams.Add("custom_data", "interstitial_customData");
                 extra.localParams = localParams;
             }
-            //加载插屏
             TradplusInterstitial.Instance().LoadInterstitialAd(adUnitId, extra);
+
+            Dictionary<string, string> customAdInfo = new Dictionary<string, string>();
+            customAdInfo.Add("act", "Load");
+            customAdInfo.Add("time", ""+DateTimeOffset.Now);
+            TradplusInterstitial.Instance().SetCustomAdInfo(adUnitId, customAdInfo);
         }
         GUILayout.Space(20);
         if (GUILayout.Button("isReady"))
@@ -66,28 +74,25 @@ public class InterstitialUI : MonoBehaviour
         GUILayout.Space(20);
         if (GUILayout.Button("展示"))
         {
-            infoStr = "";
-            bool isReady = TradplusInterstitial.Instance().InterstitialAdReady(adUnitId);
-            //判断是否有广告
-            if (isReady)
-            {
-                //调用展示前设置自定义信息
-                Dictionary<string, string> customAdInfo = new Dictionary<string, string>();
-                customAdInfo.Add("act", "Show");
-                customAdInfo.Add("time", "" + DateTimeOffset.Now);
-                TradplusInterstitial.Instance().SetCustomAdInfo(adUnitId, customAdInfo);
+            Dictionary<string, string> customAdInfo = new Dictionary<string, string>();
+            customAdInfo.Add("act", "Show");
+            customAdInfo.Add("time", "" + DateTimeOffset.Now);
+            TradplusInterstitial.Instance().SetCustomAdInfo(adUnitId, customAdInfo);
 
-                //展示广告
-                TradplusInterstitial.Instance().ShowInterstitialAd(adUnitId, sceneId);
-            }
+            infoStr = "";
+            TradplusInterstitial.Instance().ShowInterstitialAd(adUnitId, sceneId);
         }
         GUILayout.Space(20);
         GUILayout.Label(infoStr);
         GUILayout.Space(20);
         if (GUILayout.Button("进入广告场景"))
         {
-            //进入广告场景
             TradplusInterstitial.Instance().EntryInterstitialAdScenario(adUnitId, sceneId);
+        }
+        GUILayout.Space(20);
+        if (GUILayout.Button("日志"))
+        {
+            SceneManager.LoadScene("Log");
         }
         GUILayout.Space(20);
         if (GUILayout.Button("返回首页"))

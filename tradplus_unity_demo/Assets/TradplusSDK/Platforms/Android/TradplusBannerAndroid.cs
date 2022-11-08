@@ -36,6 +36,8 @@ namespace TradplusSDK.Android
             info.Add("adPosition",(int)extra.adPosition);
             info.Add("closeAutoShow", extra.closeAutoShow);
             info.Add("isSimpleListener", extra.isSimpleListener);
+            info.Add("className", extra.className);
+
 
             info.Add("localParams", extra.localParams);
 

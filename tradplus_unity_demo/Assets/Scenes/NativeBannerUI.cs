@@ -81,7 +81,7 @@ public class NativeBannerUI : MonoBehaviour
         GUILayout.BeginArea(rect);
         GUILayout.Space(20);
 
-        float height = (Screen.height - 180) / 9 - 20;
+        float height = (Screen.height - 180) / 10 - 20;
         GUI.skin.button.fixedHeight = height;
         GUI.skin.button.fontSize = (int)(height / 3);
         GUI.skin.label.fontSize = (int)(height / 3);
@@ -108,6 +108,12 @@ public class NativeBannerUI : MonoBehaviour
                 extra.height = int.Parse(heightStr);
                 extra.closeAutoShow = closeAutoShow;
                 extra.adPosition = adPostion;
+                #if UNITY_ANDROID
+
+                       extra.isSimpleListener = Configure.Instance().SimplifyListener;
+                #endif
+
+
                 if (Configure.Instance().UseAdCustomMap)
                 {
                     //流量分组相关
@@ -116,14 +122,19 @@ public class NativeBannerUI : MonoBehaviour
                     customMap.Add("custom_data", "nativeBanner_TestIMP");
                     customMap.Add("segment_tag", "nativeBanner_segment_tag");
                     extra.customMap = customMap;
-                    //Android设置特殊参数
+
                     Dictionary<string, string> localParams = new Dictionary<string, string>();
                     localParams.Add("user_id", "nativeBanner_userId");
                     localParams.Add("custom_data", "nativeBanner_customData");
                     extra.localParams = localParams;
                 }
-                //加载原生横幅
+
                 TradplusNativeBanner.Instance().LoadNativeBannerAd(adUnitId, sceneId,extra);
+
+                Dictionary<string, string> customAdInfo = new Dictionary<string, string>();
+                customAdInfo.Add("act", "Load");
+                customAdInfo.Add("time", "" + DateTimeOffset.Now);
+                TradplusNativeBanner.Instance().SetCustomAdInfo(adUnitId, customAdInfo);
             }
             GUILayout.Space(20);
             if (GUILayout.Button("isReady"))
@@ -134,20 +145,14 @@ public class NativeBannerUI : MonoBehaviour
             GUILayout.Space(20);
             if (GUILayout.Button("展示"))
             {
-                infoStr = "";
-                bool isReady = TradplusNativeBanner.Instance().NativeBannerAdReady(adUnitId);
-                //判断是否有广告
-                if (isReady)
-                {
-                    //调用展示前设置自定义信息
-                    Dictionary<string, string> customAdInfo = new Dictionary<string, string>();
-                    customAdInfo.Add("act", "Show");
-                    customAdInfo.Add("time", "" + DateTimeOffset.Now);
-                    TradplusNativeBanner.Instance().SetCustomAdInfo(adUnitId, customAdInfo);
 
-                    //展示广告
-                    TradplusNativeBanner.Instance().ShowNativeBannerAd(adUnitId, sceneId);
-                }
+                Dictionary<string, string> customAdInfo = new Dictionary<string, string>();
+                customAdInfo.Add("act", "Show");
+                customAdInfo.Add("time", "" + DateTimeOffset.Now);
+                TradplusNativeBanner.Instance().SetCustomAdInfo(adUnitId, customAdInfo);
+
+                infoStr = "";
+                TradplusNativeBanner.Instance().ShowNativeBannerAd(adUnitId, sceneId);
             }
             GUILayout.Space(20);
             GUILayout.Label(infoStr);
@@ -157,21 +162,18 @@ public class NativeBannerUI : MonoBehaviour
             if (GUILayout.Button("隐藏"))
             {
                 infoStr = "已隐藏";
-                //隐藏广告
                 TradplusNativeBanner.Instance().HideNativeBanner(adUnitId);
             }
 
             if (GUILayout.Button("显示"))
             {
                 infoStr = "取消隐藏";
-                //显示已隐藏的广告
                 TradplusNativeBanner.Instance().DisplayNativeBanner(adUnitId);
             }
 
             if (GUILayout.Button("销毁"))
             {
                 infoStr = "已销毁";
-                //销毁广告
                 TradplusNativeBanner.Instance().DestroyNativeBanner(adUnitId);
             }
 
@@ -180,8 +182,12 @@ public class NativeBannerUI : MonoBehaviour
             GUILayout.Space(20);
             if (GUILayout.Button("进入广告场景"))
             {
-                //进入广告场景
                 TradplusNativeBanner.Instance().EntryNativeBannerAdScenario(adUnitId, sceneId);
+            }
+            GUILayout.Space(20);
+            if (GUILayout.Button("日志"))
+            {
+                SceneManager.LoadScene("Log");
             }
             GUILayout.Space(20);
             if (GUILayout.Button("返回首页"))
@@ -232,6 +238,7 @@ public class NativeBannerUI : MonoBehaviour
             {
                 closeAutoShow = !closeAutoShow;
             }
+
             GUILayout.Space(20);
             string text = "";
             if (adPostion == TradplusBase.AdPosition.TopLeft)

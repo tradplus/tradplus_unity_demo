@@ -17,7 +17,7 @@ namespace TradplusSDK.Api
 
     public class TradplusAds
     {
-        public string PluginVersion = "1.0.1";
+        public static string PluginVersion = "1.0.2";
 
         private static TradplusAds _instance;
 
@@ -189,9 +189,20 @@ namespace TradplusSDK.Api
 
 /// 仅android支持的API
 
-///<summary>
-///android 国内隐私权限 是否打开，仅android支持（iOS时返回false）
-///</summary>
+        ///<summary>
+        ///选择是否开启自动加载重新load广告时，是否延迟2秒，bool isopen, 默认false 不使用延迟2s
+        ///仅android支持
+        ///</summary>
+        public void SetOpenDelayLoadAds(bool isOpen)
+        {
+#if UNITY_ANDROID
+            TPAds.Instance().SetOpenDelayLoadAds(isOpen);
+#endif
+        }
+
+        ///<summary>
+        ///android 国内隐私权限 是否打开，仅android支持（iOS时返回false）
+        ///</summary>
         public bool IsPrivacyUserAgree()
         {
 #if UNITY_ANDROID
