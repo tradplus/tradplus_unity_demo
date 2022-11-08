@@ -433,7 +433,7 @@ void TradplusOfferwallSetCallbacks(TPOfferwallLoadedCallback adLoadedCallback,
 
 #pragma mark - Banner
 
-void TradplusLoadBannerAd(const char* adUnitId, bool closeAutoShow, float x, float y, float width, float height,int adPosition,int contentMode, const char* sceneId, const char* customMap)
+void TradplusLoadBannerAd(const char* adUnitId, bool closeAutoShow, float x, float y, float width, float height,int adPosition,int contentMode, const char* sceneId, const char* customMap,const char* className)
 {
     NSString *jsonString = stringFromUTF8String(customMap);
     NSDictionary *dic = nil;
@@ -444,7 +444,8 @@ void TradplusLoadBannerAd(const char* adUnitId, bool closeAutoShow, float x, flo
     }
     NSString *adUnitIDStr = stringFromUTF8String(adUnitId);
     NSString *sceneIdStr = stringFromUTF8String(sceneId);
-    [[TPUBannerManager sharedInstance] loadWithAdUnitID:adUnitIDStr closeAutoShow:closeAutoShow x:x y:y width:width height:height adPosition:adPosition contentMode:contentMode sceneId:sceneIdStr customMap:dic];
+    NSString *classNameStr = stringFromUTF8String(className);
+    [[TPUBannerManager sharedInstance] loadWithAdUnitID:adUnitIDStr closeAutoShow:closeAutoShow x:x y:y width:width height:height adPosition:adPosition contentMode:contentMode sceneId:sceneIdStr customMap:dic className:classNameStr];
 }
 
 void TradplusShowBannerAd(const char* adUnitId,const char* sceneId)

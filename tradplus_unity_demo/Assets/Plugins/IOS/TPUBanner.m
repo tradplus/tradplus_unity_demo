@@ -27,6 +27,26 @@
     return self;
 }
 
+- (void)setClassName:(NSString *)className
+{
+    if(className != nil && className.length > 0)
+    {
+        Class class = NSClassFromString(className);
+        if(class != nil)
+        {
+            self.banner.customRenderingViewClass = class;
+        }
+        else
+        {
+            MSLogTrace(@"no finid className %@",className);
+        }
+    }
+    else
+    {
+        self.banner.customRenderingViewClass = nil;
+    }
+}
+
 - (void)setX:(float)x y:(float)y adPosition:(int)adPosition
 {
     CGRect rect = self.banner.bounds;

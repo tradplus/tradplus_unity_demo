@@ -44,7 +44,7 @@
     return nil;
 }
 
-- (void)loadWithAdUnitID:(NSString *)adUnitID closeAutoShow:(BOOL)closeAutoShow x:(float)x y:(float)y width:(float)width height:(float)height adPosition:(int)adPosition contentMode:(int)contentMode sceneId:(NSString *)sceneId customMap:(NSDictionary *)customMap
+- (void)loadWithAdUnitID:(NSString *)adUnitID closeAutoShow:(BOOL)closeAutoShow x:(float)x y:(float)y width:(float)width height:(float)height adPosition:(int)adPosition contentMode:(int)contentMode sceneId:(NSString *)sceneId customMap:(NSDictionary *)customMap className:(NSString *)className
 {
     if(adUnitID == nil)
     {
@@ -57,6 +57,7 @@
         banner = [[TPUBanner alloc] init];
         self.bannerAds[adUnitID] = banner;
     }
+    [banner setClassName:className];
     [banner setCustomMap:customMap];
     CGSize size = CGSizeZero;
     size.width = width;

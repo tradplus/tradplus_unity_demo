@@ -26,6 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)display;
 - (void)destroy;
 - (void)setCustomAdInfo:(NSDictionary *)customAdInfo;
+- (void)setClassName:(NSString *)className;
 
 @property (nonatomic,assign)BOOL closeAutoShow;
 
