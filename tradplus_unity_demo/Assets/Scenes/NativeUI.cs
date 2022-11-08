@@ -108,10 +108,10 @@ public class NativeUI : MonoBehaviour
                 extra.height = int.Parse(heightStr);
                 extra.adPosition = adPostion;
                 extra.isAutoLoad = autoLoad;
-                   #if UNITY_ANDROID
 
-                                       extra.isSimpleListener = Configure.Instance().SimplifyListener;
-                                #endif
+                #if UNITY_ANDROID
+                extra.isSimpleListener = Configure.Instance().SimplifyListener;
+                #endif
 
                 if (Configure.Instance().UseAdCustomMap)
                 {
