@@ -95,7 +95,7 @@ public class MainUI : MonoBehaviour
         }
 
 #if UNITY_ANDROID
-        text = "复杂回调关闭中，点击开启";
+        string text = "复杂回调关闭中，点击开启";
         if(!Configure.Instance().SimplifyListener)
         {
             text = "复杂回调开启中，点击关闭";

@@ -1,17 +1,17 @@
 ﻿<Properties StartupConfiguration="{8628482B-5566-1E9F-3872-48C7CFA9E2CE}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/ExternalDependencyManager/Editor/TPPodsDependencies.xml">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scenes/MainUI.cs">
     <Files>
-      <File FileName="Assets/Scenes/NativeBannerUI.cs" Line="84" Column="49" />
+      <File FileName="Assets/Scenes/NativeBannerUI.cs" Line="239" Column="62" />
       <File FileName="Assets/Scenes/BannerUI.cs" />
       <File FileName="Assets/Scenes/InterstitialUI.cs" />
       <File FileName="Assets/Scenes/NativeUI.cs" />
       <File FileName="Assets/Scenes/OfferwallUI.cs" />
       <File FileName="Assets/Scenes/RewardedUI.cs" />
-      <File FileName="Assets/Scenes/PrivacyUI.cs" Line="212" Column="44" />
-      <File FileName="Assets/Scenes/MainUI.cs" />
+      <File FileName="Assets/Scenes/PrivacyUI.cs" />
+      <File FileName="Assets/Scenes/MainUI.cs" Line="98" Column="16" />
       <File FileName="Assets/ExternalDependencyManager/Editor/TPPodSet.cs" />
       <File FileName="Assets/Scenes/Configure.cs" />
-      <File FileName="Assets/ExternalDependencyManager/Editor/TPPodsDependencies.xml" Line="28" Column="60" />
+      <File FileName="Assets/ExternalDependencyManager/Editor/TPPodsDependencies.xml" />
       <File FileName="Assets/TradplusSDK/Api/TradplusBanner.cs" />
       <File FileName="Assets/TradplusSDK/Api/TradplusInterstitial.cs" />
       <File FileName="Assets/TradplusSDK/Api/TradplusNative.cs" />
