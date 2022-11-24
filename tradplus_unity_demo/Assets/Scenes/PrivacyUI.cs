@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class PrivacyUI : MonoBehaviour
 {
+    string lgpdStateStr;
+    int lgpdState;
     string gdprStateStr;
     int gdprState;
     string ccpaStateStr;
@@ -18,6 +20,17 @@ public class PrivacyUI : MonoBehaviour
 
     void checkInfo()
     {
+        lgpdState = TradplusAds.Instance().GetLGPDConsent();
+        lgpdStateStr = "LGPD 未设置";
+        if (lgpdState == 0)
+        {
+            lgpdStateStr = "LGPD 允许上报";
+        }
+        else if (lgpdState == 1)
+        {
+            lgpdStateStr = "LGPD 不允许上报";
+        }
+
         gdprState =  TradplusAds.Instance().GetGDPRDataCollection();
         gdprStateStr = "GDPR 未设置";
         if (gdprState == 0)
@@ -110,6 +123,27 @@ public class PrivacyUI : MonoBehaviour
             {
                 //设置 GDPR
                 TradplusAds.Instance().SetGDPRDataCollection(false);
+                checkInfo();
+            }
+        }
+        GUILayout.EndHorizontal();
+
+        GUILayout.Space(10);
+        GUILayout.BeginHorizontal();
+        GUILayout.Label(lgpdStateStr, GUILayout.Width(Screen.width / 2 - 50));
+        if (lgpdState != 0)
+        {
+            if (GUILayout.Button("设置为 允许上报"))
+            {
+                TradplusAds.Instance().SetLGPDConsent(true);
+                checkInfo();
+            }
+        }
+        else
+        {
+            if (GUILayout.Button("设置为 不允许上报"))
+            {
+                TradplusAds.Instance().SetLGPDConsent(false);
                 checkInfo();
             }
         }

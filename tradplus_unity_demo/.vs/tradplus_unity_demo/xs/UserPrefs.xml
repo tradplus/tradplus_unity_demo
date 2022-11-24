@@ -1,17 +1,17 @@
 ﻿<Properties StartupConfiguration="{8628482B-5566-1E9F-3872-48C7CFA9E2CE}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scenes/BannerUI.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/ExternalDependencyManager/Editor/TPPodsDependencies.xml">
     <Files>
       <File FileName="Assets/Scenes/NativeBannerUI.cs" Line="84" Column="49" />
-      <File FileName="Assets/Scenes/BannerUI.cs" Line="119" Column="17" />
+      <File FileName="Assets/Scenes/BannerUI.cs" />
       <File FileName="Assets/Scenes/InterstitialUI.cs" />
       <File FileName="Assets/Scenes/NativeUI.cs" />
       <File FileName="Assets/Scenes/OfferwallUI.cs" />
       <File FileName="Assets/Scenes/RewardedUI.cs" />
-      <File FileName="Assets/Scenes/PrivacyUI.cs" />
+      <File FileName="Assets/Scenes/PrivacyUI.cs" Line="212" Column="44" />
       <File FileName="Assets/Scenes/MainUI.cs" />
       <File FileName="Assets/ExternalDependencyManager/Editor/TPPodSet.cs" />
       <File FileName="Assets/Scenes/Configure.cs" />
-      <File FileName="Assets/ExternalDependencyManager/Editor/TPPodsDependencies.xml" Line="1" Column="1" />
+      <File FileName="Assets/ExternalDependencyManager/Editor/TPPodsDependencies.xml" Line="28" Column="60" />
       <File FileName="Assets/TradplusSDK/Api/TradplusBanner.cs" />
       <File FileName="Assets/TradplusSDK/Api/TradplusInterstitial.cs" />
       <File FileName="Assets/TradplusSDK/Api/TradplusNative.cs" />
@@ -30,7 +30,7 @@
                 <Node name="Editor" expanded="True" />
               </Node>
               <Node name="Scenes" expanded="True">
-                <Node name="BannerUI.cs" selected="True" />
+                <Node name="NativeBannerUI.cs" selected="True" />
               </Node>
               <Node name="TradplusSDK" expanded="True">
                 <Node name="Api" expanded="True" />
@@ -43,7 +43,7 @@
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="16e012c0-673d-4da6-913b-93a0b80efa14" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="069981b1-1e31-4cc2-a2c1-cd5d90d4ebf6" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
