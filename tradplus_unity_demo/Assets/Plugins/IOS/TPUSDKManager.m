@@ -7,6 +7,11 @@
 
 #import "TPUSDKManager.h"
 #import <TradPlusAds/TradPlusAds.h>
+#import "TPUPluginUtil.h"
+
+@interface TPUSDKManager() <TradPlusAdImpressionDelegate>
+
+@end
 
 @implementation TPUSDKManager
 
@@ -137,6 +142,29 @@
     return callbackState;
 }
 
+- (void)setLGPDConsent:(BOOL)consent
+{
+    [TradPlus setLGPDIsConsentEnabled:consent];
+}
+
+- (int)getLGPDConsent
+{
+    int callbackState = 2;//未设置
+    if([[NSUserDefaults standardUserDefaults] objectForKey:gTPLGPDStorageKey])
+    {
+        NSInteger ldpdState = [[NSUserDefaults standardUserDefaults] integerForKey:gTPLGPDStorageKey];
+        if(ldpdState == 2)
+        {
+            callbackState = 0;//允许
+        }
+        else if(ldpdState == 1)
+        {
+            callbackState = 1;//不允许
+        }
+    }
+    return callbackState;
+}
+
 - (void)setOpenPersonalizedAd:(BOOL)open
 {
     [TradPlus setOpenPersonalizedAd:open];
@@ -175,5 +203,22 @@
 - (void)setCnServer:(BOOL)onlyCn
 {
     [TradPlus setCnServer:onlyCn];
+}
+
+
+- (void)setOnAdImpressionCallback:(TPOnAdImpressionCallback)onAdImpressionCallback
+{
+    [TradPlus sharedInstance].impressionDelegate = self;
+    _onAdImpressionCallback = onAdImpressionCallback;
+}
+
+#pragma mark - TradPlusAdImpressionDelegate
+- (void)tradPlusAdImpression:(NSDictionary *)adInfo
+{
+    if([TPUSDKManager sharedInstance].onAdImpressionCallback != nil)
+    {
+        NSString *jsonString = [TPUPluginUtil getJsonStringWithDic:adInfo];
+        [TPUSDKManager sharedInstance].onAdImpressionCallback(jsonString.UTF8String);
+    }
 }
 @end

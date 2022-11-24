@@ -13,6 +13,7 @@ typedef void (*TPOnInitFinishCallback)(bool success);
 typedef void (*TPOnDialogClosedCallback)(int level);
 typedef void (*TPOnCurrentAreaSuccessCallback)(bool isEu, bool isCn, bool isCa);
 typedef void (*TPOnCurrentAreaFailedCallback)(const char* msg);
+typedef void (*TPOnAdImpressionCallback)(const char* msg);
 
 @interface TPUSDKManager : NSObject
 
@@ -30,6 +31,8 @@ typedef void (*TPOnCurrentAreaFailedCallback)(const char* msg);
 - (int)getCCPADoNotSell;
 - (void)setCOPPAIsAgeRestrictedUser:(BOOL)isChild;
 - (int)getCOPPAIsAgeRestrictedUser;
+- (void)setLGPDConsent:(BOOL)consent;
+- (int)getLGPDConsent;
 - (void)showGDPRDialog;
 - (void)setOpenPersonalizedAd:(BOOL)open;
 - (BOOL)isOpenPersonalizedAd;
@@ -42,6 +45,7 @@ typedef void (*TPOnCurrentAreaFailedCallback)(const char* msg);
 @property(nonatomic, assign) TPOnDialogClosedCallback onDialogClosedCallback;
 @property(nonatomic, assign) TPOnCurrentAreaSuccessCallback onCurrentAreaSuccessCallback;
 @property(nonatomic, assign) TPOnCurrentAreaFailedCallback onCurrentAreaFailedCallback;
+@property(nonatomic, assign) TPOnAdImpressionCallback onAdImpressionCallback;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -128,6 +128,16 @@ void TradplusSetCnServer(bool onlyCn)
     [[TPUSDKManager sharedInstance] setCnServer:onlyCn];
 }
 
+int TradplusGetLGPDConsent()
+{
+    return [[TPUSDKManager sharedInstance] getLGPDConsent];
+}
+
+void TradplusSetLGPDConsent(bool consent)
+{
+    [[TPUSDKManager sharedInstance] setLGPDConsent:consent];
+}
+
 
 void TradplusSDKSetCallbacks(TPOnInitFinishCallback onInitFinishCallback,
                              TPOnDialogClosedCallback onDialogClosedCallback,
@@ -138,6 +148,11 @@ void TradplusSDKSetCallbacks(TPOnInitFinishCallback onInitFinishCallback,
     [TPUSDKManager sharedInstance].onDialogClosedCallback = onDialogClosedCallback;
     [TPUSDKManager sharedInstance].onCurrentAreaSuccessCallback = onCurrentAreaSuccessCallback;
     [TPUSDKManager sharedInstance].onCurrentAreaFailedCallback = onCurrentAreaFailedCallback;
+}
+
+void TradplusSDKSetAdImpressionCallback(TPOnAdImpressionCallback onAdImpressionCallback)
+{
+    [TPUSDKManager sharedInstance].onAdImpressionCallback = onAdImpressionCallback;
 }
 
 #pragma mark - Interstitial
