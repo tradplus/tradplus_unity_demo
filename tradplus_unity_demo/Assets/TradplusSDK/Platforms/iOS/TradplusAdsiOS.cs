@@ -111,6 +111,20 @@ namespace TradplusSDK.iOS
         }
 
         [DllImport("__Internal")]
+        private static extern void TradplusSetLGPDConsent(bool consent);
+        public void SetLGPDConsent(bool consent)
+        {
+            TradplusSetLGPDConsent(consent);
+        }
+
+        [DllImport("__Internal")]
+        private static extern int TradplusGetLGPDConsent();
+        public int GetLGPDConsent()
+        {
+            return TradplusGetLGPDConsent();
+        }
+
+        [DllImport("__Internal")]
         private static extern void TradplusShowGDPRDialog();
         public void ShowGDPRDialog()
         {
@@ -157,6 +171,18 @@ namespace TradplusSDK.iOS
         public void SetCnServer(bool onlyCn)
         {
             TradplusSetCnServer(onlyCn);
+        }
+
+        //注册回调全局展示回调
+        [DllImport("__Internal")]
+        private static extern void TradplusSDKSetAdImpressionCallback(
+            TPOnAdImpressionCallback onAdImpressionCallback
+        );
+        public void AddGlobalAdImpressionListener()
+        {
+            TradplusSDKSetAdImpressionCallback(
+                OnAdImpressionCallback
+                );
         }
 
         //注册回调
@@ -226,6 +252,20 @@ namespace TradplusSDK.iOS
             if (TradplusAdsiOS.Instance().OnCurrentAreaFailed != null)
             {
                 TradplusAdsiOS.Instance().OnCurrentAreaFailed(msg);
+            }
+        }
+
+        //OnGlobalAdImpression
+        public event Action<Dictionary<string, object>> OnGlobalAdImpression;
+
+        internal delegate void TPOnAdImpressionCallback(string msg);
+        [MonoPInvokeCallback(typeof(TPOnAdImpressionCallback))]
+        private static void OnAdImpressionCallback(string msg)
+        {
+            if (TradplusAdsiOS.Instance().OnGlobalAdImpression != null)
+            {
+                Dictionary<string, object> adInfo = Json.Deserialize(msg) as Dictionary<string, object>;
+                TradplusAdsiOS.Instance().OnGlobalAdImpression(adInfo);
             }
         }
     }

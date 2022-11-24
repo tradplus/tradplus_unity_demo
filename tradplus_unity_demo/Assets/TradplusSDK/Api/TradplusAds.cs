@@ -17,9 +17,12 @@ namespace TradplusSDK.Api
 
     public class TradplusAds
     {
-        public static string PluginVersion = "1.0.2";
+        public static string PluginVersion = "1.0.4";
 
         private static TradplusAds _instance;
+
+        private bool didAddGlobalAdImpressionListener;
+        Action<Dictionary<string, object>> onGlobalAdImpression;
 
         public static TradplusAds Instance()
         {
@@ -95,6 +98,22 @@ namespace TradplusSDK.Api
         public int GetGDPRDataCollection()
         {
             return TPAds.Instance().GetGDPRDataCollection();
+        }
+
+        ///<summary>
+        ///设置 LGPD等级 是否允许数据上报: ture 设备数据允许上报, false 设备数据不允许上报
+        ///</summary>
+        public void SetLGPDConsent(bool consent)
+        {
+            TPAds.Instance().SetLGPDConsent(consent);
+        }
+
+        ///<summary>
+        ///获取当前 LGPD等级： 0 允许上报 , 1 不允许上报 2 未设置
+        ///</summary>
+        public int GetLGPDConsent()
+        {
+            return TPAds.Instance().GetLGPDConsent();
         }
 
         ///<summary>
@@ -264,6 +283,33 @@ namespace TradplusSDK.Api
             return false;
 #endif
         }
+        
+
+        public void AddGlobalAdImpression(Action<Dictionary<string, object>> OnGlobalAdImpression)
+        {
+            if(!this.didAddGlobalAdImpressionListener)
+            {
+                this.didAddGlobalAdImpressionListener = true;
+                TPAds.Instance().AddGlobalAdImpressionListener();
+
+            }
+            if(this.onGlobalAdImpression != null)
+            {
+                TPAds.Instance().OnGlobalAdImpression -= this.onGlobalAdImpression;
+                this.onGlobalAdImpression = null;
+            }
+            if(OnGlobalAdImpression != null)
+            {
+                this.onGlobalAdImpression = OnGlobalAdImpression;
+                TPAds.Instance().OnGlobalAdImpression += OnGlobalAdImpression;
+            }
+        }
+
+        ///<summary>
+        ///全局的展示回调
+        ///</summary>
+        public event Action<Dictionary<string, object>> OnGlobalAdImpression;
+
 
         ///<summary>
         ///初始化完成 bool success

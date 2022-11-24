@@ -75,6 +75,28 @@ namespace TradplusSDK.Android
 
         }
 
+        private class GlobalImpressionListener : AndroidJavaProxy
+        {
+
+            public GlobalImpressionListener() : base("com.tradplus.unity.plugin.TPGlobalImpressionListener")
+            {
+            }
+
+            void onImpressionSuccess(string msg)
+            {
+                Dictionary<string, object> adInfo = Json.Deserialize(msg) as Dictionary<string, object>;
+                TradplusAdsAndroid.Instance().OnGlobalAdImpression(adInfo);
+            }
+        }
+
+        public void AddGlobalAdImpressionListener()
+        {
+            //设置回调
+            GlobalImpressionListener listener = new GlobalImpressionListener();
+            TradPlusSdk.CallStatic("setGlobalImpressionListener", listener);
+            
+        }
+
         public void CheckCurrentArea()
         {
             CurrentAreaListenerAdapter listener = new CurrentAreaListenerAdapter();
@@ -117,6 +139,16 @@ namespace TradplusSDK.Android
         public int GetGDPRDataCollection()
         {
             return TradPlusSdk.CallStatic<int>("getGDPRDataCollection"); ;
+        }
+
+        public void SetLGPDConsent(bool consent)
+        {
+            TradPlusSdk.CallStatic("setLGPDConsent", consent);
+        }
+
+        public int GetLGPDConsent()
+        {
+            return TradPlusSdk.CallStatic<int>("getLGPDConsent"); ;
         }
 
         public void SetCCPADoNotSell(bool canDataCollection)
@@ -233,5 +265,8 @@ namespace TradplusSDK.Android
         public event Action<string> OnGDPRSuccess;
 
         public event Action<string> OnGDPRFailed;
+
+        public event Action<Dictionary<string, object>> OnGlobalAdImpression;
+
     }
 }
