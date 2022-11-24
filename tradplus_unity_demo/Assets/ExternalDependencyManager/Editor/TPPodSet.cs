@@ -12,17 +12,16 @@ public class PostProcessIOS : MonoBehaviour
         string podInfo = "";
         if (target == BuildTarget.iOS && podInfo.Length > 0)
         {
-            string replaceString = "target 'Unity-iPhone' do \n" + podInfo;
             string path = buildPath + "/Podfile";
             string Podfile = File.ReadAllText(path);
             string keyStr = "target 'Unity-iPhone' do";
             if (Podfile.Contains(keyStr))
             {
-                Podfile = Podfile.Replace(keyStr, replaceString);
+                Podfile = Podfile.Replace(keyStr, podInfo);
             }
             else
             {
-                Podfile += replaceString + "end";
+                Podfile += podInfo + "end";
             }
             File.WriteAllText(path,Podfile);
         }
