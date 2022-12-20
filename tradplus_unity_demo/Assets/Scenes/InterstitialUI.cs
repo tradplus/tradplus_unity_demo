@@ -39,11 +39,10 @@ public class InterstitialUI : MonoBehaviour
         {
             infoStr = "开始加载";
             TPInterstitialExtra extra = new TPInterstitialExtra();
-            extra.isAutoLoad = Configure.Instance().AutoLoad;
-               #if UNITY_ANDROID
+            #if UNITY_ANDROID
 
-                                   extra.isSimpleListener = Configure.Instance().SimplifyListener;
-                            #endif
+                    extra.isSimpleListener = Configure.Instance().SimplifyListener;
+            #endif
             if (Configure.Instance().UseAdCustomMap)
             {
                 //流量分组相关

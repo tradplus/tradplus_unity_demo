@@ -19,7 +19,6 @@ public class NativeUI : MonoBehaviour
     string yStr = "0";
     string widthStr = "320";
     string heightStr = "200";
-    bool autoLoad = true;
 
     private void checkEditInfo()
     {
@@ -51,14 +50,6 @@ public class NativeUI : MonoBehaviour
         else if (adPostion == TradplusBase.AdPosition.BottomRight)
         {
             editInfo += "BottomRight";
-        }
-        if (autoLoad)
-        {
-            editInfo += ", autoLoad ON";
-        }
-        else
-        {
-            editInfo += ", autoLoad OFF";
         }
     }
 
@@ -107,7 +98,6 @@ public class NativeUI : MonoBehaviour
                 extra.width = int.Parse(widthStr);
                 extra.height = int.Parse(heightStr);
                 extra.adPosition = adPostion;
-                extra.isAutoLoad = autoLoad;
 
                 #if UNITY_ANDROID
                 extra.isSimpleListener = Configure.Instance().SimplifyListener;
@@ -221,16 +211,6 @@ public class NativeUI : MonoBehaviour
             heightStr = GUILayout.TextField(heightStr, GUILayout.MaxWidth(Screen.width - 250));
             heightStr = Regex.Replace(heightStr, @"[^0-9]", "");
             GUILayout.EndHorizontal();
-
-            string title = "AutoLoad OFF";
-            if (autoLoad)
-            {
-                title = "AutoLoad ON";
-            }
-            if (GUILayout.Button(title))
-            {
-                autoLoad = !autoLoad;
-            }
 
             GUILayout.Space(20);
             string text = "";

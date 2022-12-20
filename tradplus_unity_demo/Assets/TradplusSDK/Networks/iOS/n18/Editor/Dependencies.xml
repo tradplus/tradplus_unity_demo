@@ -1,0 +1,7 @@
+<dependencies>
+<iosPods>
+<iosPod name ="TradPlusAdSDK/MintegralAdapter" version="8.7.0"/>
+<iosPod name ="MintegralAdSDK" version="7.2.8"/>
+<iosPod name ="MintegralAdSDK/All" version="7.2.8"/>
+</iosPods>
+</dependencies>

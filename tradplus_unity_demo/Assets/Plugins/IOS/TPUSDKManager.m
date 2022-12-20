@@ -231,29 +231,6 @@
     return callbackState;
 }
 
-- (void)setLGPDConsent:(BOOL)consent
-{
-    [TradPlus setLGPDIsConsentEnabled:consent];
-}
-
-- (int)getLGPDConsent
-{
-    int callbackState = 2;//未设置
-    if([[NSUserDefaults standardUserDefaults] objectForKey:gTPLGPDStorageKey])
-    {
-        NSInteger ldpdState = [[NSUserDefaults standardUserDefaults] integerForKey:gTPLGPDStorageKey];
-        if(ldpdState == 2)
-        {
-            callbackState = 0;//允许
-        }
-        else if(ldpdState == 1)
-        {
-            callbackState = 1;//不允许
-        }
-    }
-    return callbackState;
-}
-
 - (void)setOpenPersonalizedAd:(BOOL)open
 {
     [TradPlus setOpenPersonalizedAd:open];

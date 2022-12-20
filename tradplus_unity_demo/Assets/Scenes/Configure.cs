@@ -115,28 +115,6 @@ public class Configure
         }
     }
 
-
-    private bool autoLoad;
-    public bool AutoLoad
-    {
-        get
-        {
-            return autoLoad;
-        }
-        set
-        {
-            autoLoad = value;
-            if (autoLoad)
-            {
-                PlayerPrefs.SetInt("tp.demo.AutoLoad", 1);
-            }
-            else
-            {
-                PlayerPrefs.SetInt("tp.demo.AutoLoad", 0);
-            }
-        }
-    }
-
     private bool simplifyListener;
     public bool SimplifyListener
     {

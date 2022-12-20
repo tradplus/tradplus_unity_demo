@@ -40,7 +40,6 @@ public class RewardedUI : MonoBehaviour
             infoStr = "开始加载";
 
             TPRewardVideoExtra extra = new TPRewardVideoExtra();
-            extra.isAutoLoad = Configure.Instance().AutoLoad;
               #if UNITY_ANDROID
 
                                   extra.isSimpleListener = Configure.Instance().SimplifyListener;

@@ -40,7 +40,6 @@ public class OfferwallUI : MonoBehaviour
             infoStr = "开始加载";
 
             TPOfferwallExtra extra = new TPOfferwallExtra();
-            extra.isAutoLoad = Configure.Instance().AutoLoad;
               #if UNITY_ANDROID
 
                                   extra.isSimpleListener = Configure.Instance().SimplifyListener;

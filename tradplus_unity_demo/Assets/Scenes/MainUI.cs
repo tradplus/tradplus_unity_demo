@@ -14,9 +14,6 @@ public class MainUI : MonoBehaviour
         int index = PlayerPrefs.GetInt("tp.demo.UseAdCustomMap", 1);
         Configure.Instance().UseAdCustomMap = (index == 1);
 
-        index = PlayerPrefs.GetInt("tp.demo.AutoLoad", 1);
-        Configure.Instance().AutoLoad = (index == 1);
-
  #if UNITY_ANDROID
         index = PlayerPrefs.GetInt("tp.demo.SimplifyListener", 0);
         Configure.Instance().SimplifyListener = (index == 1);
