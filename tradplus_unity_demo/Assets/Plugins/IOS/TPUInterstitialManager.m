@@ -44,7 +44,7 @@
     return nil;
 }
 
-- (void)loadWithAdUnitID:(NSString *)adUnitID isAutoLoad:(BOOL)isAutoLoad customMap:(NSDictionary *)customMap
+- (void)loadWithAdUnitID:(NSString *)adUnitID customMap:(NSDictionary *)customMap
 {
     if(adUnitID == nil)
     {
@@ -57,12 +57,9 @@
         interstitial = [[TPUInterstitial alloc] init];
         self.interstitialAds[adUnitID] = interstitial;
     }
+    [interstitial setAdUnitID:adUnitID];
     [interstitial setCustomMap:customMap];
-    [interstitial setAdUnitID:adUnitID isAutoLoad:isAutoLoad];
-    if(!isAutoLoad)
-    {
-        [interstitial loadAd];
-    }
+    [interstitial loadAd];
 }
 
 - (void)showWithAdUnitID:(NSString *)adUnitID sceneId:(NSString *)sceneId;

@@ -26,10 +26,6 @@ namespace TradplusSDK.Api
         ///</summary>
         public bool isSimpleListener;
         ///<summary>
-        ///是否自动加载，默认true
-        ///</summary>
-        public bool isAutoLoad;
-        ///<summary>
         ///流量分组
         ///</summary>
         public Dictionary<string, string> customMap;
@@ -39,7 +35,6 @@ namespace TradplusSDK.Api
         public Dictionary<string, string> localParams; 
         public TPInterstitialExtra()
         {
-            isAutoLoad = true;
         }
     }
 
@@ -170,6 +165,11 @@ namespace TradplusSDK.Api
         public event Action<string, Dictionary<string, object>, Dictionary<string, object>> OnInterstitialBiddingEnd;
 
         ///<summary>
+        ///IsLoading string adUnitId
+        ///</summary>
+        public event Action<string> OnInterstitialIsLoading;
+
+        ///<summary>
         ///每层waterfall开始加载时回调 string adUnitId,Dictionary adInfo,Dictionary error
         ///</summary>
         public event Action<string, Dictionary<string, object>> OnInterstitialOneLayerStartLoad;
@@ -295,12 +295,20 @@ namespace TradplusSDK.Api
                     this.OnInterstitialBiddingStart(adunit, adInfo);
                 }
             };
-
+            
             TPInterstitial.Instance().OnInterstitialBiddingEnd += (adunit, adInfo, error) =>
             {
                 if (this.OnInterstitialBiddingEnd != null)
                 {
                     this.OnInterstitialBiddingEnd(adunit, adInfo, error);
+                }
+            };
+
+            TPInterstitial.Instance().OnInterstitialIsLoading += (adunit) =>
+            {
+                if (this.OnInterstitialIsLoading != null)
+                {
+                    this.OnInterstitialIsLoading(adunit);
                 }
             };
 

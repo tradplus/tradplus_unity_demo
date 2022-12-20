@@ -238,6 +238,11 @@ namespace TradplusSDK.Api
         public event Action<string, Dictionary<string, object>, Dictionary<string, object>> OnBannerBiddingEnd;
 
         ///<summary>
+        ///IsLoading string adUnitId
+        ///</summary>
+        public event Action<string> OnBannerIsLoading;
+
+        ///<summary>
         ///每层waterfall开始加载时回调 string adUnitId,Dictionary adInfo,Dictionary error
         ///</summary>
         public event Action<string, Dictionary<string, object>> OnBannerOneLayerStartLoad;
@@ -354,12 +359,20 @@ namespace TradplusSDK.Api
                     this.OnBannerBiddingStart(adunit, adInfo);
                 }
             };
-
+            
             TPBanner.Instance().OnBannerBiddingEnd += (adunit, adInfo, error) =>
             {
                 if (this.OnBannerBiddingEnd != null)
                 {
                     this.OnBannerBiddingEnd(adunit, adInfo, error);
+                }
+            };
+
+            TPBanner.Instance().OnBannerIsLoading += (adunit) =>
+            {
+                if (this.OnBannerIsLoading != null)
+                {
+                    this.OnBannerIsLoading(adunit);
                 }
             };
 

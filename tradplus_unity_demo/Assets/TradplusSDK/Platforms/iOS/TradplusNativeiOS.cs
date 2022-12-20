@@ -26,7 +26,7 @@ namespace TradplusSDK.iOS
         }
 
         [DllImport("__Internal")]
-        private static extern void TradplusLoadNativeAd(string adUnitId, bool isAutoLoad, float x, float y, float width, float height, int adPosition, string customMap);
+        private static extern void TradplusLoadNativeAd(string adUnitId, float x, float y, float width, float height, int adPosition, string customMap);
         public void LoadNativeAd(string adUnitId, TPNativeExtra extra)
         {
             string customMapString = null;
@@ -34,7 +34,7 @@ namespace TradplusSDK.iOS
             {
                 customMapString = Json.Serialize(extra.customMap);
             }
-            TradplusLoadNativeAd(adUnitId,extra.isAutoLoad,extra.x,extra.y,extra.width,extra.height,(int)extra.adPosition, customMapString);
+            TradplusLoadNativeAd(adUnitId,extra.x,extra.y,extra.width,extra.height,(int)extra.adPosition, customMapString);
         }
 
         [DllImport("__Internal")]
@@ -121,7 +121,8 @@ namespace TradplusSDK.iOS
             TPNativeOneLayerLoadFailedCallback adOneLayerLoadFailedCallback,
             TPNativeVideoPlayStartCallback adVideoPlayStartCallback,
             TPNativeVideoPlayEndCallback adVideoPlayEndCallback,
-            TPNativeAllLoadedCallback adAllLoadedCallback
+            TPNativeAllLoadedCallback adAllLoadedCallback,
+            TPNativeAdIsLoadingCallback adIsLoadingCallback
         );
         public TradplusNativeiOS()
         {
@@ -140,7 +141,8 @@ namespace TradplusSDK.iOS
                 NativeOneLayerLoadFailedCallback,
                 NativeVideoPlayStartCallback,
                 NativeVideoPlayEndCallback,
-                NativeAllLoadedCallback
+                NativeAllLoadedCallback,
+                NativeAdIsLoadingCallback
                 );
         }
 
@@ -353,6 +355,19 @@ namespace TradplusSDK.iOS
             if (TradplusNativeiOS.Instance().OnNativeAllLoaded != null)
             {
                 TradplusNativeiOS.Instance().OnNativeAllLoaded(adUnitId, isSuccess);
+            }
+        }
+
+        //OnNativeIsLoading
+        public event Action<string> OnNativeIsLoading;
+
+        internal delegate void TPNativeAdIsLoadingCallback(string adUnitId);
+        [MonoPInvokeCallback(typeof(TPNativeAdIsLoadingCallback))]
+        private static void NativeAdIsLoadingCallback(string adUnitId)
+        {
+            if (TradplusNativeiOS.Instance().OnNativeIsLoading != null)
+            {
+                TradplusNativeiOS.Instance().OnNativeIsLoading(adUnitId);
             }
         }
     }

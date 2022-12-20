@@ -30,12 +30,13 @@ typedef void (*TPRewardVideoPlayAgainRewardCallback)(const char* adUnitId,const 
 typedef void (*TPRewardVideoPlayAgainClickedCallback)(const char* adUnitId,const char* adInfo);
 typedef void (*TPRewardVideoPlayAgainVideoPlayStartCallback)(const char* adUnitId,const char* adInfo);
 typedef void (*TPRewardVideoPlayAgainVideoPlayEndCallback)(const char* adUnitId,const char* adInfo);
+typedef void (*TPRewardVideoAdIsLoadingCallback)(const char* adUnitId);
 
 @interface TPURewardVideoManager : NSObject
 
 + (TPURewardVideoManager *)sharedInstance;
 
-- (void)loadWithAdUnitID:(NSString *)adUnitID isAutoLoad:(BOOL)isAutoLoad userId:(NSString *)userId customData:(NSString *)customData customMap:(NSDictionary *)customMap;
+- (void)loadWithAdUnitID:(NSString *)adUnitID userId:(NSString *)userId customData:(NSString *)customData customMap:(NSDictionary *)customMap;
 - (void)showWithAdUnitID:(NSString *)adUnitID sceneId:(NSString *)sceneId;
 - (BOOL)adReadyWithAdUnitID:(NSString *)adUnitID;
 - (void)entryAdScenarioWithAdUnitID:(NSString *)adUnitID sceneId:(NSString *)sceneId;
@@ -62,7 +63,7 @@ typedef void (*TPRewardVideoPlayAgainVideoPlayEndCallback)(const char* adUnitId,
 @property(nonatomic, assign) TPRewardVideoPlayAgainClickedCallback playAgainClickedCallback;
 @property(nonatomic, assign) TPRewardVideoPlayAgainVideoPlayStartCallback playAgainVideoPlayStartCallback;
 @property(nonatomic, assign) TPRewardVideoPlayAgainVideoPlayEndCallback playAgainVideoPlayEndCallback;
-
+@property (nonatomic,assign) TPRewardVideoAdIsLoadingCallback adIsLoadingCallback;
 @end
 
 NS_ASSUME_NONNULL_END

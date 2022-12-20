@@ -60,6 +60,72 @@
     [TradPlus sharedInstance].dicCustomValue = customMap;
 }
 
+- (void)setSettingDataParam:(NSDictionary *)settingMap
+{
+    if(settingMap == nil || ![settingMap isKindOfClass:[NSDictionary class]])
+    {
+        return;
+    }
+    //交叉推广超时
+    if([settingMap valueForKey:@"http_timeout_crosspromotion"])
+    {
+        NSInteger http_timeout_crosspromotion = [settingMap[@"http_timeout_crosspromotion"] integerValue];
+        if(http_timeout_crosspromotion > 0)
+        {
+            http_timeout_crosspromotion = http_timeout_crosspromotion/1000;
+            if(http_timeout_crosspromotion == 0)
+                http_timeout_crosspromotion = 1;
+            gTPHttpTimeoutCross = http_timeout_crosspromotion;
+        }
+    }
+    //adx超时
+    if([settingMap valueForKey:@"http_timeout_adx"])
+    {
+        NSInteger http_timeout_adx = [settingMap[@"http_timeout_adx"] integerValue];
+        if(http_timeout_adx > 0)
+        {
+            http_timeout_adx = http_timeout_adx/1000;
+            if(http_timeout_adx == 0)
+                http_timeout_adx = 1;
+            gTPHttpTimeoutAdx = http_timeout_adx;
+        }
+    }
+    //配置超时
+    if([settingMap valueForKey:@"http_timeout_conf"])
+    {
+        NSInteger http_timeout_conf = [settingMap[@"http_timeout_conf"] integerValue];
+        if(http_timeout_conf > 0)
+        {
+            http_timeout_conf = http_timeout_conf/1000;
+            if(http_timeout_conf == 0)
+                http_timeout_conf = 1;
+            gTPHttpTimeoutConf = http_timeout_conf;
+        }
+    }
+    //其他网络超时
+    if([settingMap valueForKey:@"http_timeout_event"])
+    {
+        NSInteger http_timeout_event = [settingMap[@"http_timeout_event"] integerValue];
+        if(http_timeout_event > 0)
+        {
+            http_timeout_event = http_timeout_event/1000;
+            if(http_timeout_event == 0)
+                http_timeout_event = 1;
+            gTPHttpTimeoutEvent = http_timeout_event;
+        }
+    }
+    NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
+    if([settingMap valueForKey:@"autoload_close"])
+    {
+        id autoload_close = settingMap[@"autoload_close"];
+        if([autoload_close isKindOfClass:[NSArray class]])
+        {
+            dic[@"autoload_close"] = autoload_close;
+        }
+    }
+    [[TradPlus sharedInstance] setSettingDataParam:dic];
+}
+
 - (NSString *)getVersion
 {
     return [TradPlus getVersion];
@@ -135,6 +201,29 @@
             callbackState = 0;//允许
         }
         else if(ccpaStatus == 1)
+        {
+            callbackState = 1;//不允许
+        }
+    }
+    return callbackState;
+}
+
+- (void)setLGPDConsent:(BOOL)consent
+{
+    [TradPlus setLGPDIsConsentEnabled:consent];
+}
+
+- (int)getLGPDConsent
+{
+    int callbackState = 2;//未设置
+    if([[NSUserDefaults standardUserDefaults] objectForKey:gTPLGPDStorageKey])
+    {
+        NSInteger ldpdState = [[NSUserDefaults standardUserDefaults] integerForKey:gTPLGPDStorageKey];
+        if(ldpdState == 2)
+        {
+            callbackState = 0;//允许
+        }
+        else if(ldpdState == 1)
         {
             callbackState = 1;//不允许
         }

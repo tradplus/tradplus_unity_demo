@@ -45,7 +45,7 @@ android {
 }**REPOSITORIES****SOURCE_BUILD_SETUP**
 **EXTERNAL_SOURCES**
 dependencies {
-    def TRADPLUS_VERSION = "8.8.0.1"
+    def TRADPLUS_VERSION = "9.0.0.1"
 
     //TradPlus SDK
     implementation "com.tradplusad:tradplus:${TRADPLUS_VERSION}"
@@ -84,7 +84,7 @@ dependencies {
 //        // Pangle
     implementation "com.tradplusad:tradplus-pangle:19.${TRADPLUS_VERSION}"
 ////        implementation 'com.google.android.gms:play-services-ads-identifier:17.0.0'
-//        // 会自动引用，无需重复引用
+    implementation "com.pangle.global:ads-sdk-beta:${pangle_os_version}"
 //        // UnityAds
     implementation "com.tradplusad:tradplus-unity:5.${TRADPLUS_VERSION}"
     implementation "com.unity3d.ads:unity-ads:${unity_version}"
@@ -112,7 +112,7 @@ dependencies {
     implementation "com.tradplusad:tradplus-fyber:24.${TRADPLUS_VERSION}"
 //        // Maio
     implementation "com.tradplusad:tradplus-maio:31.${TRADPLUS_VERSION}"
-//        // 会自动引用，无需重复引用
+    implementation "com.maio:android-sdk:${maio_version}"
 //        // Criteo
     implementation "com.criteo.publisher:criteo-publisher-sdk:${criteo_version}"
     implementation "com.tradplusad:tradplus-criteo:32.${TRADPLUS_VERSION}"

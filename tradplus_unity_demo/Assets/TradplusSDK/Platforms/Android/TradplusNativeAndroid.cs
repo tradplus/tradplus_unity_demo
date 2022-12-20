@@ -34,7 +34,6 @@ namespace TradplusSDK.Android
             info.Add("height", extra.height);
             info.Add("x", extra.x);
             info.Add("y", extra.y);
-            info.Add("isAutoLoad", extra.isAutoLoad);
             info.Add("customMap", extra.customMap);
             info.Add("adPosition", (int)extra.adPosition);
             info.Add("localParams", extra.localParams);
@@ -167,6 +166,12 @@ namespace TradplusSDK.Android
 
             }
 
+            void onAdIsLoading(string unitId)
+            {
+                TradplusNativeAndroid.Instance().OnNativeIsLoading(unitId);
+
+            }
+
             void onDownloadStart(string adunit, string tpAdInfo, long totalBytes, long currBytes, string fileName, string appName)
             {
                 TradplusNativeAndroid.Instance().OnDownloadStart(adunit, (Dictionary<string, object>)Json.Deserialize(tpAdInfo), totalBytes, currBytes, fileName, appName);
@@ -223,6 +228,8 @@ namespace TradplusSDK.Android
         public event Action<string, Dictionary<string, object>> OnNativeBiddingStart;
 
         public event Action<string, Dictionary<string, object>, Dictionary<string, object>> OnNativeBiddingEnd;
+
+        public event Action<string> OnNativeIsLoading;
 
         public event Action<string, Dictionary<string, object>> OnNativeOneLayerStartLoad;
 

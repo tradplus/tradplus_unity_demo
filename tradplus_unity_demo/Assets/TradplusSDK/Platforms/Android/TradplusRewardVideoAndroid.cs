@@ -29,7 +29,6 @@ namespace TradplusSDK.Android
         {
             AdLoadListenerAdapter loadListenerAdapter = new AdLoadListenerAdapter();
             Dictionary<string, object> info = new Dictionary<string, object>();
-            info.Add("isAutoLoad",extra.isAutoLoad);
             info.Add("customMap",extra.customMap);
             info.Add("localParams", extra.localParams);
             info.Add("userId", extra.userId);
@@ -148,6 +147,12 @@ namespace TradplusSDK.Android
 
             }
 
+            void onAdIsLoading(string unitId)
+            {
+                TradplusRewardVideoAndroid.Instance().OnRewardVideoIsLoading(unitId);
+
+            }
+
             void onAdAgainImpression(string unitId, string tpAdInfo) {
                 TradplusRewardVideoAndroid.Instance().OnPlayAgainImpression(unitId, (Dictionary<string, object>)Json.Deserialize(tpAdInfo));
             }
@@ -226,6 +231,8 @@ namespace TradplusSDK.Android
         public event Action<string, Dictionary<string, object>> OnRewardVideoBiddingStart;
 
         public event Action<string, Dictionary<string, object>, Dictionary<string, object>> OnRewardVideoBiddingEnd;
+
+        public event Action<string> OnRewardVideoIsLoading;
 
         public event Action<string, Dictionary<string, object>> OnRewardVideoOneLayerStartLoad;
 

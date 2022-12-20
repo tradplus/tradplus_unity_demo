@@ -22,6 +22,7 @@ typedef void (*TPBannerOneLayerStartLoadCallback)(const char* adUnitId,const cha
 typedef void (*TPBannerOneLayerLoadedCallback)(const char* adUnitId,const char* adInfo);
 typedef void (*TPBannerOneLayerLoadFailedCallback)(const char* adUnitId,const char* adInfo,const char* error);
 typedef void (*TPBannerAllLoadedCallback)(const char* adUnitId,bool isSuccess);
+typedef void (*TPBannerAdIsLoadingCallback)(const char* adUnitId);
 
 @interface TPUBannerManager : NSObject
 
@@ -49,7 +50,7 @@ typedef void (*TPBannerAllLoadedCallback)(const char* adUnitId,bool isSuccess);
 @property(nonatomic, assign) TPBannerOneLayerLoadedCallback oneLayerLoadedCallback;
 @property(nonatomic, assign) TPBannerOneLayerLoadFailedCallback oneLayerLoadFailedCallback;
 @property(nonatomic, assign) TPBannerAllLoadedCallback allLoadedCallback;
-
+@property(nonatomic, assign) TPBannerAdIsLoadingCallback adIsLoadingCallback;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -24,10 +24,6 @@ namespace TradplusSDK.Api
         ///是否需要简易回调
         ///</summary>
         public bool isSimpleListener;
-        ///<summary>
-        ///是否自动加载，默认true
-        ///</summary>
-        public bool isAutoLoad;
 
         ///<summary>
         ///原生广告展示坐标 x，默认 0
@@ -64,7 +60,6 @@ namespace TradplusSDK.Api
         public Dictionary<string, string> localParams;
         public TPNativeExtra()
         {
-            isAutoLoad = true;
             width = 320;
             height = 200;
             adPosition = TradplusBase.AdPosition.TopLeft;
@@ -226,6 +221,11 @@ namespace TradplusSDK.Api
         public event Action<string, Dictionary<string, object>, Dictionary<string, object>> OnNativeBiddingEnd;
 
         ///<summary>
+        ///IsLoading string adUnitId
+        ///</summary>
+        public event Action<string> OnNativeIsLoading;
+
+        ///<summary>
         ///每层waterfall开始加载时回调 string adUnitId,Dictionary adInfo,Dictionary error
         ///</summary>
         public event Action<string, Dictionary<string, object>> OnNativeOneLayerStartLoad;
@@ -352,12 +352,20 @@ namespace TradplusSDK.Api
                     this.OnNativeBiddingStart(adunit, adInfo);
                 }
             };
-
+            
             TPNative.Instance().OnNativeBiddingEnd += (adunit, adInfo, error) =>
             {
                 if (this.OnNativeBiddingEnd != null)
                 {
                     this.OnNativeBiddingEnd(adunit, adInfo, error);
+                }
+            };
+
+            TPNative.Instance().OnNativeIsLoading += (adunit) =>
+            {
+                if (this.OnNativeIsLoading != null)
+                {
+                    this.OnNativeIsLoading(adunit);
                 }
             };
 

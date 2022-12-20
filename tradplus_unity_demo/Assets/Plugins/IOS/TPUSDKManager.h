@@ -22,6 +22,7 @@ typedef void (*TPOnAdImpressionCallback)(const char* msg);
 - (void)checkCurrentArea;
 - (void)initSDKWithAppID:(NSString *)appID;
 - (void)setCustomMap:(NSDictionary *)customMap;
+- (void)setSettingDataParam:(NSDictionary *)settingMap;
 - (NSString *)getVersion;
 - (BOOL)isEUTraffic;
 - (BOOL)isCalifornia;

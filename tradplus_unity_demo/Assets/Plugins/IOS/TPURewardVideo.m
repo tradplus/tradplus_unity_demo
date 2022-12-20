@@ -28,10 +28,10 @@
     return self;
 }
 
-- (void)setAdUnitID:(NSString * _Nonnull)adUnitID isAutoLoad:(BOOL)isAutoLoad
+- (void)setAdUnitID:(NSString * _Nonnull)adUnitID
 {
-    MSLogTrace(@"%s adUnitID:%@ isAutoLoad:%@", __PRETTY_FUNCTION__,adUnitID,@(isAutoLoad));
-    [self.rewarded setAdUnitID:adUnitID isAutoLoad:isAutoLoad];
+    MSLogTrace(@"%s adUnitID:%@", __PRETTY_FUNCTION__,adUnitID);
+    [self.rewarded setAdUnitID:adUnitID];
 }
 
 - (void)setCustomMap:(NSDictionary *)dic
@@ -83,10 +83,19 @@
 
 #pragma mark - TradPlusADRewardedDelegate
 
+- (void)tpRewardedAdIsLoading:(NSDictionary *)adInfo
+{
+    MSLogTrace(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
+    if([TPURewardVideoManager sharedInstance].adIsLoadingCallback)
+    {
+        [TPURewardVideoManager sharedInstance].adIsLoadingCallback(self.rewarded.unitID.UTF8String);
+    }
+}
+
 ///AD加载完成 首个广告源加载成功时回调 一次加载流程只会回调一次
 - (void)tpRewardedAdLoaded:(NSDictionary *)adInfo
 {
-    MSLogInfo(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
+    MSLogTrace(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
     if([TPURewardVideoManager sharedInstance].loadedCallback)
     {
         NSString *jsonString = [TPUPluginUtil getJsonStringWithDic:adInfo];
@@ -98,7 +107,7 @@
 ///tpRewardedAdOneLayerLoad:didFailWithError：返回三方源的错误信息
 - (void)tpRewardedAdLoadFailWithError:(NSError *)error
 {
-    MSLogInfo(@"%s error:%@", __PRETTY_FUNCTION__, error);
+    MSLogTrace(@"%s error:%@", __PRETTY_FUNCTION__, error);
     if([TPURewardVideoManager sharedInstance].loadFailedCallback)
     {
         NSString *jsonString = [TPUPluginUtil getJsonStringWithError:error];
@@ -109,7 +118,7 @@
 ///AD展现
 - (void)tpRewardedAdImpression:(NSDictionary *)adInfo
 {
-    MSLogInfo(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
+    MSLogTrace(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
     if([TPURewardVideoManager sharedInstance].impressionCallback)
     {
         NSString *jsonString = [TPUPluginUtil getJsonStringWithDic:adInfo];
@@ -120,7 +129,7 @@
 ///AD展现失败
 - (void)tpRewardedAdShow:(NSDictionary *)adInfo didFailWithError:(NSError *)error
 {
-    MSLogInfo(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
+    MSLogTrace(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
     if([TPURewardVideoManager sharedInstance].oneLayerLoadFailedCallback)
     {
         NSString *jsonString = [TPUPluginUtil getJsonStringWithDic:adInfo];
@@ -132,7 +141,7 @@
 ///AD被点击
 - (void)tpRewardedAdClicked:(NSDictionary *)adInfo
 {
-    MSLogInfo(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
+    MSLogTrace(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
     if([TPURewardVideoManager sharedInstance].clickedCallback)
     {
         NSString *jsonString = [TPUPluginUtil getJsonStringWithDic:adInfo];
@@ -143,7 +152,7 @@
 ///AD关闭
 - (void)tpRewardedAdDismissed:(NSDictionary *)adInfo
 {
-    MSLogInfo(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
+    MSLogTrace(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
     if([TPURewardVideoManager sharedInstance].closedCallback)
     {
         NSString *jsonString = [TPUPluginUtil getJsonStringWithDic:adInfo];
@@ -154,7 +163,7 @@
 ///完成奖励
 - (void)tpRewardedAdReward:(NSDictionary *)adInfo
 {
-    MSLogInfo(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
+    MSLogTrace(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
     if([TPURewardVideoManager sharedInstance].rewardCallback)
     {
         NSString *jsonString = [TPUPluginUtil getJsonStringWithDic:adInfo];
@@ -165,7 +174,7 @@
 ///v7.6.0+新增 开始加载流程
 - (void)tpRewardedAdStartLoad:(NSDictionary *)adInfo
 {
-    MSLogInfo(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
+    MSLogTrace(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
     if([TPURewardVideoManager sharedInstance].startLoadCallback)
     {
         NSString *jsonString = [TPUPluginUtil getJsonStringWithDic:adInfo];
@@ -177,7 +186,7 @@
 ///v7.6.0+新增。替代原回调接口：tpRewardedAdLoadStart:(NSDictionary *)adInfo;
 - (void)tpRewardedAdOneLayerStartLoad:(NSDictionary *)adInfo
 {
-    MSLogInfo(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
+    MSLogTrace(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
     if([TPURewardVideoManager sharedInstance].oneLayerStartLoadCallback)
     {
         NSString *jsonString = [TPUPluginUtil getJsonStringWithDic:adInfo];
@@ -188,7 +197,7 @@
 ///bidding开始
 - (void)tpRewardedAdBidStart:(NSDictionary *)adInfo
 {
-    MSLogInfo(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
+    MSLogTrace(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
     if([TPURewardVideoManager sharedInstance].biddingStartCallback)
     {
         NSString *jsonString = [TPUPluginUtil getJsonStringWithDic:adInfo];
@@ -199,7 +208,7 @@
 ///bidding结束 error = nil 表示成功
 - (void)tpRewardedAdBidEnd:(NSDictionary *)adInfo error:(NSError *)error
 {
-    MSLogInfo(@"%s adInfo:%@ error:%@", __PRETTY_FUNCTION__, adInfo,error);
+    MSLogTrace(@"%s adInfo:%@ error:%@", __PRETTY_FUNCTION__, adInfo,error);
     if([TPURewardVideoManager sharedInstance].biddingEndCallback)
     {
         NSString *jsonString = [TPUPluginUtil getJsonStringWithDic:adInfo];
@@ -211,7 +220,7 @@
 ///当每个广告源加载成功后会都会回调一次。
 - (void)tpRewardedAdOneLayerLoaded:(NSDictionary *)adInfo
 {
-    MSLogInfo(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
+    MSLogTrace(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
     if([TPURewardVideoManager sharedInstance].oneLayerLoadedCallback)
     {
         NSString *jsonString = [TPUPluginUtil getJsonStringWithDic:adInfo];
@@ -222,7 +231,7 @@
 ///当每个广告源加载失败后会都会回调一次，返回三方源的错误信息
 - (void)tpRewardedAdOneLayerLoad:(NSDictionary *)adInfo didFailWithError:(NSError *)error
 {
-    MSLogInfo(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
+    MSLogTrace(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
     if([TPURewardVideoManager sharedInstance].oneLayerLoadFailedCallback)
     {
         NSString *jsonString = [TPUPluginUtil getJsonStringWithDic:adInfo];
@@ -234,7 +243,7 @@
 ///加载流程全部结束
 - (void)tpRewardedAdAllLoaded:(BOOL)success
 {
-    MSLogInfo(@"%s success:%@", __PRETTY_FUNCTION__, @(success));
+    MSLogTrace(@"%s success:%@", __PRETTY_FUNCTION__, @(success));
     if([TPURewardVideoManager sharedInstance].allLoadedCallback)
     {
         [TPURewardVideoManager sharedInstance].allLoadedCallback(self.rewarded.unitID.UTF8String,success);
@@ -244,7 +253,7 @@
 ///开始播放
 - (void)tpRewardedAdPlayStart:(NSDictionary *)adInfo
 {
-    MSLogInfo(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
+    MSLogTrace(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
     if([TPURewardVideoManager sharedInstance].videoPlayStartCallback)
     {
         NSString *jsonString = [TPUPluginUtil getJsonStringWithDic:adInfo];
@@ -255,7 +264,7 @@
 ///播放结束
 - (void)tpRewardedAdPlayEnd:(NSDictionary *)adInfo
 {
-    MSLogInfo(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
+    MSLogTrace(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
     if([TPURewardVideoManager sharedInstance].videoPlayEndCallback)
     {
         NSString *jsonString = [TPUPluginUtil getJsonStringWithDic:adInfo];
@@ -268,7 +277,7 @@
 ///AD展现
 - (void)tpRewardedAdPlayAgainImpression:(NSDictionary *)adInfo
 {
-    MSLogInfo(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
+    MSLogTrace(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
     if([TPURewardVideoManager sharedInstance].playAgainImpressionCallback)
     {
         NSString *jsonString = [TPUPluginUtil getJsonStringWithDic:adInfo];
@@ -279,13 +288,13 @@
 ///AD展现失败
 - (void)tpRewardedAdPlayAgainShow:(NSDictionary *)adInfo didFailWithError:(NSError *)error
 {
-    MSLogInfo(@"%s adInfo:%@ error:%@", __PRETTY_FUNCTION__, adInfo,error);
+    MSLogTrace(@"%s adInfo:%@ error:%@", __PRETTY_FUNCTION__, adInfo,error);
 }
 
 ///AD被点击
 - (void)tpRewardedAdPlayAgainClicked:(NSDictionary *)adInfo
 {
-    MSLogInfo(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
+    MSLogTrace(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
     if([TPURewardVideoManager sharedInstance].playAgainClickedCallback)
     {
         NSString *jsonString = [TPUPluginUtil getJsonStringWithDic:adInfo];
@@ -296,7 +305,7 @@
 ///完成奖励
 - (void)tpRewardedAdPlayAgainReward:(NSDictionary *)adInfo
 {
-    MSLogInfo(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
+    MSLogTrace(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
     if([TPURewardVideoManager sharedInstance].playAgainRewardCallback)
     {
         NSString *jsonString = [TPUPluginUtil getJsonStringWithDic:adInfo];
@@ -307,7 +316,7 @@
 ///开始播放
 - (void)tpRewardedAdPlayAgainPlayStart:(NSDictionary *)adInfo
 {
-    MSLogInfo(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
+    MSLogTrace(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
     if([TPURewardVideoManager sharedInstance].playAgainVideoPlayStartCallback)
     {
         NSString *jsonString = [TPUPluginUtil getJsonStringWithDic:adInfo];
@@ -318,7 +327,7 @@
 ///播放结束
 - (void)tpRewardedAdPlayAgainPlayEnd:(NSDictionary *)adInfo
 {
-    MSLogInfo(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
+    MSLogTrace(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
     if([TPURewardVideoManager sharedInstance].playAgainVideoPlayEndCallback)
     {
         NSString *jsonString = [TPUPluginUtil getJsonStringWithDic:adInfo];

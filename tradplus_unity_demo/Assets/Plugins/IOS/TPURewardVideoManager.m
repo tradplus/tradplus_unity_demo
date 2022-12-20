@@ -44,7 +44,7 @@
     return nil;
 }
 
-- (void)loadWithAdUnitID:(NSString *)adUnitID isAutoLoad:(BOOL)isAutoLoad userId:(NSString *)userId customData:(NSString *)customData customMap:(NSDictionary *)customMap
+- (void)loadWithAdUnitID:(NSString *)adUnitID userId:(NSString *)userId customData:(NSString *)customData customMap:(NSDictionary *)customMap
 {
     if(adUnitID == nil)
     {
@@ -57,16 +57,13 @@
         rewardVideo = [[TPURewardVideo alloc] init];
         self.rewardVideoAds[adUnitID] = rewardVideo;
     }
+    [rewardVideo setAdUnitID:adUnitID];
     if(userId != nil)
     {
         [rewardVideo setServerSideVerificationOptionsWithUserID:userId customData:customData];
     }
     [rewardVideo setCustomMap:customMap];
-    [rewardVideo setAdUnitID:adUnitID isAutoLoad:isAutoLoad];
-    if(!isAutoLoad)
-    {
-        [rewardVideo loadAd];
-    }
+    [rewardVideo loadAd];
 }
 
 - (void)showWithAdUnitID:(NSString *)adUnitID sceneId:(NSString *)sceneId;

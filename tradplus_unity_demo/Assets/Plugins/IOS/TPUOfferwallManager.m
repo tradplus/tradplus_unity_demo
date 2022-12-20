@@ -44,7 +44,7 @@
     return nil;
 }
 
-- (void)loadWithAdUnitID:(NSString *)adUnitID isAutoLoad:(BOOL)isAutoLoad customMap:(NSDictionary *)customMap
+- (void)loadWithAdUnitID:(NSString *)adUnitID customMap:(NSDictionary *)customMap
 {
     if(adUnitID == nil)
     {
@@ -57,12 +57,9 @@
         offerwall = [[TPUOfferwall alloc] init];
         self.offerwallAds[adUnitID] = offerwall;
     }
+    [offerwall setAdUnitID:adUnitID];
     [offerwall setCustomMap:customMap];
-    [offerwall setAdUnitID:adUnitID isAutoLoad:isAutoLoad];
-    if(!isAutoLoad)
-    {
-        [offerwall loadAd];
-    }
+    [offerwall loadAd];
 }
 
 - (void)showWithAdUnitID:(NSString *)adUnitID sceneId:(NSString *)sceneId;

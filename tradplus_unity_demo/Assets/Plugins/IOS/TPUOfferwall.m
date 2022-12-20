@@ -27,10 +27,10 @@
     return self;
 }
 
-- (void)setAdUnitID:(NSString * _Nonnull)adUnitID isAutoLoad:(BOOL)isAutoLoad
+- (void)setAdUnitID:(NSString * _Nonnull)adUnitID
 {
-    MSLogTrace(@"%s adUnitID:%@ isAutoLoad:%@", __PRETTY_FUNCTION__,adUnitID,@(isAutoLoad));
-    [self.offerwall setAdUnitID:adUnitID isAutoLoad:isAutoLoad];
+    MSLogTrace(@"%s adUnitID:%@", __PRETTY_FUNCTION__,adUnitID);
+    [self.offerwall setAdUnitID:adUnitID];
 }
 
 - (void)setCustomMap:(NSDictionary *)dic
@@ -100,10 +100,19 @@
 
 #pragma mark - TradPlusADOfferwallDelegate
 
+- (void)tpOfferwallAdIsLoading:(NSDictionary *)adInfo
+{
+    MSLogTrace(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
+    if([TPUOfferwallManager sharedInstance].adIsLoadingCallback)
+    {
+        [TPUOfferwallManager sharedInstance].adIsLoadingCallback(self.offerwall.unitID.UTF8String);
+    }
+}
+
 ///AD加载完成 首个广告源加载成功时回调 一次加载流程只会回调一次
 - (void)tpOfferwallAdLoaded:(NSDictionary *)adInfo
 {
-    MSLogInfo(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
+    MSLogTrace(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
     if([TPUOfferwallManager sharedInstance].loadedCallback)
     {
         NSString *jsonString = [TPUPluginUtil getJsonStringWithDic:adInfo];
@@ -115,7 +124,7 @@
 ///tpOfferwallAdOneLayerLoaded:didFailWithError：返回三方源的错误信息
 - (void)tpOfferwallAdLoadFailWithError:(NSError *)error
 {
-    MSLogInfo(@"%s error:%@", __PRETTY_FUNCTION__, error);
+    MSLogTrace(@"%s error:%@", __PRETTY_FUNCTION__, error);
     if([TPUOfferwallManager sharedInstance].loadFailedCallback)
     {
         NSString *jsonString = [TPUPluginUtil getJsonStringWithError:error];
@@ -126,7 +135,7 @@
 ///AD展现
 - (void)tpOfferwallAdImpression:(NSDictionary *)adInfo
 {
-    MSLogInfo(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
+    MSLogTrace(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
     if([TPUOfferwallManager sharedInstance].impressionCallback)
     {
         NSString *jsonString = [TPUPluginUtil getJsonStringWithDic:adInfo];
@@ -137,7 +146,7 @@
 ///AD展现失败
 - (void)tpOfferwallAdShow:(NSDictionary *)adInfo didFailWithError:(NSError *)error
 {
-    MSLogInfo(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
+    MSLogTrace(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
     if([TPUOfferwallManager sharedInstance].showFailedCallback)
     {
         NSString *jsonString = [TPUPluginUtil getJsonStringWithDic:adInfo];
@@ -149,7 +158,7 @@
 ///AD被点击
 - (void)tpOfferwallAdClicked:(NSDictionary *)adInfo
 {
-    MSLogInfo(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
+    MSLogTrace(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
     if([TPUOfferwallManager sharedInstance].clickedCallback)
     {
         NSString *jsonString = [TPUPluginUtil getJsonStringWithDic:adInfo];
@@ -160,7 +169,7 @@
 ///AD关闭
 - (void)tpOfferwallAdDismissed:(NSDictionary *)adInfo
 {
-    MSLogInfo(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
+    MSLogTrace(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
     if([TPUOfferwallManager sharedInstance].closedCallback)
     {
         NSString *jsonString = [TPUPluginUtil getJsonStringWithDic:adInfo];
@@ -171,7 +180,7 @@
 ///开始加载流程
 - (void)tpOfferwallAdStartLoad:(NSDictionary *)adInfo
 {
-    MSLogInfo(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
+    MSLogTrace(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
     if([TPUOfferwallManager sharedInstance].startLoadCallback)
     {
         NSString *jsonString = [TPUPluginUtil getJsonStringWithDic:adInfo];
@@ -182,7 +191,7 @@
 ///当每个广告源开始加载时会都会回调一次。
 - (void)tpOfferwallAdOneLayerStartLoad:(NSDictionary *)adInfo
 {
-    MSLogInfo(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
+    MSLogTrace(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
     if([TPUOfferwallManager sharedInstance].oneLayerStartLoadCallback)
     {
         NSString *jsonString = [TPUPluginUtil getJsonStringWithDic:adInfo];
@@ -193,7 +202,7 @@
 ///当每个广告源加载成功后会都会回调一次。
 - (void)tpOfferwallAdOneLayerLoaded:(NSDictionary *)adInfo
 {
-    MSLogInfo(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
+    MSLogTrace(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
     if([TPUOfferwallManager sharedInstance].oneLayerLoadedCallback)
     {
         NSString *jsonString = [TPUPluginUtil getJsonStringWithDic:adInfo];
@@ -204,7 +213,7 @@
 ///当每个广告源加载失败后会都会回调一次，返回三方源的错误信息
 - (void)tpOfferwallAdOneLayerLoad:(NSDictionary *)adInfo didFailWithError:(NSError *)error
 {
-    MSLogInfo(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
+    MSLogTrace(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
     if([TPUOfferwallManager sharedInstance].oneLayerLoadFailedCallback)
     {
         NSString *jsonString = [TPUPluginUtil getJsonStringWithDic:adInfo];
@@ -216,7 +225,7 @@
 ///加载流程全部结束
 - (void)tpOfferwallAdAllLoaded:(BOOL)success
 {
-    MSLogInfo(@"%s success:%@", __PRETTY_FUNCTION__, @(success));
+    MSLogTrace(@"%s success:%@", __PRETTY_FUNCTION__, @(success));
     if([TPUOfferwallManager sharedInstance].allLoadedCallback)
     {
         [TPUOfferwallManager sharedInstance].allLoadedCallback(self.offerwall.unitID.UTF8String,success);
@@ -226,7 +235,7 @@
 ///userID 设置完成 error = nil 成功
 - (void)tpOfferwallSetUserIdFinish:(NSError *)error
 {
-    MSLogInfo(@"%s error:%@", __PRETTY_FUNCTION__, error);
+    MSLogTrace(@"%s error:%@", __PRETTY_FUNCTION__, error);
     if([TPUOfferwallManager sharedInstance].setUserIdFinishCallback)
     {
         bool success = (error == nil);
@@ -237,7 +246,7 @@
 ///用户当前积分墙积分数量
 - (void)tpOfferwallGetCurrencyBalance:(NSDictionary *)response error:(NSError *)error
 {
-    MSLogInfo(@"%s error:%@", __PRETTY_FUNCTION__, error);
+    MSLogTrace(@"%s error:%@", __PRETTY_FUNCTION__, error);
     if(error == nil)
     {
         if([TPUOfferwallManager sharedInstance].currencyBalanceSuccessCallback)
@@ -276,7 +285,7 @@
 //扣除用户积分墙积分回调
 - (void)tpOfferwallSpendCurrency:(NSDictionary *)response error:(NSError *)error
 {
-    MSLogInfo(@"%s error:%@", __PRETTY_FUNCTION__, error);
+    MSLogTrace(@"%s error:%@", __PRETTY_FUNCTION__, error);
     if(error == nil)
     {
         if([TPUOfferwallManager sharedInstance].spendCurrencySuccessCallback)
@@ -315,7 +324,7 @@
 //添加用户积分墙积分回调
 - (void)tpOfferwallAwardCurrency:(NSDictionary *)response error:(NSError *)error
 {
-    MSLogInfo(@"%s error:%@", __PRETTY_FUNCTION__, error);
+    MSLogTrace(@"%s error:%@", __PRETTY_FUNCTION__, error);
     if(error == nil)
     {
         if([TPUOfferwallManager sharedInstance].awardCurrencySuccesCallback)

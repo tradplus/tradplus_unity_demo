@@ -43,6 +43,18 @@ void TradplusSetCustomMap(const char* customMap)
     [[TPUSDKManager sharedInstance] setCustomMap:dic];
 }
 
+void TradplusSetSettingDataParam (const char* settingMap)
+{
+    NSString *jsonString = stringFromUTF8String(settingMap);
+    NSDictionary *dic = nil;
+    if(jsonString != nil)
+    {
+        NSData *data = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+        dic = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+    }
+    [[TPUSDKManager sharedInstance] setSettingDataParam:dic];
+}
+
 
 const char* TradplusVersion()
 {
@@ -157,7 +169,7 @@ void TradplusSDKSetAdImpressionCallback(TPOnAdImpressionCallback onAdImpressionC
 
 #pragma mark - Interstitial
 
-void TradplusLoadInterstitialAd(const char* adUnitId,bool isAutoLoad,const char* customMap)
+void TradplusLoadInterstitialAd(const char* adUnitId,const char* customMap)
 {
     NSString *jsonString = stringFromUTF8String(customMap);
     NSDictionary *dic = nil;
@@ -167,7 +179,7 @@ void TradplusLoadInterstitialAd(const char* adUnitId,bool isAutoLoad,const char*
         dic = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
     }
     NSString *adUnitIDStr = stringFromUTF8String(adUnitId);
-    [[TPUInterstitialManager sharedInstance] loadWithAdUnitID:adUnitIDStr isAutoLoad:isAutoLoad customMap:dic];
+    [[TPUInterstitialManager sharedInstance] loadWithAdUnitID:adUnitIDStr customMap:dic];
 }
 
 void TradplusShowInterstitialAd(const char* adUnitId,const char* sceneId)
@@ -217,7 +229,8 @@ void TradplusInterstitialSetCallbacks(TPInterstitialLoadedCallback adLoadedCallb
                                       TPInterstitialOneLayerLoadFailedCallback adOneLayerLoadFailedCallback,
                                       TPInterstitialVideoPlayStartCallback adVideoPlayStartCallback,
                                       TPInterstitialVideoPlayEndCallback adVideoPlayEndCallback,
-                                      TPInterstitialAllLoadedCallback adAllLoadedCallback)
+                                      TPInterstitialAllLoadedCallback adAllLoadedCallback,
+                                      TPInterstitialAdIsLoadingCallback adIsLoadingCallback)
 {
     [TPUInterstitialManager sharedInstance].loadedCallback = adLoadedCallback;
     [TPUInterstitialManager sharedInstance].loadFailedCallback = adLoadFailedCallback;
@@ -234,12 +247,12 @@ void TradplusInterstitialSetCallbacks(TPInterstitialLoadedCallback adLoadedCallb
     [TPUInterstitialManager sharedInstance].videoPlayStartCallback = adVideoPlayStartCallback;
     [TPUInterstitialManager sharedInstance].videoPlayEndCallback = adVideoPlayEndCallback;
     [TPUInterstitialManager sharedInstance].allLoadedCallback = adAllLoadedCallback;
-    
+    [TPUInterstitialManager sharedInstance].adIsLoadingCallback = adIsLoadingCallback;
 }
 
 #pragma mark - RewardVideo
 
-void TradplusLoadRewardVideoAd(const char* adUnitId,bool isAutoLoad,const char* userId,const char* customData,const char* customMap)
+void TradplusLoadRewardVideoAd(const char* adUnitId,const char* userId,const char* customData,const char* customMap)
 {
     NSString *jsonString = stringFromUTF8String(customMap);
     NSDictionary *dic = nil;
@@ -251,7 +264,7 @@ void TradplusLoadRewardVideoAd(const char* adUnitId,bool isAutoLoad,const char* 
     NSString *adUnitIDStr = stringFromUTF8String(adUnitId);
     NSString *userIDStr = stringFromUTF8String(userId);
     NSString *customDataStr = stringFromUTF8String(customData);
-    [[TPURewardVideoManager sharedInstance] loadWithAdUnitID:adUnitIDStr isAutoLoad:isAutoLoad userId:userIDStr customData:customDataStr customMap:dic];
+    [[TPURewardVideoManager sharedInstance] loadWithAdUnitID:adUnitIDStr userId:userIDStr customData:customDataStr customMap:dic];
 }
 
 void TradplusShowRewardVideoAd(const char* adUnitId,const char* sceneId)
@@ -307,7 +320,8 @@ void TradplusRewardVideoSetCallbacks(TPRewardVideoLoadedCallback adLoadedCallbac
                                      TPRewardVideoPlayAgainRewardCallback adPlayAgainRewardCallback,
                                      TPRewardVideoPlayAgainClickedCallback adPlayAgainClickedCallback,
                                      TPRewardVideoPlayAgainVideoPlayStartCallback adPlayAgainVideoPlayStartCallback,
-                                     TPRewardVideoPlayAgainVideoPlayEndCallback adPlayAgainVideoPlayEndCallback
+                                     TPRewardVideoPlayAgainVideoPlayEndCallback adPlayAgainVideoPlayEndCallback,
+                                     TPRewardVideoAdIsLoadingCallback adIsLoadingCallback
                                  )
 {
     [TPURewardVideoManager sharedInstance].loadedCallback = adLoadedCallback;
@@ -332,11 +346,12 @@ void TradplusRewardVideoSetCallbacks(TPRewardVideoLoadedCallback adLoadedCallbac
     [TPURewardVideoManager sharedInstance].playAgainClickedCallback = adPlayAgainClickedCallback;
     [TPURewardVideoManager sharedInstance].playAgainVideoPlayStartCallback = adPlayAgainVideoPlayStartCallback;
     [TPURewardVideoManager sharedInstance].playAgainVideoPlayEndCallback = adPlayAgainVideoPlayEndCallback;
+    [TPURewardVideoManager sharedInstance].adIsLoadingCallback = adIsLoadingCallback;
 }
 
 #pragma mark - Offerwall
 
-void TradplusLoadOfferwallAd(const char* adUnitId,bool isAutoLoad,const char* customMap)
+void TradplusLoadOfferwallAd(const char* adUnitId,const char* customMap)
 {
     NSString *jsonString = stringFromUTF8String(customMap);
     NSDictionary *dic = nil;
@@ -346,7 +361,7 @@ void TradplusLoadOfferwallAd(const char* adUnitId,bool isAutoLoad,const char* cu
         dic = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
     }
     NSString *adUnitIDStr = stringFromUTF8String(adUnitId);
-    [[TPUOfferwallManager sharedInstance] loadWithAdUnitID:adUnitIDStr isAutoLoad:isAutoLoad customMap:dic];
+    [[TPUOfferwallManager sharedInstance] loadWithAdUnitID:adUnitIDStr customMap:dic];
 }
 
 void TradplusShowOfferwallAd(const char* adUnitId,const char* sceneId)
@@ -424,7 +439,8 @@ void TradplusOfferwallSetCallbacks(TPOfferwallLoadedCallback adLoadedCallback,
                                    TPOfferwallSpendCurrencySuccessCallback adSpendCurrencySuccessCallback,
                                    TPOfferwallSpendCurrencyFailedCallback adSpendCurrencyFailedCallback,
                                    TPOfferwallAwardCurrencySuccesCallback adAwardCurrencySuccesCallback,
-                                   TPOfferwallAwardCurrencyFailedCallback adAwardCurrencyFailedCallback)
+                                   TPOfferwallAwardCurrencyFailedCallback adAwardCurrencyFailedCallback,
+                                   TPOfferwallAdIsLoadingCallback adIsLoadingCallback)
 {
     [TPUOfferwallManager sharedInstance].loadedCallback = adLoadedCallback;
     [TPUOfferwallManager sharedInstance].loadFailedCallback = adLoadFailedCallback;
@@ -444,6 +460,7 @@ void TradplusOfferwallSetCallbacks(TPOfferwallLoadedCallback adLoadedCallback,
     [TPUOfferwallManager sharedInstance].spendCurrencyFailedCallback = adSpendCurrencyFailedCallback;
     [TPUOfferwallManager sharedInstance].awardCurrencySuccesCallback = adAwardCurrencySuccesCallback;
     [TPUOfferwallManager sharedInstance].awardCurrencyFailedCallback = adAwardCurrencyFailedCallback;
+    [TPUOfferwallManager sharedInstance].adIsLoadingCallback = adIsLoadingCallback;
 }
 
 #pragma mark - Banner
@@ -526,7 +543,8 @@ void TradplusBannerSetCallbacks(TPBannerLoadedCallback adLoadedCallback,
                               TPBannerOneLayerStartLoadCallback adOneLayerStartLoadCallback,
                               TPBannerOneLayerLoadedCallback adOneLayerLoadedCallback,
                               TPBannerOneLayerLoadFailedCallback adOneLayerLoadFailedCallback,
-                              TPBannerAllLoadedCallback adAllLoadedCallback)
+                              TPBannerAllLoadedCallback adAllLoadedCallback,
+                                TPBannerAdIsLoadingCallback adIsLoadingCallback)
 {
     [TPUBannerManager sharedInstance].loadedCallback = adLoadedCallback;
     [TPUBannerManager sharedInstance].loadFailedCallback = adLoadFailedCallback;
@@ -541,11 +559,12 @@ void TradplusBannerSetCallbacks(TPBannerLoadedCallback adLoadedCallback,
     [TPUBannerManager sharedInstance].oneLayerLoadedCallback = adOneLayerLoadedCallback;
     [TPUBannerManager sharedInstance].oneLayerLoadFailedCallback = adOneLayerLoadFailedCallback;
     [TPUBannerManager sharedInstance].allLoadedCallback = adAllLoadedCallback;
+    [TPUBannerManager sharedInstance].adIsLoadingCallback = adIsLoadingCallback;
 }
 
 #pragma mark - Native
 
-void TradplusLoadNativeAd(const char* adUnitId, bool isAutoLoad, float x, float y, float width, float height,int adPosition, const char* customMap)
+void TradplusLoadNativeAd(const char* adUnitId, float x, float y, float width, float height,int adPosition, const char* customMap)
 {
     NSString *jsonString = stringFromUTF8String(customMap);
     NSDictionary *dic = nil;
@@ -555,7 +574,7 @@ void TradplusLoadNativeAd(const char* adUnitId, bool isAutoLoad, float x, float 
         dic = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
     }
     NSString *adUnitIDStr = stringFromUTF8String(adUnitId);
-    [[TPUNativeManager sharedInstance] loadWithAdUnitID:adUnitIDStr isAutoLoad:isAutoLoad x:x y:y width:width height:height adPosition:adPosition customMap:dic];
+    [[TPUNativeManager sharedInstance] loadWithAdUnitID:adUnitIDStr x:x y:y width:width height:height adPosition:adPosition customMap:dic];
 }
 
 void TradplusShowNativeAd(const char* adUnitId,const char* sceneId,const char* className)
@@ -624,7 +643,8 @@ void TradplusNativeSetCallbacks(TPNativeLoadedCallback adLoadedCallback,
                               TPNativeOneLayerLoadFailedCallback adOneLayerLoadFailedCallback,
                               TPNativeVideoPlayStartCallback adVideoPlayStartCallback,
                               TPNativeVideoPlayEndCallback adVideoPlayEndCallback,
-                              TPNativeAllLoadedCallback adAllLoadedCallback)
+                              TPNativeAllLoadedCallback adAllLoadedCallback,
+                              TPNativeAdIsLoadingCallback adIsLoadingCallback)
 {
     [TPUNativeManager sharedInstance].loadedCallback = adLoadedCallback;
     [TPUNativeManager sharedInstance].loadFailedCallback = adLoadFailedCallback;
@@ -641,6 +661,7 @@ void TradplusNativeSetCallbacks(TPNativeLoadedCallback adLoadedCallback,
     [TPUNativeManager sharedInstance].videoPlayStartCallback = adVideoPlayStartCallback;
     [TPUNativeManager sharedInstance].videoPlayEndCallback = adVideoPlayEndCallback;
     [TPUNativeManager sharedInstance].allLoadedCallback = adAllLoadedCallback;
+    [TPUNativeManager sharedInstance].adIsLoadingCallback = adIsLoadingCallback;
 }
 
 #pragma mark - NativeBanner
@@ -723,7 +744,8 @@ void TradplusNativeBannerSetCallbacks(TPNativeBannerLoadedCallback adLoadedCallb
                               TPNativeBannerOneLayerStartLoadCallback adOneLayerStartLoadCallback,
                               TPNativeBannerOneLayerLoadedCallback adOneLayerLoadedCallback,
                               TPNativeBannerOneLayerLoadFailedCallback adOneLayerLoadFailedCallback,
-                              TPNativeBannerAllLoadedCallback adAllLoadedCallback)
+                              TPNativeBannerAllLoadedCallback adAllLoadedCallback,
+                              TPNativeBannerAdIsLoadingCallback adIsLoadingCallback)
 {
     [TPUNativeBannerManager sharedInstance].loadedCallback = adLoadedCallback;
     [TPUNativeBannerManager sharedInstance].loadFailedCallback = adLoadFailedCallback;
@@ -738,4 +760,5 @@ void TradplusNativeBannerSetCallbacks(TPNativeBannerLoadedCallback adLoadedCallb
     [TPUNativeBannerManager sharedInstance].oneLayerLoadedCallback = adOneLayerLoadedCallback;
     [TPUNativeBannerManager sharedInstance].oneLayerLoadFailedCallback = adOneLayerLoadFailedCallback;
     [TPUNativeBannerManager sharedInstance].allLoadedCallback = adAllLoadedCallback;
+    [TPUNativeBannerManager sharedInstance].adIsLoadingCallback = adIsLoadingCallback;
 }

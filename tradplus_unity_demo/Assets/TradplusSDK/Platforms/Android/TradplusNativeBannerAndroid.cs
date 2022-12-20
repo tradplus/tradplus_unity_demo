@@ -169,6 +169,12 @@ namespace TradplusSDK.Android
 
             }
 
+            void onAdIsLoading(string unitId)
+            {
+                TradplusNativeBannerAndroid.Instance().OnNativeBannerIsLoading(unitId);
+
+            }
+
             void onDownloadStart(string adunit, string tpAdInfo, long totalBytes, long currBytes, string fileName, string appName)
             {
                 TradplusNativeBannerAndroid.Instance().OnDownloadStart(adunit, (Dictionary<string, object>)Json.Deserialize(tpAdInfo), totalBytes, currBytes, fileName, appName);
@@ -225,6 +231,9 @@ namespace TradplusSDK.Android
         public event Action<string, Dictionary<string, object>> OnNativeBannerBiddingStart;
 
         public event Action<string, Dictionary<string, object>, Dictionary<string, object>> OnNativeBannerBiddingEnd;
+
+        public event Action<string> OnNativeBannerIsLoading;
+
 
         public event Action<string, Dictionary<string, object>> OnNativeBannerOneLayerStartLoad;
 

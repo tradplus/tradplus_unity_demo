@@ -24,12 +24,13 @@ typedef void (*TPNativeOneLayerLoadFailedCallback)(const char* adUnitId,const ch
 typedef void (*TPNativeVideoPlayStartCallback)(const char* adUnitId,const char* adInfo);
 typedef void (*TPNativeVideoPlayEndCallback)(const char* adUnitId,const char* adInfo);
 typedef void (*TPNativeAllLoadedCallback)(const char* adUnitId,bool isSuccess);
+typedef void (*TPNativeAdIsLoadingCallback)(const char* adUnitId);
 
 @interface TPUNativeManager : NSObject
 
 + (TPUNativeManager *)sharedInstance;
 
-- (void)loadWithAdUnitID:(NSString *)adUnitID isAutoLoad:(BOOL)isAutoLoad x:(float)x y:(float)y width:(float)width height:(float)height adPosition:(int)adPosition customMap:(NSDictionary *)customMap;
+- (void)loadWithAdUnitID:(NSString *)adUnitID x:(float)x y:(float)y width:(float)width height:(float)height adPosition:(int)adPosition customMap:(NSDictionary *)customMap;
 - (void)showWithAdUnitID:(NSString *)adUnitID sceneId:(NSString *)sceneId className:(NSString *)className;
 - (BOOL)adReadyWithAdUnitID:(NSString *)adUnitID;
 - (void)entryAdScenarioWithAdUnitID:(NSString *)adUnitID sceneId:(NSString *)sceneId;
@@ -53,7 +54,7 @@ typedef void (*TPNativeAllLoadedCallback)(const char* adUnitId,bool isSuccess);
 @property(nonatomic, assign) TPNativeVideoPlayStartCallback videoPlayStartCallback;
 @property(nonatomic, assign) TPNativeVideoPlayEndCallback videoPlayEndCallback;
 @property(nonatomic, assign) TPNativeAllLoadedCallback allLoadedCallback;
-
+@property(nonatomic,assign) TPNativeAdIsLoadingCallback adIsLoadingCallback;
 
 @end
 

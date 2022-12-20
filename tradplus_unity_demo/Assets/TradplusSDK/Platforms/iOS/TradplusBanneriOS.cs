@@ -116,7 +116,8 @@ namespace TradplusSDK.iOS
             TPBannerOneLayerStartLoadCallback adOneLayerStartLoadCallback,
             TPBannerOneLayerLoadedCallback adOneLayerLoadedCallback,
             TPBannerOneLayerLoadFailedCallback adOneLayerLoadFailedCallback,
-            TPBannerAllLoadedCallback adAllLoadedCallback
+            TPBannerAllLoadedCallback adAllLoadedCallback,
+            TPBannerAdIsLoadingCallback adIsLoadingCallback
         );
         public TradplusBanneriOS()
         {
@@ -133,7 +134,8 @@ namespace TradplusSDK.iOS
                 BannerOneLayerStartLoadCallback,
                 BannerOneLayerLoadedCallback,
                 BannerOneLayerLoadFailedCallback,
-                BannerAllLoadedCallback
+                BannerAllLoadedCallback,
+                BannerAdIsLoadingCallback
                 );
         }
 
@@ -318,6 +320,19 @@ namespace TradplusSDK.iOS
             if (TradplusBanneriOS.Instance().OnBannerAllLoaded != null)
             {
                 TradplusBanneriOS.Instance().OnBannerAllLoaded(adUnitId, isSuccess);
+            }
+        }
+
+        //OnBannerIsLoading
+        public event Action<string> OnBannerIsLoading;
+
+        internal delegate void TPBannerAdIsLoadingCallback(string adUnitId);
+        [MonoPInvokeCallback(typeof(TPBannerAdIsLoadingCallback))]
+        private static void BannerAdIsLoadingCallback(string adUnitId)
+        {
+            if (TradplusBanneriOS.Instance().OnBannerIsLoading != null)
+            {
+                TradplusBanneriOS.Instance().OnBannerIsLoading(adUnitId);
             }
         }
     }

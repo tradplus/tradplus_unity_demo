@@ -39,10 +39,10 @@
     [self.native setTemplateRenderSize:size];
 }
 
-- (void)setAdUnitID:(NSString * _Nonnull)adUnitID isAutoLoad:(BOOL)isAutoLoad;
+- (void)setAdUnitID:(NSString * _Nonnull)adUnitID
 {
-    MSLogTrace(@"%s adUnitID:%@ isAutoLoad:%@", __PRETTY_FUNCTION__,adUnitID,@(isAutoLoad));
-    [self.native setAdUnitID:adUnitID isAutoLoad:isAutoLoad];
+    MSLogTrace(@"%s adUnitID:%@", __PRETTY_FUNCTION__,adUnitID);
+    [self.native setAdUnitID:adUnitID];
 }
 
 - (void)loadAd
@@ -142,10 +142,19 @@
     return [TPUPluginUtil unityViewController];
 }
 
+- (void)tpNativeAdIsLoading:(NSDictionary *)adInfo
+{
+    MSLogTrace(@"%s %@", __PRETTY_FUNCTION__, adInfo);
+    if([TPUNativeManager sharedInstance].adIsLoadingCallback)
+    {
+        [TPUNativeManager sharedInstance].adIsLoadingCallback(self.native.unitID.UTF8String);
+    }
+}
+
 ///AD加载完成 首个广告源加载成功时回调 一次加载流程只会回调一次
 - (void)tpNativeAdLoaded:(NSDictionary *)adInfo
 {
-    MSLogInfo(@"%s %@", __PRETTY_FUNCTION__, adInfo);
+    MSLogTrace(@"%s %@", __PRETTY_FUNCTION__, adInfo);
     if([TPUNativeManager sharedInstance].loadedCallback)
     {
         NSString *jsonString = [TPUPluginUtil getJsonStringWithDic:adInfo];
@@ -157,7 +166,7 @@
 ///tpNativeAdOneLayerLoad:didFailWithError：返回三方源的错误信息
 - (void)tpNativeAdLoadFailWithError:(NSError *)error
 {
-    MSLogInfo(@"%s %@", __PRETTY_FUNCTION__, error);
+    MSLogTrace(@"%s %@", __PRETTY_FUNCTION__, error);
     if([TPUNativeManager sharedInstance].loadFailedCallback)
     {
         NSString *errorString = [TPUPluginUtil getJsonStringWithError:error];
@@ -168,7 +177,7 @@
 ///AD展现
 - (void)tpNativeAdImpression:(NSDictionary *)adInfo
 {
-    MSLogInfo(@"%s %@", __PRETTY_FUNCTION__, adInfo);
+    MSLogTrace(@"%s %@", __PRETTY_FUNCTION__, adInfo);
     if([TPUNativeManager sharedInstance].impressionCallback)
     {
         NSString *jsonString = [TPUPluginUtil getJsonStringWithDic:adInfo];
@@ -179,7 +188,7 @@
 ///AD展现失败
 - (void)tpNativeAdShow:(NSDictionary *)adInfo didFailWithError:(NSError *)error
 {
-    MSLogInfo(@"%s %@ %@", __PRETTY_FUNCTION__, adInfo,error);
+    MSLogTrace(@"%s %@ %@", __PRETTY_FUNCTION__, adInfo,error);
     if([TPUNativeManager sharedInstance].showFailedCallback)
     {
         NSString *jsonString = [TPUPluginUtil getJsonStringWithDic:adInfo];
@@ -191,7 +200,7 @@
 ///AD被点击
 - (void)tpNativeAdClicked:(NSDictionary *)adInfo
 {
-    MSLogInfo(@"%s %@", __PRETTY_FUNCTION__, adInfo);
+    MSLogTrace(@"%s %@", __PRETTY_FUNCTION__, adInfo);
     if([TPUNativeManager sharedInstance].clickedCallback)
     {
         NSString *jsonString = [TPUPluginUtil getJsonStringWithDic:adInfo];
@@ -202,7 +211,7 @@
 ///v7.6.0+新增 开始加载流程
 - (void)tpNativeAdStartLoad:(NSDictionary *)adInfo
 {
-    MSLogInfo(@"%s %@", __PRETTY_FUNCTION__, adInfo);
+    MSLogTrace(@"%s %@", __PRETTY_FUNCTION__, adInfo);
     if([TPUNativeManager sharedInstance].startLoadCallback)
     {
         NSString *jsonString = [TPUPluginUtil getJsonStringWithDic:adInfo];
@@ -214,7 +223,7 @@
 ///v7.6.0+新增。替代原回调接口：tpNativeAdLoadStart:(NSDictionary *)adInfo;
 - (void)tpNativeAdOneLayerStartLoad:(NSDictionary *)adInfo
 {
-    MSLogInfo(@"%s %@", __PRETTY_FUNCTION__, adInfo);
+    MSLogTrace(@"%s %@", __PRETTY_FUNCTION__, adInfo);
     if([TPUNativeManager sharedInstance].oneLayerStartLoadCallback)
     {
         NSString *jsonString = [TPUPluginUtil getJsonStringWithDic:adInfo];
@@ -225,7 +234,7 @@
 ///AD被关闭
 - (void)tpNativeAdClose:(NSDictionary *)adInfo
 {
-    MSLogInfo(@"%s %@", __PRETTY_FUNCTION__, adInfo);
+    MSLogTrace(@"%s %@", __PRETTY_FUNCTION__, adInfo);
     if([TPUNativeManager sharedInstance].closedCallback)
     {
         NSString *jsonString = [TPUPluginUtil getJsonStringWithDic:adInfo];
@@ -236,7 +245,7 @@
 ///bidding开始
 - (void)tpNativeAdBidStart:(NSDictionary *)adInfo
 {
-    MSLogInfo(@"%s %@", __PRETTY_FUNCTION__, adInfo);
+    MSLogTrace(@"%s %@", __PRETTY_FUNCTION__, adInfo);
     if([TPUNativeManager sharedInstance].biddingStartCallback)
     {
         NSString *jsonString = [TPUPluginUtil getJsonStringWithDic:adInfo];
@@ -247,7 +256,7 @@
 ///bidding结束 error = nil 表示成功
 - (void)tpNativeAdBidEnd:(NSDictionary *)adInfo error:(NSError *)error
 {
-    MSLogInfo(@"%s %@ %@", __PRETTY_FUNCTION__, adInfo,error);
+    MSLogTrace(@"%s %@ %@", __PRETTY_FUNCTION__, adInfo,error);
     if([TPUNativeManager sharedInstance].biddingEndCallback)
     {
         NSString *jsonString = [TPUPluginUtil getJsonStringWithDic:adInfo];
@@ -259,7 +268,7 @@
 ///当每个广告源加载成功后会都会回调一次。
 - (void)tpNativeAdOneLayerLoaded:(NSDictionary *)adInfo
 {
-    MSLogInfo(@"%s %@", __PRETTY_FUNCTION__, adInfo);
+    MSLogTrace(@"%s %@", __PRETTY_FUNCTION__, adInfo);
     if([TPUNativeManager sharedInstance].oneLayerLoadedCallback)
     {
         NSString *jsonString = [TPUPluginUtil getJsonStringWithDic:adInfo];
@@ -270,7 +279,7 @@
 ///当每个广告源加载失败后会都会回调一次，返回三方源的错误信息
 - (void)tpNativeAdOneLayerLoad:(NSDictionary *)adInfo didFailWithError:(NSError *)error
 {
-    MSLogInfo(@"%s %@", __PRETTY_FUNCTION__, adInfo);
+    MSLogTrace(@"%s %@", __PRETTY_FUNCTION__, adInfo);
     if([TPUNativeManager sharedInstance].oneLayerLoadFailedCallback)
     {
         NSString *jsonString = [TPUPluginUtil getJsonStringWithDic:adInfo];
@@ -282,7 +291,7 @@
 ///加载流程全部结束
 - (void)tpNativeAdAllLoaded:(BOOL)success
 {
-    MSLogInfo(@"%s %@", __PRETTY_FUNCTION__, @(success));
+    MSLogTrace(@"%s %@", __PRETTY_FUNCTION__, @(success));
     if([TPUNativeManager sharedInstance].allLoadedCallback)
     {
         [TPUNativeManager sharedInstance].allLoadedCallback(self.native.unitID.UTF8String,success);
@@ -292,7 +301,7 @@
 ///开始播放 v7.8.0+
 - (void)tpNativeAdVideoPlayStart:(NSDictionary *)adInfo
 {
-    MSLogInfo(@"%s %@", __PRETTY_FUNCTION__, adInfo);
+    MSLogTrace(@"%s %@", __PRETTY_FUNCTION__, adInfo);
     if([TPUNativeManager sharedInstance].videoPlayStartCallback)
     {
         NSString *jsonString = [TPUPluginUtil getJsonStringWithDic:adInfo];
@@ -303,7 +312,7 @@
 ///播放结束 v7.8.0+
 - (void)tpNativeAdVideoPlayEnd:(NSDictionary *)adInfo
 {
-    MSLogInfo(@"%s %@", __PRETTY_FUNCTION__, adInfo);
+    MSLogTrace(@"%s %@", __PRETTY_FUNCTION__, adInfo);
     if([TPUNativeManager sharedInstance].videoPlayEndCallback)
     {
         NSString *jsonString = [TPUPluginUtil getJsonStringWithDic:adInfo];
@@ -314,6 +323,6 @@
 ///视频贴片类型播放完成回调 v6.8.0+
 - (void)tpNativePasterDidPlayFinished:(NSDictionary *)adInfo
 {
-    MSLogInfo(@"%s %@", __PRETTY_FUNCTION__, adInfo);
+    MSLogTrace(@"%s %@", __PRETTY_FUNCTION__, adInfo);
 }
 @end

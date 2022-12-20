@@ -24,7 +24,7 @@ namespace TradplusSDK.iOS
         }
 
         [DllImport("__Internal")]
-        private static extern void TradplusLoadInterstitialAd(string adUnitId,bool isAutoLoad,string customMap);
+        private static extern void TradplusLoadInterstitialAd(string adUnitId,string customMap);
         public void LoadInterstitialAd(string adUnitId, TPInterstitialExtra extra)
         {
             string customMapString = null;
@@ -32,7 +32,7 @@ namespace TradplusSDK.iOS
             {
                 customMapString = Json.Serialize(extra.customMap);
             }
-            TradplusLoadInterstitialAd(adUnitId, extra.isAutoLoad, customMapString);
+            TradplusLoadInterstitialAd(adUnitId, customMapString);
         }
 
         [DllImport("__Internal")]
@@ -97,7 +97,8 @@ namespace TradplusSDK.iOS
             TPInterstitialOneLayerLoadFailedCallback adOneLayerLoadFailedCallback,
             TPInterstitialVideoPlayStartCallback adVideoPlayStartCallback,
             TPInterstitialVideoPlayEndCallback adVideoPlayEndCallback,
-            TPInterstitialAllLoadedCallback adAllLoadedCallback
+            TPInterstitialAllLoadedCallback adAllLoadedCallback,
+            TPInterstitialAdIsLoadingCallback adIsLoadingCallback
         );
         public TradplusInterstitialiOS()
         {
@@ -116,7 +117,8 @@ namespace TradplusSDK.iOS
                 InterstitialOneLayerLoadFailedCallback,
                 InterstitialVideoPlayStartCallback,
                 InterstitialVideoPlayEndCallback,
-                InterstitialAllLoadedCallback
+                InterstitialAllLoadedCallback,
+                InterstitialAdIsLoadingCallback
                 );
         }
 
@@ -329,6 +331,19 @@ namespace TradplusSDK.iOS
             if (TradplusInterstitialiOS.Instance().OnInterstitialAllLoaded != null)
             {
                 TradplusInterstitialiOS.Instance().OnInterstitialAllLoaded(adUnitId, isSuccess);
+            }
+        }
+
+        //OnInterstitialIsLoading
+        public event Action<string> OnInterstitialIsLoading;
+
+        internal delegate void TPInterstitialAdIsLoadingCallback(string adUnitId);
+        [MonoPInvokeCallback(typeof(TPInterstitialAdIsLoadingCallback))]
+        private static void InterstitialAdIsLoadingCallback(string adUnitId)
+        {
+            if (TradplusInterstitialiOS.Instance().OnInterstitialIsLoading != null)
+            {
+                TradplusInterstitialiOS.Instance().OnInterstitialIsLoading(adUnitId);
             }
         }
 

@@ -7,6 +7,9 @@ allprojects {
             mavenCentral()
             google()
             jcenter()
+            maven {
+                url "https://artifact.bytedance.com/repository/pangle"
+            }
             // Helium
             maven {
                 name "Helium's maven repo"
@@ -65,6 +68,9 @@ allprojects {
         maven {
             name "Helium's maven repo"
             url "https://cboost.jfrog.io/artifactory/helium"
+        }
+        maven {
+            url "https://artifact.bytedance.com/repository/pangle"
         }
         // Ironsource
         maven { url 'https://android-sdk.is.com/' }

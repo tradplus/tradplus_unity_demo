@@ -25,7 +25,7 @@ namespace TradplusSDK.iOS
         }
 
         [DllImport("__Internal")]
-        private static extern void TradplusLoadRewardVideoAd(string adUnitId, bool isAutoLoad,string userId,string customData, string customMap);
+        private static extern void TradplusLoadRewardVideoAd(string adUnitId,string userId,string customData, string customMap);
         public void LoadRewardVideoAd(string adUnitId, TPRewardVideoExtra extra)
         {
             string customMapString = null;
@@ -33,7 +33,7 @@ namespace TradplusSDK.iOS
             {
                 customMapString = Json.Serialize(extra.customMap);
             }
-            TradplusLoadRewardVideoAd(adUnitId, extra.isAutoLoad, extra.userId,extra.customData, customMapString);
+            TradplusLoadRewardVideoAd(adUnitId, extra.userId,extra.customData, customMapString);
         }
 
         [DllImport("__Internal")]
@@ -103,7 +103,8 @@ namespace TradplusSDK.iOS
             TPRewardVideoPlayAgainRewardCallback adPlayAgainRewardCallback,
             TPRewardVideoPlayAgainClickedCallback adPlayAgainClickedCallback,
             TPRewardVideoPlayAgainVideoPlayStartCallback adPlayAgainVideoPlayStartCallback,
-            TPRewardVideoPlayAgainVideoPlayEndCallback adPlayAgainVideoPlayEndCallback
+            TPRewardVideoPlayAgainVideoPlayEndCallback adPlayAgainVideoPlayEndCallback,
+            TPRewardVideoAdIsLoadingCallback adIsLoadingCallback
         );
 
         public TradplusRewardVideoiOS()
@@ -129,7 +130,8 @@ namespace TradplusSDK.iOS
             RewardVideoPlayAgainRewardCallback,
             RewardVideoPlayAgainClickedCallback,
             RewardVideoPlayAgainVideoPlayStartCallback,
-            RewardVideoPlayAgainVideoPlayEndCallback
+            RewardVideoPlayAgainVideoPlayEndCallback,
+            RewardVideoAdIsLoadingCallback
            );
         }
 
@@ -357,6 +359,19 @@ namespace TradplusSDK.iOS
             if (TradplusRewardVideoiOS.Instance().OnRewardVideoAllLoaded != null)
             {
                 TradplusRewardVideoiOS.Instance().OnRewardVideoAllLoaded(adUnitId, isSuccess);
+            }
+        }
+
+        //OnInterstitialIsLoading
+        public event Action<string> OnRewardVideoIsLoading;
+
+        internal delegate void TPRewardVideoAdIsLoadingCallback(string adUnitId);
+        [MonoPInvokeCallback(typeof(TPRewardVideoAdIsLoadingCallback))]
+        private static void RewardVideoAdIsLoadingCallback(string adUnitId)
+        {
+            if (TradplusRewardVideoiOS.Instance().OnRewardVideoIsLoading != null)
+            {
+                TradplusRewardVideoiOS.Instance().OnRewardVideoIsLoading(adUnitId);
             }
         }
 

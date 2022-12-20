@@ -26,10 +26,6 @@ namespace TradplusSDK.Api
         ///</summary>
         public bool isSimpleListener;
         ///<summary>
-        ///是否自动加载，默认true
-        ///</summary>
-        public bool isAutoLoad;
-        ///<summary>
         ///服务器奖励验证参数，如使用服务器奖励验证时此参数必填
         ///</summary>
         public string userId;
@@ -47,7 +43,6 @@ namespace TradplusSDK.Api
         public Dictionary<string, string> localParams;
         public TPRewardVideoExtra()
         {
-            isAutoLoad = true;
         }
     }
 
@@ -75,7 +70,6 @@ namespace TradplusSDK.Api
             if (extra == null)
             {
                 extra = new TPRewardVideoExtra();
-                extra.isAutoLoad = true;
             }
             TPRewardVideo.Instance().LoadRewardVideoAd(adUnitId, extra);
         }
@@ -181,6 +175,11 @@ namespace TradplusSDK.Api
         ///Bidding结束 string adUnitId,Dictionary adInfo,Dictionary error
         ///</summary>
         public event Action<string, Dictionary<string, object>, Dictionary<string, object>> OnRewardVideoBiddingEnd;
+
+        ///<summary>
+        ///IsLoading string adUnitId
+        ///</summary>
+        public event Action<string> OnRewardVideoIsLoading;
 
         ///<summary>
         ///每层waterfall开始加载时回调 string adUnitId,Dictionary adInfo,Dictionary error
@@ -341,12 +340,20 @@ namespace TradplusSDK.Api
                     this.OnRewardVideoBiddingStart(adunit, adInfo);
                 }
             };
-
+            
             TPRewardVideo.Instance().OnRewardVideoBiddingEnd += (adunit, adInfo, error) =>
             {
                 if (this.OnRewardVideoBiddingEnd != null)
                 {
                     this.OnRewardVideoBiddingEnd(adunit, adInfo, error);
+                }
+            };
+
+            TPRewardVideo.Instance().OnRewardVideoIsLoading += (adunit) =>
+            {
+                if (this.OnRewardVideoIsLoading != null)
+                {
+                    this.OnRewardVideoIsLoading(adunit);
                 }
             };
 

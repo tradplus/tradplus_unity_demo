@@ -27,7 +27,6 @@ namespace TradplusSDK.Android
         {
             AdLoadListenerAdapter loadListenerAdapter = new AdLoadListenerAdapter();
             Dictionary<string, object> info = new Dictionary<string, object>();
-            info.Add("isAutoLoad", extra.isAutoLoad);
             info.Add("customMap", extra.customMap);
             info.Add("localParams", extra.localParams);
             info.Add("isSimpleListener", extra.isSimpleListener);
@@ -129,6 +128,13 @@ namespace TradplusSDK.Android
 
             }
 
+
+            void onAdIsLoading(string unitId)
+            {
+                TradplusOfferwallAndroid.Instance().OnOfferwallIsLoading(unitId);
+
+            }
+
             void oneLayerLoadFailed(string unitId, string tperror, string tpAdInfo)
             {
                 TradplusOfferwallAndroid.Instance().OnOfferwallOneLayerLoadFailed(unitId, (Dictionary<string, object>)Json.Deserialize(tperror), (Dictionary<string, object>)Json.Deserialize(tpAdInfo));
@@ -220,6 +226,8 @@ namespace TradplusSDK.Android
         public event Action<string, Dictionary<string, object>, Dictionary<string, object>> OnOfferwallOneLayerLoadFailed;
 
         public event Action<string, bool> OnOfferwallAllLoaded;
+
+        public event Action<string> OnOfferwallIsLoading;
 
         public event Action<string, bool> OnOfferwallSetUserIdFinish;
 

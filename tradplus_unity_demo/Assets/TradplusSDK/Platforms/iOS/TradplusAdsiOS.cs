@@ -173,6 +173,18 @@ namespace TradplusSDK.iOS
             TradplusSetCnServer(onlyCn);
         }
 
+        [DllImport("__Internal")]
+        private static extern void TradplusSetSettingDataParam(string settingInfo);
+        public void SetSettingDataParam(Dictionary<string, object> settingMap)
+        {
+            string settingMapString = null;
+            if (settingMap != null)
+            {
+                settingMapString = Json.Serialize(settingMap);
+            }
+            TradplusSetSettingDataParam(settingMapString);
+        }
+
         //注册回调全局展示回调
         [DllImport("__Internal")]
         private static extern void TradplusSDKSetAdImpressionCallback(

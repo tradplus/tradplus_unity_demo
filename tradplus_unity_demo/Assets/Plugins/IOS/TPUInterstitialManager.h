@@ -24,12 +24,13 @@ typedef void (*TPInterstitialOneLayerLoadFailedCallback)(const char* adUnitId,co
 typedef void (*TPInterstitialVideoPlayStartCallback)(const char* adUnitId,const char* adInfo);
 typedef void (*TPInterstitialVideoPlayEndCallback)(const char* adUnitId,const char* adInfo);
 typedef void (*TPInterstitialAllLoadedCallback)(const char* adUnitId,bool isSuccess);
+typedef void (*TPInterstitialAdIsLoadingCallback)(const char* adUnitId);
 
 @interface TPUInterstitialManager : NSObject
 
 + (TPUInterstitialManager *)sharedInstance;
 
-- (void)loadWithAdUnitID:(NSString *)adUnitID isAutoLoad:(BOOL)isAutoLoad customMap:(NSDictionary *)customMap;
+- (void)loadWithAdUnitID:(NSString *)adUnitID customMap:(NSDictionary *)customMap;
 - (void)showWithAdUnitID:(NSString *)adUnitID sceneId:(NSString *)sceneId;
 - (BOOL)adReadyWithAdUnitID:(NSString *)adUnitID;
 - (void)entryAdScenarioWithAdUnitID:(NSString *)adUnitID sceneId:(NSString *)sceneId;
@@ -50,7 +51,7 @@ typedef void (*TPInterstitialAllLoadedCallback)(const char* adUnitId,bool isSucc
 @property(nonatomic, assign) TPInterstitialVideoPlayStartCallback videoPlayStartCallback;
 @property(nonatomic, assign) TPInterstitialVideoPlayEndCallback videoPlayEndCallback;
 @property(nonatomic, assign) TPInterstitialAllLoadedCallback allLoadedCallback;
-
+@property (nonatomic,assign) TPInterstitialAdIsLoadingCallback adIsLoadingCallback;
 @end
 
 NS_ASSUME_NONNULL_END

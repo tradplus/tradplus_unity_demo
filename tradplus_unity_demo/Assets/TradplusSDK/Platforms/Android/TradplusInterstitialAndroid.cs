@@ -29,7 +29,6 @@ namespace TradplusSDK.Android
         {
             AdLoadListenerAdapter loadListenerAdapter = new AdLoadListenerAdapter();
             Dictionary<string, object> info = new Dictionary<string, object>();
-            info.Add("isAutoLoad", extra.isAutoLoad);
             info.Add("customMap", extra.customMap);
             info.Add("localParams", extra.localParams);
             info.Add("isSimpleListener", extra.isSimpleListener);
@@ -154,6 +153,12 @@ namespace TradplusSDK.Android
 
             }
 
+            void onAdIsLoading(string unitId)
+            {
+                TradplusInterstitialAndroid.Instance().OnInterstitialIsLoading(unitId);
+
+            }
+
             void onDownloadStart(string adunit, string tpAdInfo, long totalBytes, long currBytes, string fileName, string appName)
             {
                 TradplusInterstitialAndroid.Instance().OnDownloadStart(adunit, (Dictionary<string, object>)Json.Deserialize(tpAdInfo), totalBytes, currBytes, fileName, appName);
@@ -213,6 +218,8 @@ namespace TradplusSDK.Android
         public event Action<string, Dictionary<string, object>> OnInterstitialBiddingStart;
 
         public event Action<string, Dictionary<string, object>, Dictionary<string, object>> OnInterstitialBiddingEnd;
+
+        public event Action<string> OnInterstitialIsLoading;
 
         public event Action<string, Dictionary<string, object>> OnInterstitialOneLayerStartLoad;
 

@@ -27,13 +27,13 @@ typedef void (*TPOfferwallSpendCurrencySuccessCallback)(const char* adUnitId,int
 typedef void (*TPOfferwallSpendCurrencyFailedCallback)(const char* adUnitId,const char* msg);
 typedef void (*TPOfferwallAwardCurrencySuccesCallback)(const char* adUnitId,int amount,const char* msg);
 typedef void (*TPOfferwallAwardCurrencyFailedCallback)(const char* adUnitId,const char* msg);
-
+typedef void (*TPOfferwallAdIsLoadingCallback)(const char* adUnitId);
 
 @interface TPUOfferwallManager : NSObject
 
 + (TPUOfferwallManager *)sharedInstance;
 
-- (void)loadWithAdUnitID:(NSString *)adUnitID isAutoLoad:(BOOL)isAutoLoad customMap:(NSDictionary *)customMap;
+- (void)loadWithAdUnitID:(NSString *)adUnitID customMap:(NSDictionary *)customMap;
 - (void)showWithAdUnitID:(NSString *)adUnitID sceneId:(NSString *)sceneId;
 - (BOOL)adReadyWithAdUnitID:(NSString *)adUnitID;
 - (void)entryAdScenarioWithAdUnitID:(NSString *)adUnitID sceneId:(NSString *)sceneId;
@@ -61,7 +61,7 @@ typedef void (*TPOfferwallAwardCurrencyFailedCallback)(const char* adUnitId,cons
 @property(nonatomic, assign) TPOfferwallSpendCurrencyFailedCallback spendCurrencyFailedCallback;
 @property(nonatomic, assign) TPOfferwallAwardCurrencySuccesCallback awardCurrencySuccesCallback;
 @property(nonatomic, assign) TPOfferwallAwardCurrencyFailedCallback awardCurrencyFailedCallback;
-
+@property(nonatomic, assign) TPOfferwallAdIsLoadingCallback adIsLoadingCallback;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -25,10 +25,6 @@ namespace TradplusSDK.Api
         ///</summary>
         public bool isSimpleListener;
         ///<summary>
-        ///是否自动加载，默认true
-        ///</summary>
-        public bool isAutoLoad;
-        ///<summary>
         ///流量分组
         ///</summary>
         public Dictionary<string, string> customMap;
@@ -38,7 +34,6 @@ namespace TradplusSDK.Api
         public Dictionary<string, string> localParams;
         public TPOfferwallExtra()
         {
-            isAutoLoad = true;
         }
     }
 
@@ -254,6 +249,12 @@ namespace TradplusSDK.Api
         public event Action<string, bool> OnOfferwallAllLoaded;
 
 
+        ///<summary>
+        ///IsLoading string adUnitId
+        ///</summary>
+        public event Action<string> OnOfferwallIsLoading;
+
+
         public TradplusOfferwall()
         {
             TPOfferwall.Instance().OnOfferwallLoaded += (adunit, adInfo) =>
@@ -336,12 +337,20 @@ namespace TradplusSDK.Api
                     this.OnOfferwallOneLayerLoadFailed(adunit, adInfo, error);
                 }
             };
-
+            
             TPOfferwall.Instance().OnOfferwallAllLoaded += (adunit, isSuccess) =>
             {
                 if (this.OnOfferwallAllLoaded != null)
                 {
                     this.OnOfferwallAllLoaded(adunit, isSuccess);
+                }
+            };
+
+            TPOfferwall.Instance().OnOfferwallIsLoading += (adunit) =>
+            {
+                if (this.OnOfferwallIsLoading != null)
+                {
+                    this.OnOfferwallIsLoading(adunit);
                 }
             };
 

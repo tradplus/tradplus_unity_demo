@@ -25,7 +25,7 @@ namespace TradplusSDK.iOS
         }
 
         [DllImport("__Internal")]
-        private static extern void TradplusLoadOfferwallAd(string adUnitId, bool isAutoLoad, string customMap);
+        private static extern void TradplusLoadOfferwallAd(string adUnitId, string customMap);
         public void LoadOfferwallAd(string adUnitId, TPOfferwallExtra extra = null)
         {
             string customMapString = null;
@@ -33,7 +33,7 @@ namespace TradplusSDK.iOS
             {
                 customMapString = Json.Serialize(extra.customMap);
             }
-            TradplusLoadOfferwallAd(adUnitId,extra.isAutoLoad, customMapString);
+            TradplusLoadOfferwallAd(adUnitId, customMapString);
         }
 
         [DllImport("__Internal")]
@@ -129,7 +129,8 @@ namespace TradplusSDK.iOS
             TPOfferwallSpendCurrencySuccessCallback adSpendCurrencySuccessCallback,
             TPOfferwallSpendCurrencyFailedCallback adSpendCurrencyFailedCallback,
             TPOfferwallAwardCurrencySuccesCallback adAwardCurrencySuccesCallback,
-            TPOfferwallAwardCurrencyFailedCallback adAwardCurrencyFailedCallback
+            TPOfferwallAwardCurrencyFailedCallback adAwardCurrencyFailedCallback,
+            TPOfferwallAdIsLoadingCallback adIsLoadingCallback
         );
 
         public TradplusOfferwalliOS()
@@ -152,7 +153,8 @@ namespace TradplusSDK.iOS
                 OfferwallSpendCurrencySuccessCallback,
                 OfferwallSpendCurrencyFailedCallback,
                 OfferwallAwardCurrencySuccesCallback,
-                OfferwallAwardCurrencyFailedCallback
+                OfferwallAwardCurrencyFailedCallback,
+                OfferwallAdIsLoadingCallback
                 );
         }
 
@@ -396,6 +398,19 @@ namespace TradplusSDK.iOS
             if (TradplusOfferwalliOS.Instance().OnAwardCurrencyFailed != null)
             {
                 TradplusOfferwalliOS.Instance().OnAwardCurrencyFailed(adUnitId, msg);
+            }
+        }
+
+        //OnOfferwallIsLoading
+        public event Action<string> OnOfferwallIsLoading;
+
+        internal delegate void TPOfferwallAdIsLoadingCallback(string adUnitId);
+        [MonoPInvokeCallback(typeof(TPOfferwallAdIsLoadingCallback))]
+        private static void OfferwallAdIsLoadingCallback(string adUnitId)
+        {
+            if (TradplusOfferwalliOS.Instance().OnOfferwallIsLoading != null)
+            {
+                TradplusOfferwalliOS.Instance().OnOfferwallIsLoading(adUnitId);
             }
         }
     }

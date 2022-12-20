@@ -17,7 +17,7 @@ namespace TradplusSDK.Api
 
     public class TradplusAds
     {
-        public static string PluginVersion = "1.0.4";
+        public static string PluginVersion = "1.0.5";
 
         private static TradplusAds _instance;
 
@@ -58,6 +58,15 @@ namespace TradplusSDK.Api
         public void SetCustomMap(Dictionary<string,string> customMap)
         {
             TPAds.Instance().SetCustomMap(customMap);
+        }
+
+
+        ///<summary>
+        ///设置Setting级别数据
+        ///</summary>
+        public void SetSettingDataParam(Dictionary<string, object> settingMap)
+        {
+            TPAds.Instance().SetSettingDataParam(settingMap);
         }
 
         ///<summary>

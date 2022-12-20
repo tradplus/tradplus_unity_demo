@@ -161,10 +161,19 @@
     return [TPUPluginUtil unityViewController];
 }
 
+- (void)tpNativeBannerAdIsLoading:(NSDictionary *)adInfo
+{
+    MSLogTrace(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
+    if([TPUNativeBannerManager sharedInstance].adIsLoadingCallback)
+    {
+        [TPUNativeBannerManager sharedInstance].adIsLoadingCallback(self.nativeBanner.unitID.UTF8String);
+    }
+}
+
 ///AD加载完成 首个广告源加载成功时回调 一次加载流程只会回调一次
 - (void)tpNativeBannerAdDidLoaded:(NSDictionary *)adInfo
 {
-    MSLogInfo(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
+    MSLogTrace(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
     //传入自定义模版 并且 使用自动展示
     if(self.renderClass != nil && !self.closeAutoShow)
     {
@@ -182,7 +191,7 @@
 ///tpNativeBannerAdOneLayerLoaded:didFailWithError：返回三方源的错误信息
 - (void)tpNativeBannerAdLoadFailWithError:(NSError *)error
 {
-    MSLogInfo(@"%s error:%@", __PRETTY_FUNCTION__, error);
+    MSLogTrace(@"%s error:%@", __PRETTY_FUNCTION__, error);
     if([TPUNativeBannerManager sharedInstance].loadFailedCallback)
     {
         NSString *errorString = [TPUPluginUtil getJsonStringWithError:error];
@@ -193,7 +202,7 @@
 ///AD展现
 - (void)tpNativeBannerAdImpression:(NSDictionary *)adInfo
 {
-    MSLogInfo(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
+    MSLogTrace(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
     if([TPUNativeBannerManager sharedInstance].impressionCallback)
     {
         NSString *jsonString = [TPUPluginUtil getJsonStringWithDic:adInfo];
@@ -204,7 +213,7 @@
 ///AD展现失败
 - (void)tpNativeBannerAdShow:(NSDictionary *)adInfo didFailWithError:(NSError *)error
 {
-    MSLogInfo(@"%s adInfo:%@ error:%@", __PRETTY_FUNCTION__, adInfo,error);
+    MSLogTrace(@"%s adInfo:%@ error:%@", __PRETTY_FUNCTION__, adInfo,error);
     if([TPUNativeBannerManager sharedInstance].showFailedCallback)
     {
         NSString *jsonString = [TPUPluginUtil getJsonStringWithDic:adInfo];
@@ -216,7 +225,7 @@
 ///AD被点击
 - (void)tpNativeBannerAdClicked:(NSDictionary *)adInfo
 {
-    MSLogInfo(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
+    MSLogTrace(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
     if([TPUNativeBannerManager sharedInstance].clickedCallback)
     {
         NSString *jsonString = [TPUPluginUtil getJsonStringWithDic:adInfo];
@@ -227,7 +236,7 @@
 ///v7.6.0+新增 开始加载流程
 - (void)tpNativeBannerAdStartLoad:(NSDictionary *)adInfo
 {
-    MSLogInfo(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
+    MSLogTrace(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
     if([TPUNativeBannerManager sharedInstance].startLoadCallback)
     {
         NSString *jsonString = [TPUPluginUtil getJsonStringWithDic:adInfo];
@@ -239,7 +248,7 @@
 ///v7.6.0+新增。替代原回调接口：tpNativeBannerAdLoadStart:(NSDictionary *)adInfo;
 - (void)tpNativeBannerAdOneLayerStartLoad:(NSDictionary *)adInfo
 {
-    MSLogInfo(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
+    MSLogTrace(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
     if([TPUNativeBannerManager sharedInstance].oneLayerStartLoadCallback)
     {
         NSString *jsonString = [TPUPluginUtil getJsonStringWithDic:adInfo];
@@ -250,7 +259,7 @@
 ///bidding开始
 - (void)tpNativeBannerAdBidStart:(NSDictionary *)adInfo
 {
-    MSLogInfo(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
+    MSLogTrace(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
     if([TPUNativeBannerManager sharedInstance].biddingStartCallback)
     {
         NSString *jsonString = [TPUPluginUtil getJsonStringWithDic:adInfo];
@@ -261,7 +270,7 @@
 ///bidding结束 error = nil 表示成功
 - (void)tpNativeBannerAdBidEnd:(NSDictionary *)adInfo error:(NSError *)error
 {
-    MSLogInfo(@"%s adInfo:%@ error:%@", __PRETTY_FUNCTION__, adInfo,error);
+    MSLogTrace(@"%s adInfo:%@ error:%@", __PRETTY_FUNCTION__, adInfo,error);
     if([TPUNativeBannerManager sharedInstance].biddingEndCallback)
     {
         NSString *jsonString = [TPUPluginUtil getJsonStringWithDic:adInfo];
@@ -273,7 +282,7 @@
 ///当每个广告源加载成功后会都会回调一次。
 - (void)tpNativeBannerAdOneLayerLoaded:(NSDictionary *)adInfo
 {
-    MSLogInfo(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
+    MSLogTrace(@"%s adInfo:%@", __PRETTY_FUNCTION__, adInfo);
     if([TPUNativeBannerManager sharedInstance].oneLayerLoadedCallback)
     {
         NSString *jsonString = [TPUPluginUtil getJsonStringWithDic:adInfo];
@@ -284,7 +293,7 @@
 ///当每个广告源加载失败后会都会回调一次，返回三方源的错误信息
 - (void)tpNativeBannerAdOneLayerLoad:(NSDictionary *)adInfo didFailWithError:(NSError *)error
 {
-    MSLogInfo(@"%s adInfo:%@ error:%@", __PRETTY_FUNCTION__, adInfo,error);
+    MSLogTrace(@"%s adInfo:%@ error:%@", __PRETTY_FUNCTION__, adInfo,error);
     if([TPUNativeBannerManager sharedInstance].oneLayerLoadFailedCallback)
     {
         NSString *jsonString = [TPUPluginUtil getJsonStringWithDic:adInfo];
@@ -296,7 +305,7 @@
 ///加载流程全部结束
 - (void)tpNativeBannerAdAllLoaded:(BOOL)success
 {
-    MSLogInfo(@"%s success:%@", __PRETTY_FUNCTION__, @(success));
+    MSLogTrace(@"%s success:%@", __PRETTY_FUNCTION__, @(success));
     if([TPUNativeBannerManager sharedInstance].allLoadedCallback)
     {
         [TPUNativeBannerManager sharedInstance].allLoadedCallback(self.nativeBanner.unitID.UTF8String,success);

@@ -116,6 +116,12 @@ namespace TradplusSDK.Android
             TradPlusSdk.CallStatic("initCustomMap",Json.Serialize(customMap));
         }
 
+
+        public void SetSettingDataParam(Dictionary<string, object> settingMap)
+        {
+            TradPlusSdk.CallStatic("setSettingDataParam", Json.Serialize(settingMap));
+        }
+
         public string Version()
         {
             return TradPlusSdk.CallStatic<string>("getSdkVersion");
