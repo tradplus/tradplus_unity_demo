@@ -1,0 +1,6 @@
+<dependencies>
+<iosPods>
+<iosPod name ="TradPlusAdSDK/VungleAdapter" version="9.3.0"/>
+<iosPod name ="VungleSDK-iOS" version="6.12.3"/>
+</iosPods>
+</dependencies>

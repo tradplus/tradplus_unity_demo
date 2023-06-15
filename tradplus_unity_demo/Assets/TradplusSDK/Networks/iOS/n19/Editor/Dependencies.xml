@@ -1,0 +1,6 @@
+<dependencies>
+<iosPods>
+<iosPod name ="TradPlusAdSDK/PangleAdapter" version="9.3.0"/>
+<iosPod name ="Ads-Global" version="5.1.0.8"/>
+</iosPods>
+</dependencies>

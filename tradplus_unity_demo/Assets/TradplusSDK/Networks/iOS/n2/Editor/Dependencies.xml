@@ -1,0 +1,6 @@
+<dependencies>
+<iosPods>
+<iosPod name ="TradPlusAdSDK/AdMobAdapter" version="9.3.0"/>
+<iosPod name ="Google-Mobile-Ads-SDK" version="10.3.0"/>
+</iosPods>
+</dependencies>
