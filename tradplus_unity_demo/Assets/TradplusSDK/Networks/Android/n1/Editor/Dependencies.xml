@@ -1,0 +1,14 @@
+<dependencies>
+<androidPackages>
+<androidPackage spec="androidx.legacy:legacy-support-v4:1.0.0">
+</androidPackage>
+<androidPackage spec="androidx.appcompat:appcompat:1.3.0-alpha02">
+</androidPackage>
+<androidPackage spec="com.tradplusad:tradplus:9.8.0.1">
+</androidPackage>
+<androidPackage spec="com.facebook.android:audience-network-sdk:6.14.0">
+</androidPackage>
+<androidPackage spec="com.tradplusad:tradplus-facebook:1.9.8.0.1">
+</androidPackage>
+</androidPackages>
+</dependencies>
