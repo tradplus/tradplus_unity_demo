@@ -1,6 +1,0 @@
-<dependencies>
-<iosPods>
-<iosPod name ="TradPlusAdSDK/UnityAdapter" version="8.7.0"/>
-<iosPod name ="UnityAds" version="4.4.1"/>
-</iosPods>
-</dependencies>

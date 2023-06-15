@@ -45,6 +45,12 @@
     [self.native setAdUnitID:adUnitID];
 }
 
+- (void)setLocalParams:(NSDictionary *)dic
+{
+    self.native.localParams = dic;
+    MSLogTrace(@"%s %@", __PRETTY_FUNCTION__,dic);
+}
+
 - (void)loadAd
 {
     MSLogTrace(@"%s", __PRETTY_FUNCTION__);

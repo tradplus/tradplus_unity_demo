@@ -133,7 +133,7 @@ public class BannerUI : MonoBehaviour
                     customMap.Add("segment_tag", "banner_segment_tag");
                     extra.customMap = customMap;
 
-                    Dictionary<string, string> localParams = new Dictionary<string, string>();
+                    Dictionary<string, object> localParams = new Dictionary<string, object>();
                     localParams.Add("user_id","banner_userId");
                     localParams.Add("custom_data", "banner_customData");
                     extra.localParams = localParams;

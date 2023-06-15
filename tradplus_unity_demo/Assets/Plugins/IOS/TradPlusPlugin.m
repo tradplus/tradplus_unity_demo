@@ -150,6 +150,27 @@ void TradplusSetLGPDConsent(bool consent)
     [[TPUSDKManager sharedInstance] setLGPDConsent:consent];
 }
 
+void TradplusOpenTradPlusTool()
+{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
+    Class TPMediationHelper = NSClassFromString(@"TPMediationHelper");
+    if(TPMediationHelper != nil)
+    {
+        if([TPMediationHelper respondsToSelector:@selector(open)])
+        {
+            [TPMediationHelper performSelector:@selector(open)];
+        }
+    }
+    else
+    {
+        NSLog(@"***************");
+        NSLog(@"no find TPMediationHelper SDK");
+        NSLog(@"***************");
+    }
+#pragma clang diagnostic pop
+}
+
 
 void TradplusSDKSetCallbacks(TPOnInitFinishCallback onInitFinishCallback,
                              TPOnDialogClosedCallback onDialogClosedCallback,
@@ -169,7 +190,7 @@ void TradplusSDKSetAdImpressionCallback(TPOnAdImpressionCallback onAdImpressionC
 
 #pragma mark - Interstitial
 
-void TradplusLoadInterstitialAd(const char* adUnitId,const char* customMap)
+void TradplusLoadInterstitialAd(const char* adUnitId,const char* customMap,const char* localParams)
 {
     NSString *jsonString = stringFromUTF8String(customMap);
     NSDictionary *dic = nil;
@@ -178,8 +199,15 @@ void TradplusLoadInterstitialAd(const char* adUnitId,const char* customMap)
         NSData *data = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
         dic = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
     }
+    NSString *localParamsString = stringFromUTF8String(localParams);
+    NSDictionary *localParamsDic = nil;
+    if(localParamsString != nil)
+    {
+        NSData *data = [localParamsString dataUsingEncoding:NSUTF8StringEncoding];
+        localParamsDic = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+    }
     NSString *adUnitIDStr = stringFromUTF8String(adUnitId);
-    [[TPUInterstitialManager sharedInstance] loadWithAdUnitID:adUnitIDStr customMap:dic];
+    [[TPUInterstitialManager sharedInstance] loadWithAdUnitID:adUnitIDStr customMap:dic localParams:localParamsDic];
 }
 
 void TradplusShowInterstitialAd(const char* adUnitId,const char* sceneId)
@@ -252,7 +280,7 @@ void TradplusInterstitialSetCallbacks(TPInterstitialLoadedCallback adLoadedCallb
 
 #pragma mark - RewardVideo
 
-void TradplusLoadRewardVideoAd(const char* adUnitId,const char* userId,const char* customData,const char* customMap)
+void TradplusLoadRewardVideoAd(const char* adUnitId,const char* userId,const char* customData,const char* customMap,const char* localParams)
 {
     NSString *jsonString = stringFromUTF8String(customMap);
     NSDictionary *dic = nil;
@@ -264,7 +292,14 @@ void TradplusLoadRewardVideoAd(const char* adUnitId,const char* userId,const cha
     NSString *adUnitIDStr = stringFromUTF8String(adUnitId);
     NSString *userIDStr = stringFromUTF8String(userId);
     NSString *customDataStr = stringFromUTF8String(customData);
-    [[TPURewardVideoManager sharedInstance] loadWithAdUnitID:adUnitIDStr userId:userIDStr customData:customDataStr customMap:dic];
+    NSString *localParamsString = stringFromUTF8String(localParams);
+    NSDictionary *localParamsDic = nil;
+    if(localParamsString != nil)
+    {
+        NSData *data = [localParamsString dataUsingEncoding:NSUTF8StringEncoding];
+        localParamsDic = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+    }
+    [[TPURewardVideoManager sharedInstance] loadWithAdUnitID:adUnitIDStr userId:userIDStr customData:customDataStr customMap:dic localParams:localParamsDic];
 }
 
 void TradplusShowRewardVideoAd(const char* adUnitId,const char* sceneId)
@@ -351,7 +386,7 @@ void TradplusRewardVideoSetCallbacks(TPRewardVideoLoadedCallback adLoadedCallbac
 
 #pragma mark - Offerwall
 
-void TradplusLoadOfferwallAd(const char* adUnitId,const char* customMap)
+void TradplusLoadOfferwallAd(const char* adUnitId,const char* customMap,const char* localParams)
 {
     NSString *jsonString = stringFromUTF8String(customMap);
     NSDictionary *dic = nil;
@@ -360,8 +395,15 @@ void TradplusLoadOfferwallAd(const char* adUnitId,const char* customMap)
         NSData *data = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
         dic = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
     }
+    NSString *localParamsString = stringFromUTF8String(localParams);
+    NSDictionary *localParamsDic = nil;
+    if(localParamsString != nil)
+    {
+        NSData *data = [localParamsString dataUsingEncoding:NSUTF8StringEncoding];
+        localParamsDic = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+    }
     NSString *adUnitIDStr = stringFromUTF8String(adUnitId);
-    [[TPUOfferwallManager sharedInstance] loadWithAdUnitID:adUnitIDStr customMap:dic];
+    [[TPUOfferwallManager sharedInstance] loadWithAdUnitID:adUnitIDStr customMap:dic localParams:localParamsDic];
 }
 
 void TradplusShowOfferwallAd(const char* adUnitId,const char* sceneId)
@@ -465,7 +507,7 @@ void TradplusOfferwallSetCallbacks(TPOfferwallLoadedCallback adLoadedCallback,
 
 #pragma mark - Banner
 
-void TradplusLoadBannerAd(const char* adUnitId, bool closeAutoShow, float x, float y, float width, float height,int adPosition,int contentMode, const char* sceneId, const char* customMap,const char* className)
+void TradplusLoadBannerAd(const char* adUnitId, bool closeAutoShow, float x, float y, float width, float height,int adPosition,int contentMode, const char* sceneId, const char* customMap,const char* className,const char* localParams)
 {
     NSString *jsonString = stringFromUTF8String(customMap);
     NSDictionary *dic = nil;
@@ -474,10 +516,17 @@ void TradplusLoadBannerAd(const char* adUnitId, bool closeAutoShow, float x, flo
         NSData *data = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
         dic = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
     }
+    NSString *localParamsString = stringFromUTF8String(localParams);
+    NSDictionary *localParamsDic = nil;
+    if(localParamsString != nil)
+    {
+        NSData *data = [localParamsString dataUsingEncoding:NSUTF8StringEncoding];
+        localParamsDic = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+    }
     NSString *adUnitIDStr = stringFromUTF8String(adUnitId);
     NSString *sceneIdStr = stringFromUTF8String(sceneId);
     NSString *classNameStr = stringFromUTF8String(className);
-    [[TPUBannerManager sharedInstance] loadWithAdUnitID:adUnitIDStr closeAutoShow:closeAutoShow x:x y:y width:width height:height adPosition:adPosition contentMode:contentMode sceneId:sceneIdStr customMap:dic className:classNameStr];
+    [[TPUBannerManager sharedInstance] loadWithAdUnitID:adUnitIDStr closeAutoShow:closeAutoShow x:x y:y width:width height:height adPosition:adPosition contentMode:contentMode sceneId:sceneIdStr customMap:dic className:classNameStr localParams:localParamsDic];
 }
 
 void TradplusShowBannerAd(const char* adUnitId,const char* sceneId)
@@ -564,7 +613,7 @@ void TradplusBannerSetCallbacks(TPBannerLoadedCallback adLoadedCallback,
 
 #pragma mark - Native
 
-void TradplusLoadNativeAd(const char* adUnitId, float x, float y, float width, float height,int adPosition, const char* customMap)
+void TradplusLoadNativeAd(const char* adUnitId, float x, float y, float width, float height,int adPosition, const char* customMap,const char* localParams)
 {
     NSString *jsonString = stringFromUTF8String(customMap);
     NSDictionary *dic = nil;
@@ -573,8 +622,15 @@ void TradplusLoadNativeAd(const char* adUnitId, float x, float y, float width, f
         NSData *data = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
         dic = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
     }
+    NSString *localParamsString = stringFromUTF8String(localParams);
+    NSDictionary *localParamsDic = nil;
+    if(localParamsString != nil)
+    {
+        NSData *data = [localParamsString dataUsingEncoding:NSUTF8StringEncoding];
+        localParamsDic = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+    }
     NSString *adUnitIDStr = stringFromUTF8String(adUnitId);
-    [[TPUNativeManager sharedInstance] loadWithAdUnitID:adUnitIDStr x:x y:y width:width height:height adPosition:adPosition customMap:dic];
+    [[TPUNativeManager sharedInstance] loadWithAdUnitID:adUnitIDStr x:x y:y width:width height:height adPosition:adPosition customMap:dic localParams:localParamsDic];
 }
 
 void TradplusShowNativeAd(const char* adUnitId,const char* sceneId,const char* className)
@@ -666,7 +722,7 @@ void TradplusNativeSetCallbacks(TPNativeLoadedCallback adLoadedCallback,
 
 #pragma mark - NativeBanner
 
-void TradplusLoadNativeBannerAd(const char* adUnitId, bool closeAutoShow, float x, float y, float width, float height,int adPosition, const char* sceneId, const char* customMap,const char* className)
+void TradplusLoadNativeBannerAd(const char* adUnitId, bool closeAutoShow, float x, float y, float width, float height,int adPosition, const char* sceneId, const char* customMap,const char* className,const char* localParams)
 {
     NSString *jsonString = stringFromUTF8String(customMap);
     NSDictionary *dic = nil;
@@ -675,10 +731,17 @@ void TradplusLoadNativeBannerAd(const char* adUnitId, bool closeAutoShow, float 
         NSData *data = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
         dic = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
     }
+    NSString *localParamsString = stringFromUTF8String(localParams);
+    NSDictionary *localParamsDic = nil;
+    if(localParamsString != nil)
+    {
+        NSData *data = [localParamsString dataUsingEncoding:NSUTF8StringEncoding];
+        localParamsDic = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+    }
     NSString *adUnitIDStr = stringFromUTF8String(adUnitId);
     NSString *sceneIdStr = stringFromUTF8String(sceneId);
     NSString *classNameStr = stringFromUTF8String(className);
-    [[TPUNativeBannerManager sharedInstance] loadWithAdUnitID:adUnitIDStr closeAutoShow:closeAutoShow x:x y:y width:width height:height adPosition:adPosition sceneId:sceneIdStr customMap:dic className:classNameStr];
+    [[TPUNativeBannerManager sharedInstance] loadWithAdUnitID:adUnitIDStr closeAutoShow:closeAutoShow x:x y:y width:width height:height adPosition:adPosition sceneId:sceneIdStr customMap:dic className:classNameStr localParams:localParamsDic];
 }
 
 void TradplusShowNativeBannerAd(const char* adUnitId,const char* sceneId)

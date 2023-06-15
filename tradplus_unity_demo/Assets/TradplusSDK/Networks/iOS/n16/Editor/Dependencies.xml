@@ -1,6 +1,0 @@
-<dependencies>
-<iosPods>
-<iosPod name ="TradPlusAdSDK/GDTMobAdapter" version="8.7.0"/>
-<iosPod name ="GDTMobSDK" version="4.14.02"/>
-</iosPods>
-</dependencies>

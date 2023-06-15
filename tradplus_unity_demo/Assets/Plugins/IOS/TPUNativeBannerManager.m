@@ -44,7 +44,7 @@
     return nil;
 }
 
-- (void)loadWithAdUnitID:(NSString *)adUnitID closeAutoShow:(BOOL)closeAutoShow x:(float)x y:(float)y width:(float)width height:(float)height adPosition:(int)adPosition sceneId:(NSString *)sceneId customMap:(NSDictionary *)customMap className:(NSString *)className
+- (void)loadWithAdUnitID:(NSString *)adUnitID closeAutoShow:(BOOL)closeAutoShow x:(float)x y:(float)y width:(float)width height:(float)height adPosition:(int)adPosition sceneId:(NSString *)sceneId customMap:(NSDictionary *)customMap className:(NSString *)className localParams:(NSDictionary *)localParams
 {
     if(adUnitID == nil)
     {
@@ -57,13 +57,14 @@
         nativeBanner = [[TPUNativeBanner alloc] init];
         self.nativeBannerAds[adUnitID] = nativeBanner;
     }
+    [nativeBanner setAdUnitID:adUnitID];
     [nativeBanner setCustomMap:customMap];
+    [nativeBanner setLocalParams:localParams];
     CGSize size = CGSizeZero;
     size.width = width;
     size.height = height;
     [nativeBanner setNativeBannerSize:size];
     [nativeBanner setX:x y:y adPosition:adPosition];
-    [nativeBanner setAdUnitID:adUnitID];
     nativeBanner.closeAutoShow = closeAutoShow;
     nativeBanner.className = className;
     [nativeBanner loadAdWithSceneId:sceneId];

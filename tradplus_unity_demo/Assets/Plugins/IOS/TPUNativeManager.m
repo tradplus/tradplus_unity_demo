@@ -44,7 +44,7 @@
     return nil;
 }
 
-- (void)loadWithAdUnitID:(NSString *)adUnitID x:(float)x y:(float)y width:(float)width height:(float)height adPosition:(int)adPosition customMap:(NSDictionary *)customMap
+- (void)loadWithAdUnitID:(NSString *)adUnitID x:(float)x y:(float)y width:(float)width height:(float)height adPosition:(int)adPosition customMap:(NSDictionary *)customMap localParams:(NSDictionary *)localParams
 {
     if(adUnitID == nil)
     {
@@ -57,13 +57,14 @@
         native = [[TPUNative alloc] init];
         self.nativeAds[adUnitID] = native;
     }
-    [native setAdUnitID:adUnitID];
     [native setCustomMap:customMap];
     CGSize size = CGSizeZero;
     size.width = width;
     size.height = height;
     [native setTemplateRenderSize:size];
     [native setX:x y:y adPosition:adPosition];
+    [native setLocalParams:localParams];
+    [native setAdUnitID:adUnitID];
     [native loadAd];
 }
 

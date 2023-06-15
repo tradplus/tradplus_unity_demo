@@ -1,6 +1,0 @@
-<dependencies>
-<iosPods>
-<iosPod name ="TradPlusAdSDK/IronSourceAdapter" version="8.7.0"/>
-<iosPod name ="IronSourceSDK" version="7.2.6.0"/>
-</iosPods>
-</dependencies>

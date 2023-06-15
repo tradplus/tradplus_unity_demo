@@ -16,6 +16,5 @@ namespace Tardplus.TradplusEditorManager.Editor
         {
             Application.OpenURL("https://docs.tradplusad.com/docs/doc_u3d/u3d_integration/setting_plugin");
         }
-
     }
 }

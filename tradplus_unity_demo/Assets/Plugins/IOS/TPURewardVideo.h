@@ -20,6 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)showAdWithSceneId:(nullable NSString *)sceneId;
 - (void)entryAdScenario:(nullable NSString *)sceneId;
 - (void)setCustomAdInfo:(NSDictionary *)customAdInfo;
+- (void)setLocalParams:(NSDictionary *)dic;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -24,7 +24,7 @@ namespace TradplusSDK.iOS
         }
 
         [DllImport("__Internal")]
-        private static extern void TradplusLoadInterstitialAd(string adUnitId,string customMap);
+        private static extern void TradplusLoadInterstitialAd(string adUnitId,string customMap,string localParams);
         public void LoadInterstitialAd(string adUnitId, TPInterstitialExtra extra)
         {
             string customMapString = null;
@@ -32,7 +32,12 @@ namespace TradplusSDK.iOS
             {
                 customMapString = Json.Serialize(extra.customMap);
             }
-            TradplusLoadInterstitialAd(adUnitId, customMapString);
+            string localParamsString = null;
+            if (extra.localParams != null)
+            {
+                localParamsString = Json.Serialize(extra.localParams);
+            }
+            TradplusLoadInterstitialAd(adUnitId, customMapString, localParamsString);
         }
 
         [DllImport("__Internal")]

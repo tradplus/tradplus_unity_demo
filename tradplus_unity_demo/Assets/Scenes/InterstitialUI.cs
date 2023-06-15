@@ -52,7 +52,7 @@ public class InterstitialUI : MonoBehaviour
                 customMap.Add("segment_tag", "interstitial_segment_tag");
                 extra.customMap = customMap;
 
-                Dictionary<string, string> localParams = new Dictionary<string, string>();
+                Dictionary<string, object> localParams = new Dictionary<string, object>();
                 localParams.Add("user_id", "interstitial_userId");
                 localParams.Add("custom_data", "interstitial_customData");
                 extra.localParams = localParams;

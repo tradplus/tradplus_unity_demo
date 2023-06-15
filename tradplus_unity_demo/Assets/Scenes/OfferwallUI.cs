@@ -54,7 +54,7 @@ public class OfferwallUI : MonoBehaviour
                 customMap.Add("segment_tag", "offerWall_segment_tag");
                 extra.customMap = customMap;
 
-                Dictionary<string, string> localParams = new Dictionary<string, string>();
+                Dictionary<string, object> localParams = new Dictionary<string, object>();
                 localParams.Add("user_id", "offerwall_userId");
                 localParams.Add("custom_data", "offerwall_customData");
                 extra.localParams = localParams;

@@ -21,6 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)entryAdScenario:(nullable NSString *)sceneId;
 - (void)setBannerSize:(CGSize)size;
 - (void)setBannerContentMode:(NSInteger)mode;
+- (void)setLocalParams:(NSDictionary *)dic;
 - (void)setX:(float)x y:(float)y adPosition:(int)adPosition;
 - (void)hide;
 - (void)display;

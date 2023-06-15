@@ -57,7 +57,7 @@ namespace TradplusSDK.Api
         ///<summary>
         ///特殊参数，仅Android支持
         ///</summary>
-        public Dictionary<string, string> localParams;
+        public Dictionary<string, object> localParams;
         public TPNativeExtra()
         {
             width = 320;

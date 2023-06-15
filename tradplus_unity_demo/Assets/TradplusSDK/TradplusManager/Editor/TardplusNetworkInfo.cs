@@ -51,6 +51,16 @@ namespace Tardplus.TradplusEditorManager.Editor
         }
     }
 
+    [Serializable]
+    public class TardplusSKAdNetworkInfo
+    {
+        public string platform;
+        public string url;
+        public string last_check;
+        public string uid;
+        public List<string> skadnetwork_ids;
+    }
+
     public class TardplusNetworkInfo
     {
         public List<TardplusNetworkDesc> networkList = new List<TardplusNetworkDesc>();
@@ -75,15 +85,15 @@ namespace Tardplus.TradplusEditorManager.Editor
                 //MTG国内特殊处理
                 if (Equals(network.uniqueNetworkId, "c18"))
                 {
-                    desc.nameEn = network.nameEn + " 国内";
+                    desc.nameEn = network.nameEn + "-CN 国内";
                 }
                 else if (Equals(network.uniqueNetworkId, "c27"))
                 {
-                    desc.nameEn = "Cross 国内";
+                    desc.nameEn = "Cross-CN 国内";
                 }
                 else if (Equals(network.uniqueNetworkId, "c41"))
                 {
-                    desc.nameEn = network.nameEn + " 国内";
+                    desc.nameEn = network.nameEn + "-CN 国内";
                 }
                 else
                 {
@@ -117,7 +127,13 @@ namespace Tardplus.TradplusEditorManager.Editor
                 string networkUniqueNetworkId = saveInfo.uniqueNetworkId.ToLower().Replace(" ", "");
                 if (Equals(itemUniqueNetworkId, networkUniqueNetworkId))
                 {
-                    if(saveInfo.os == 1)
+                    //移除ADX
+                    if (Equals(itemUniqueNetworkId, "n40"))
+                    {
+                        TradplusEditorManager.Instance().removeNetwork(networkUniqueNetworkId, saveInfo.os, desc);
+                        return;
+                    }
+                    if (saveInfo.os == 1)
                     {
                         desc.android_update = false;
                         desc.has_Android = true;
@@ -172,5 +188,7 @@ namespace Tardplus.TradplusEditorManager.Editor
             }
             AssetDatabase.Refresh();
         }
+
+
     }
 }

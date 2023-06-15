@@ -80,6 +80,15 @@ public class Configure
         }
     }
 
+    private static string interActiveUnitId;
+    public string InterActiveUnitId
+    {
+        get
+        {
+            return interActiveUnitId;
+        }
+    }
+
     public void ShowLog(string logStr)
     {
         Debug.LogWarning(logStr);
@@ -181,6 +190,15 @@ public class Configure
         }
     }
 
+    private static string interactiveSceneId;
+    public string InterActiveSceneId
+    {
+        get
+        {
+            return interactiveSceneId;
+        }
+    }
+
     public Configure()
     {
         mainCustomMap = new Dictionary<string, string>();
@@ -214,6 +232,7 @@ public class Configure
         nativeUnitId = "DDBF26FBDA47FBE2765F1A089F1356BF";
         nativeBannerUnitId = "9F4D76E204326B16BD42FA877AFE8E7D";
         offerwallUnitId = "4F7F1B9288B2FD513C8549A4A9F5D60F";
+        interActiveUnitId = "EA55BF39C860B46B2E92B48F4C521368";
 
         mainCustomMap.Add("user_id", "test_user_id");
         mainCustomMap.Add("user_age", "19");
@@ -228,6 +247,7 @@ public class Configure
         rewardVideoSceneId = "567";//测试
         nativeSceneId = "789";//测试
         nativeBannerSceneId = "2333333";
+        interactiveSceneId = "22222333";
 #endif
     }
 }

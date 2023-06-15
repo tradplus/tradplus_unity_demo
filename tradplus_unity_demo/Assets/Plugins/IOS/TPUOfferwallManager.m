@@ -44,7 +44,7 @@
     return nil;
 }
 
-- (void)loadWithAdUnitID:(NSString *)adUnitID customMap:(NSDictionary *)customMap
+- (void)loadWithAdUnitID:(NSString *)adUnitID customMap:(NSDictionary *)customMap localParams:(NSDictionary *)localParams
 {
     if(adUnitID == nil)
     {
@@ -57,8 +57,9 @@
         offerwall = [[TPUOfferwall alloc] init];
         self.offerwallAds[adUnitID] = offerwall;
     }
-    [offerwall setAdUnitID:adUnitID];
     [offerwall setCustomMap:customMap];
+    [offerwall setLocalParams:localParams];
+    [offerwall setAdUnitID:adUnitID];
     [offerwall loadAd];
 }
 

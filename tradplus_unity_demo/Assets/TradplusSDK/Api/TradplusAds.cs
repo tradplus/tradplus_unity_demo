@@ -17,7 +17,7 @@ namespace TradplusSDK.Api
 
     public class TradplusAds
     {
-        public static string PluginVersion = "1.0.5";
+        public static string PluginVersion = "1.1.1";
 
         private static TradplusAds _instance;
 
@@ -161,9 +161,9 @@ namespace TradplusSDK.Api
         ///TradplusSDK GDPR隐私授权页面
         ///需要监听回调 OnDialogClosed 获取页面关闭及状态
         ///</summary>
-        public void ShowGDPRDialog()
+        public void ShowGDPRDialog(string url = "")
         {
-            TPAds.Instance().ShowGDPRDialog();
+            TPAds.Instance().ShowGDPRDialog(url);
         }
 
         ///<summary>
@@ -213,14 +213,23 @@ namespace TradplusSDK.Api
         {
             TPAds.Instance().SetCnServer(onlyCn);
         }
+        ///<summary>
+        ///打开测试工具 集成方法参考：
+        ///iOS https://docs.tradplusad.com/docs/integration_ios/sdk_test_android/test_tool/
+        ///android https://docs.tradplusad.com/docs/tradplussdk_android_doc_v6/sdk_test_android/test_tool
+        ///</summary>
+        public void openTradPlusTool(string appId)
+        {
+            TPAds.Instance().OpenTradPlusTool(appId);
+        }
 
 
 /// 仅android支持的API
 
-        ///<summary>
-        ///选择是否开启自动加载重新load广告时，是否延迟2秒，bool isopen, 默认false 不使用延迟2s
-        ///仅android支持
-        ///</summary>
+///<summary>
+///选择是否开启自动加载重新load广告时，是否延迟2秒，bool isopen, 默认false 不使用延迟2s
+///仅android支持
+///</summary>
         public void SetOpenDelayLoadAds(bool isOpen)
         {
 #if UNITY_ANDROID
@@ -261,15 +270,6 @@ namespace TradplusSDK.Api
 #endif
         }
 
-        ///<summary>
-        ///android 设置测试设备，仅android支持
-        ///</summary>
-        public void SetTestDevice(bool testDevice, string testModeId = null)
-        {
-#if UNITY_ANDROID
-            TPAds.Instance().SetTestDevice(testDevice, testModeId);
-#endif
-        }
 
         ///<summary>
         ///设置是否第一次show GDPR弹框, 仅支持 android

@@ -1,6 +1,0 @@
-<dependencies>
-<iosPods>
-<iosPod name ="TradPlusAdSDK/PangleAdapter" version="8.7.0"/>
-<iosPod name ="Ads-Global/BUAdSDK_Compatible" version="4.8.1.0"/>
-</iosPods>
-</dependencies>

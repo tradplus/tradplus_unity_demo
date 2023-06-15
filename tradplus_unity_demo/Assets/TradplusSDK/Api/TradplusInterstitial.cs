@@ -30,9 +30,9 @@ namespace TradplusSDK.Api
         ///</summary>
         public Dictionary<string, string> customMap;
         ///<summary>
-        ///特殊参数，仅Android支持
+        ///本地参数
         ///</summary>
-        public Dictionary<string, string> localParams; 
+        public Dictionary<string, object> localParams; 
         public TPInterstitialExtra()
         {
         }

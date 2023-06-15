@@ -112,7 +112,7 @@ public class NativeUI : MonoBehaviour
                     customMap.Add("segment_tag", "native_segment_tag");
                     extra.customMap = customMap;
 
-                    Dictionary<string, string> localParams = new Dictionary<string, string>();
+                    Dictionary<string, object> localParams = new Dictionary<string, object>();
                     localParams.Add("user_id", "native_userId");
                     localParams.Add("custom_data", "native_customData");
                     extra.localParams = localParams;

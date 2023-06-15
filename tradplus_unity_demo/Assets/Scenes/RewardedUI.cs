@@ -53,7 +53,7 @@ public class RewardedUI : MonoBehaviour
                 customMap.Add("segment_tag", "rewardVideo_segment_tag");
                 extra.customMap = customMap;
 
-                Dictionary<string, string> localParams = new Dictionary<string, string>();
+                Dictionary<string, object> localParams = new Dictionary<string, object>();
                 localParams.Add("user_id", "rewardVideo_userId");
                 localParams.Add("custom_data", "rewardVideo_customData");
                 extra.localParams = localParams;

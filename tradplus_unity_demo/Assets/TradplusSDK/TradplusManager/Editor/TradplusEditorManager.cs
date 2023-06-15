@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Text;
 using System;
+using TradplusSDK.ThirdParty.MiniJSON;
+using TradplusSDK.Api;
 
 namespace Tardplus.TradplusEditorManager.Editor
 {
@@ -15,9 +17,6 @@ namespace Tardplus.TradplusEditorManager.Editor
         private static TradplusEditorManager _instance;
 
         public static string[] specialPodArray = { "KSAdSDK", "OgurySdk", "HyBid", "smaato-ios-sdk", "BaiduMobAdSDK", "BigoADS" };
-
-        private static int iOSMinSDKID = 71;
-        private static int androidMinSDKID = 139;
 
         public static TradplusEditorManager Instance()
         {
@@ -30,7 +29,7 @@ namespace Tardplus.TradplusEditorManager.Editor
 
         public TardplusConfigModel configInfo;
 
-        private string savePath = Application.dataPath + "/TradplusSdk/Networks/";
+        private string savePath = Application.dataPath + "/TradplusSDK/Networks/";
         private string mainfestPath = Application.dataPath + "/Plugins/Android/";
         private string configPath;
 
@@ -40,11 +39,29 @@ namespace Tardplus.TradplusEditorManager.Editor
 
         public List<string> iOSVersionNameList;
         public List<int> iOSVersionIndexList;
+        public bool iOSNoVersionError;
+        public bool iOSUseVersionOff;
 
         public List<string> AndroidVersionNameList;
         public List<int> AndroidVersionIndexList;
+        public bool AndroidNoVersionError;
+        public bool AndroidUseVersionOff;
 
         public TardplusNetworkInfo networkInfo = new TardplusNetworkInfo();
+
+        private bool _SKAdNetworkList;
+
+        public bool SKAdNetworkList
+        {
+            get
+            {
+                return _SKAdNetworkList;
+            }
+            set
+            {
+                _SKAdNetworkList = value;
+            }
+        }
 
         private bool _closeBitCode;
 
@@ -135,8 +152,9 @@ namespace Tardplus.TradplusEditorManager.Editor
             saveData.iOSAdmobAppID = _iOSAdmobAppID;
             saveData.closeBitCode = _closeBitCode;
             saveData.openHttp = _openHttp;
+            saveData.SKAdNetworkList = _SKAdNetworkList;
             string saveJson = JsonUtility.ToJson(saveData);
-            File.WriteAllText(configPath + "TPSaveData.json", saveJson);
+            File.WriteAllText(Application.dataPath + "/TradplusSDK/TradplusManager/Editor/" + "TPSaveData.json", saveJson);
         }
 
         public void Clear()
@@ -153,6 +171,7 @@ namespace Tardplus.TradplusEditorManager.Editor
         {
             _openHttp = true;
             _closeBitCode = false;
+            _SKAdNetworkList = false;
             _iOSAdmobAppID = "";
             _AndroidAdmobAppID = "";
             _APPLovinSDKKey = "";
@@ -167,6 +186,7 @@ namespace Tardplus.TradplusEditorManager.Editor
                     TardplusLocalData saveData = JsonUtility.FromJson<TardplusLocalData>(json);
                     _openHttp = saveData.openHttp;
                     closeBitCode = saveData.closeBitCode;
+                    SKAdNetworkList = saveData.SKAdNetworkList;
                     _iOSAdmobAppID = saveData.iOSAdmobAppID;
                     _AndroidAdmobAppID = saveData.AndroidAdmobAppID;
                     _APPLovinSDKKey = saveData.APPLovinSDKKey;
@@ -175,12 +195,14 @@ namespace Tardplus.TradplusEditorManager.Editor
                     break;
                 }
             }
-            GetSDKVersionInfo();
         }
         List<TPVersion> androidVersions;
         //获取SDK版本列表
         private void GetSDKVersionInfo()
         {
+            iOSNoVersionError = false;
+            AndroidNoVersionError = false;
+
             WWWForm form = new WWWForm();
             form.AddField("os", "0");
             TardplusCoroutine.StartCoroutine("https://docs.tradplusad.com/api/sdk/list", form, (callback =>
@@ -194,40 +216,87 @@ namespace Tardplus.TradplusEditorManager.Editor
                     iOSVersionNameList = new List<string>();
                     iOSVersionIndexList = new List<int>();
                     int i = 0;
-                    foreach(TPVersion item in versionInfo.data.iosVersions)
+                    iOSUseVersionOff = true;
+                    int iOSSdkId = 0;
+                    int.TryParse(configInfo.iOS.sdkId, out iOSSdkId);
+                    foreach (TPVersion item in versionInfo.data.iosVersions)
                     {
-                        int sdkId = 0;
-                        if(int.TryParse(item.sdkId,out sdkId))
+                        if (item.extra_info != null && item.extra_info.Length > 0)
                         {
-                            if (sdkId >= iOSMinSDKID)
+                            Dictionary<string, object> extraInfo = Json.Deserialize(item.extra_info) as Dictionary<string, object>;
+                            if (extraInfo != null && extraInfo.ContainsKey("u3d_version"))
                             {
-                                iOSVersionNameList.Add(item.version);
-                                iOSVersionIndexList.Add(i);
-                                i++;
+                                string u3dVersionStr = extraInfo["u3d_version"].ToString();
+                                string[] u3dVersionList = u3dVersionStr.Split(';');
+                                if (u3dVersionList != null && u3dVersionList.Length > 0)
+                                {
+                                    if (u3dVersionList.Contains(TradplusAds.PluginVersion))
+                                    {
+                                        int sdkId = 0;
+                                        if (int.TryParse(item.sdkId, out sdkId))
+                                        {
+                                            if (sdkId == iOSSdkId)
+                                            {
+                                                iOSUseVersionOff = false;
+                                            }
+                                            iOSVersionNameList.Add(item.version);
+                                            iOSVersionIndexList.Add(i);
+                                            i++;
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
+                    if (iOSVersionNameList.Count == 0)
+                    {
+                        iOSNoVersionError = true;
+                    }
+
+
                     AndroidVersionNameList = new List<string>();
                     AndroidVersionIndexList = new List<int>();
                     i = 0;
-
                     androidVersions = new List<TPVersion>();
+                    AndroidUseVersionOff = true;
+                    int AndroidSdkId = 0;
+                    int.TryParse(configInfo.Android.sdkId,out AndroidSdkId); 
                     foreach (TPVersion item in versionInfo.data.androidVersions)
                     {
                         if (item.isAndroidX == 1)
                         {
-                            int sdkId = 0;
-                            if (int.TryParse(item.sdkId, out sdkId))
+                            if (item.extra_info != null && item.extra_info.Length > 0)
                             {
-                                if (sdkId >= androidMinSDKID)
+                                Dictionary<string, object> extraInfo = Json.Deserialize(item.extra_info) as Dictionary<string, object>;
+                                if (extraInfo != null && extraInfo.ContainsKey("u3d_version"))
                                 {
-                                    AndroidVersionNameList.Add(item.version);
-                                    AndroidVersionIndexList.Add(i);
-                                    androidVersions.Add(item);
-                                    i++;
+                                    string u3dVersionStr = extraInfo["u3d_version"].ToString();
+                                    string[] u3dVersionList = u3dVersionStr.Split(';');
+                                    if (u3dVersionList != null && u3dVersionList.Length > 0)
+                                    {
+                                        if (u3dVersionList.Contains(TradplusAds.PluginVersion))
+                                        {
+                                            int sdkId = 0;
+                                            if (int.TryParse(item.sdkId, out sdkId))
+                                            {
+                                                if (sdkId == AndroidSdkId)
+                                                {
+                                                    AndroidUseVersionOff = false;
+                                                }
+                                                AndroidVersionNameList.Add(item.version);
+                                                AndroidVersionIndexList.Add(i);
+                                                androidVersions.Add(item);
+                                                i++;
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
+                    }
+                    if(AndroidVersionNameList.Count == 0)
+                    {
+                        AndroidNoVersionError = true;
                     }
                     versionInfo.data.androidVersions = androidVersions.ToArray();
 
@@ -306,7 +375,6 @@ namespace Tardplus.TradplusEditorManager.Editor
                     int start = name.IndexOf('\'') + 1;
                     int end = name.LastIndexOf('\'');
                     name = name.Substring(start, end - start);
-
                     if (specialPodArray.Contains(name))
                     {
                         TardplusSaveIOSPodInfo podInfo = new TardplusSaveIOSPodInfo();
@@ -314,6 +382,58 @@ namespace Tardplus.TradplusEditorManager.Editor
                         podInfo.podStr = str;
                         string json = JsonUtility.ToJson(podInfo);
                         File.WriteAllText(savePath + "TPPodInfo.json", json);
+                    }
+                    //Fyber 820 版本为动态库
+                    else if(Equals("Fyber_Marketplace_SDK", name))
+                    {
+                        string version = array[1];
+                        start = version.IndexOf('\'') + 1;
+                        end = version.LastIndexOf('\'');
+                        version = version.Substring(start, end - start);
+                        string tempVersion = version;
+                        tempVersion = tempVersion.Replace(".","");
+                        if(tempVersion.Length > 3)
+                        {
+                            tempVersion = tempVersion.Substring(0,3);
+                        }
+                        if (int.Parse(tempVersion) >= 820)
+                        {
+                            TardplusSaveIOSPodInfo podInfo = new TardplusSaveIOSPodInfo();
+                            podInfo.nameEn = desc.nameEn;
+                            podInfo.podStr = str;
+                            string json = JsonUtility.ToJson(podInfo);
+                            File.WriteAllText(savePath + "TPPodInfo.json", json);
+                        }
+                        else
+                        {
+                            podConfig += "<iosPod name =\"" + name + "\" version=\"" + version + "\"/>\n";
+                        }
+                    }
+                    //Start.io 4.9.1 版本为动态库
+                    else if (Equals("StartAppSDK", name))
+                    {
+                        string version = array[1];
+                        start = version.IndexOf('\'') + 1;
+                        end = version.LastIndexOf('\'');
+                        version = version.Substring(start, end - start);
+                        string tempVersion = version;
+                        tempVersion = tempVersion.Replace(".", "");
+                        if (tempVersion.Length > 3)
+                        {
+                            tempVersion = tempVersion.Substring(0, 3);
+                        }
+                        if (int.Parse(tempVersion) >= 491)
+                        {
+                            TardplusSaveIOSPodInfo podInfo = new TardplusSaveIOSPodInfo();
+                            podInfo.nameEn = desc.nameEn;
+                            podInfo.podStr = str;
+                            string json = JsonUtility.ToJson(podInfo);
+                            File.WriteAllText(savePath + "TPPodInfo.json", json);
+                        }
+                        else
+                        {
+                            podConfig += "<iosPod name =\"" + name + "\" version=\"" + version + "\"/>\n";
+                        }
                     }
                     else if (!Equals("TradPlusAdSDK", name))
                     {
@@ -472,6 +592,7 @@ namespace Tardplus.TradplusEditorManager.Editor
         {
             if(os == 1)
             {
+                AndroidUseVersionOff = false;
                 configInfo.Android.sdkId = version.sdkId;
                 configInfo.Android.sdkVersion = version.version;
                 Android_NetworkInfo = networkModel;
@@ -495,6 +616,7 @@ namespace Tardplus.TradplusEditorManager.Editor
             }
             else
             {
+                iOSUseVersionOff = false;
                 configInfo.iOS.sdkId = version.sdkId;
                 configInfo.iOS.sdkVersion = version.version;
                 iOS_NetworkInfo = networkModel;
@@ -517,8 +639,8 @@ namespace Tardplus.TradplusEditorManager.Editor
                 }
             }
 
-
             GetHisData();
+            AddDefNetwork();
             networkInfo.UpdateHisNetWorkInfo();
         }
 
@@ -565,7 +687,6 @@ namespace Tardplus.TradplusEditorManager.Editor
                     FileUtil.DeleteFileOrDirectory(tempPath);
                     File.Delete(tempPath + ".meta");
                 }
-                AssetDatabase.Refresh();
             }
             else
             {
@@ -613,6 +734,8 @@ namespace Tardplus.TradplusEditorManager.Editor
                 return;
             }
 
+            GetSDKVersionInfo();
+
             //iOS
             WWWForm form = new WWWForm();
             form.AddField("os", configInfo.iOS.os);
@@ -651,20 +774,48 @@ namespace Tardplus.TradplusEditorManager.Editor
             if(netState == 0 && iOS_NetworkInfo != null && Android_NetworkInfo != null)
             {
                 //Android
-                foreach (Network network in Android_NetworkInfo.data.networks)
+                if (Android_NetworkInfo != null && Android_NetworkInfo.data != null && Android_NetworkInfo.data.networks != null)
                 {
-                    networkInfo.AddNetwork(network, 1);
+                    foreach (Network network in Android_NetworkInfo.data.networks)
+                    {
+                        networkInfo.AddNetwork(network, 1);
+                    }
                 }
                 //iOS
-                foreach (Network network in iOS_NetworkInfo.data.networks)
+                if(iOS_NetworkInfo != null && iOS_NetworkInfo.data != null && iOS_NetworkInfo.data.networks != null)
                 {
-                    networkInfo.AddNetwork(network, 2);
+                    foreach (Network network in iOS_NetworkInfo.data.networks)
+                    {
+                        networkInfo.AddNetwork(network, 2);
+                    }
                 }
                 networkInfo.networkList.Sort((x,y)=> { return x.nameEn.CompareTo(y.nameEn); });
                 netState = 1;
                 //获取本地历史数据
                 GetHisData();
+                //添加默认
+                AddDefNetwork();
                 TradplusEditorManagerWindow.RefreshManager();
+            }
+        }
+
+        private void AddDefNetwork()
+        {
+            foreach (TardplusNetworkDesc desc in networkInfo.networkList)
+            {
+                if (Equals(desc.uniqueNetworkId.ToLower(), "n40"))
+                {
+                    if(desc.has_Android)
+                    {
+                        string sdkId = configInfo.Android.sdkId;
+                        GetNetworkConfig(sdkId, desc.android_networkId, 1, desc);
+                    }
+                    if (desc.has_iOS)
+                    {
+                        string sdkId = configInfo.iOS.sdkId;
+                        GetNetworkConfig(sdkId, desc.ios_networkId, 2, desc);
+                    }
+                }
             }
         }
 

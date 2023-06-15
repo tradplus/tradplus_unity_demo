@@ -44,7 +44,7 @@
     return nil;
 }
 
-- (void)loadWithAdUnitID:(NSString *)adUnitID customMap:(NSDictionary *)customMap
+- (void)loadWithAdUnitID:(NSString *)adUnitID customMap:(NSDictionary *)customMap localParams:(NSDictionary *)localParams
 {
     if(adUnitID == nil)
     {
@@ -57,8 +57,9 @@
         interstitial = [[TPUInterstitial alloc] init];
         self.interstitialAds[adUnitID] = interstitial;
     }
-    [interstitial setAdUnitID:adUnitID];
+    [interstitial setLocalParams:localParams];
     [interstitial setCustomMap:customMap];
+    [interstitial setAdUnitID:adUnitID];
     [interstitial loadAd];
 }
 

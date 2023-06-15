@@ -17,7 +17,7 @@ namespace TradplusSDK.Api
     { }
 
     ///<summary>
-    ///附加参数 isAutoLoad：是否自动加载, 默认true; userId：服务器奖励验证参数; 如使用服务器奖励验证时此参数必填; customData:服务器奖励验证参数; customMap：流量分组; localParams：特殊参数，仅Android支持
+    ///附加参数  默认true; userId：服务器奖励验证参数; 如使用服务器奖励验证时此参数必填; customData:服务器奖励验证参数; customMap：流量分组; localParams：特殊参数，仅Android支持
     ///</summary>
     public class TPRewardVideoExtra
     {
@@ -38,9 +38,9 @@ namespace TradplusSDK.Api
         ///</summary>
         public Dictionary<string, string> customMap;
         ///<summary>
-        ///特殊参数，仅Android支持
+        ///本地参数
         ///</summary>
-        public Dictionary<string, string> localParams;
+        public Dictionary<string, object> localParams;
         public TPRewardVideoExtra()
         {
         }

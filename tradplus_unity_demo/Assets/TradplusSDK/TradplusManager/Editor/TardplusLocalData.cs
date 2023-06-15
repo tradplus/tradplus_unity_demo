@@ -11,5 +11,6 @@ namespace Tardplus.TradplusEditorManager.Editor
         public String iOSAdmobAppID;
         public bool closeBitCode;
         public bool openHttp;
+        public bool SKAdNetworkList;
     }
 }

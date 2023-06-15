@@ -27,7 +27,6 @@ public class MainUI : MonoBehaviour
         TradplusAds.Instance().SetCustomMap(customMap);
         TradplusAds.Instance().SetCnServer(onlyCn);
         TradplusAds.Instance().InitSDK(appId);
-        TradplusAds.Instance().SetTestDevice(true);
 
         //全局展示回调
         TradplusAds.Instance().AddGlobalAdImpression(OnGlobalAdImpression);
@@ -90,6 +89,13 @@ public class MainUI : MonoBehaviour
         {
             SceneManager.LoadScene("Privacy");
         }
+        #if UNITY_ANDROID
+        GUILayout.Space(20);
+        if (GUILayout.Button("互动"))
+        {
+            SceneManager.LoadScene("InterActive");
+        }
+        #endif
 
 #if UNITY_ANDROID
         string text = "复杂回调关闭中，点击开启";

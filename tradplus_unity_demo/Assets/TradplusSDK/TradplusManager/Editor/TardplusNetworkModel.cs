@@ -25,6 +25,7 @@ namespace Tardplus.TradplusEditorManager.Editor
         public string nameEn;
         public string adTypes;
         public string isHeaderBidding;
+        public int isAddCrossAndAdx;
         public string uniqueNetworkId;
         public int region;
     }

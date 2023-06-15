@@ -13,7 +13,7 @@ namespace Tardplus.TradplusEditorManager.Editor
 
         private Vector2 scrollPosition;
 
-        private const float networkFieldMinWidth = 180f;
+        private const float networkFieldMinWidth = 200f;
         private const float versionFieldMinWidth = 200f;
         private const float actionFieldWidth = 80f;
 
@@ -21,9 +21,12 @@ namespace Tardplus.TradplusEditorManager.Editor
         private static GUILayoutOption versionWidthOption = GUILayout.Width(versionFieldMinWidth);
         private static GUILayoutOption fieldWidth = GUILayout.Width(actionFieldWidth);
 
+        private static GUILayoutOption noVersionWidthOption = GUILayout.Width(400f);
+
         private GUIStyle titleLabelStyle;
         private GUIStyle headerLabelStyle;
         private GUIStyle iconStyle;
+        private GUIStyle errorLabelStyle;
         private int iOSPopupIndex;
         private int AndroidPopupIndex;
 
@@ -44,6 +47,11 @@ namespace Tardplus.TradplusEditorManager.Editor
 
         private void Awake()
         {
+            errorLabelStyle = new GUIStyle(EditorStyles.label)
+            {
+                fontStyle = FontStyle.Bold,
+            };
+            errorLabelStyle.normal.textColor = Color.red;
             titleLabelStyle = new GUIStyle(EditorStyles.label)
             {
                 fontSize = 14,
@@ -88,7 +96,6 @@ namespace Tardplus.TradplusEditorManager.Editor
             if (Math.Abs(windowWidth - position.width) > 1)
             {
                 windowWidth = position.width;
-                //CalculateFieldWidth();
             }
 
             using (var scrollView = new EditorGUILayout.ScrollViewScope(scrollPosition, false, false))
@@ -126,7 +133,9 @@ namespace Tardplus.TradplusEditorManager.Editor
                 GUILayout.Space(10);
                 TradplusEditorManager.Instance().openHttp = GUILayout.Toggle(TradplusEditorManager.Instance().openHttp, " Open Http Network (一般需开启以支持部分三方源的Http网络请求)");
                 GUILayout.Space(10);
-                TradplusEditorManager.Instance().closeBitCode = GUILayout.Toggle(TradplusEditorManager.Instance().closeBitCode, " Close Bitcode(使用快手时需要关闭)");
+                TradplusEditorManager.Instance().closeBitCode = GUILayout.Toggle(TradplusEditorManager.Instance().closeBitCode, " Close Bitcode(使用快手 AppLovin 时需要关闭)");
+                GUILayout.Space(10);
+                TradplusEditorManager.Instance().SKAdNetworkList = GUILayout.Toggle(TradplusEditorManager.Instance().SKAdNetworkList, " Auto Add SKAdNetworkList(自动导出SKAdNetworkList到Xcode)");
                 GUILayout.Space(10);
             }
             GUILayout.EndHorizontal();
@@ -140,13 +149,9 @@ namespace Tardplus.TradplusEditorManager.Editor
             GUILayout.Space(10);
             using (new EditorGUILayout.VerticalScope("box"))
             {
-                //GUILayout.Space(10);
-                //TradplusEditorManager.Instance().PackName = DrawTextField("Android PackageName", TradplusEditorManager.Instance().PackName, GUILayout.Width(130));
                 GUILayout.Space(10);
                 TradplusEditorManager.Instance().AndroidAdmobAppID = DrawTextField("Android Admob AppID", TradplusEditorManager.Instance().AndroidAdmobAppID, GUILayout.Width(130));
                 GUILayout.Space(10);
-                //TradplusEditorManager.Instance().APPLovinSDKKey = DrawTextField("AppLovin SDK Key", TradplusEditorManager.Instance().APPLovinSDKKey, GUILayout.Width(130));
-                //GUILayout.Space(10);
             }
             GUILayout.EndHorizontal();
         }
@@ -162,6 +167,10 @@ namespace Tardplus.TradplusEditorManager.Editor
                 DrawRowHeader("Network",true);
                 foreach (TardplusNetworkDesc desc in TradplusEditorManager.Instance().networkInfo.networkList)
                 {
+                    if (Equals(desc.uniqueNetworkId.ToLower(), "n40"))
+                    {
+                        continue;
+                    }
                     using (new EditorGUILayout.VerticalScope("box"))
                     {
                         GUILayout.Space(4);
@@ -194,10 +203,6 @@ namespace Tardplus.TradplusEditorManager.Editor
                             {
                                 name = desc.nameEn;
                             }
-                            //if(Equals(desc.uniqueNetworkId, "n2"))
-                            //{
-                            //    name = "GoogleAdManager";
-                            //}
                             string action = "Install";
                             string version = desc.ios_install_version;
                             if (desc.ios_hasInstall)
@@ -236,24 +241,46 @@ namespace Tardplus.TradplusEditorManager.Editor
                     GUILayout.Space(5);
                     EditorGUILayout.LabelField(new GUIContent("Android"), networkWidthOption);
                     string currentVersion = TradplusEditorManager.Instance().configInfo.Android.sdkVersion;
-                    EditorGUILayout.LabelField(new GUIContent(currentVersion), versionWidthOption);
-                    GUILayout.Space(3);
-                    if (TradplusEditorManager.Instance().versionInfo != null)
+                    if (TradplusEditorManager.Instance().AndroidNoVersionError)
                     {
-                        AndroidPopupIndex = EditorGUILayout.IntPopup(AndroidPopupIndex, TradplusEditorManager.Instance().AndroidVersionNameList.ToArray(), TradplusEditorManager.Instance().AndroidVersionIndexList.ToArray(), versionWidthOption);
+                        string info = "当前 "+ currentVersion + " 版本已下架，请至官网更新unitypackage插件包。";
+                        EditorGUILayout.LabelField(new GUIContent(info), errorLabelStyle, noVersionWidthOption);
                         GUILayout.FlexibleSpace();
-                        string version = TradplusEditorManager.Instance().AndroidVersionNameList[AndroidPopupIndex];
-                        GUI.enabled = !Equals(currentVersion, version);
-                        if (GUILayout.Button(new GUIContent("Exchange"), fieldWidth))
+                        if (GUILayout.Button(new GUIContent("官网下载"), fieldWidth))
                         {
-                            TradplusEditorManager.Instance().ExChangeSDKVersion(AndroidPopupIndex, 1);
+                            Application.OpenURL("https://docs.tradplusad.com/docs/doc_u3d/u3d_download/");
                         }
-                        GUI.enabled = true;
                         GUILayout.Space(20);
                     }
                     else
                     {
-                        EditorGUILayout.LabelField(new GUIContent("loading..."), versionWidthOption);
+                        if (TradplusEditorManager.Instance().AndroidUseVersionOff)
+                        {
+                            string info = "当前 " + currentVersion + " 版本已下架,请更新版本";
+                            EditorGUILayout.LabelField(new GUIContent(info), errorLabelStyle, versionWidthOption);
+                        }
+                        else
+                        {
+                            EditorGUILayout.LabelField(new GUIContent(currentVersion), versionWidthOption);
+                        }
+                        GUILayout.Space(3);
+                        if (TradplusEditorManager.Instance().versionInfo != null && TradplusEditorManager.Instance().AndroidVersionNameList.Count > 0)
+                        {
+                            AndroidPopupIndex = EditorGUILayout.IntPopup(AndroidPopupIndex, TradplusEditorManager.Instance().AndroidVersionNameList.ToArray(), TradplusEditorManager.Instance().AndroidVersionIndexList.ToArray(), versionWidthOption);
+                            GUILayout.FlexibleSpace();
+                            string version = TradplusEditorManager.Instance().AndroidVersionNameList[AndroidPopupIndex];
+                            GUI.enabled = !Equals(currentVersion, version);
+                            if (GUILayout.Button(new GUIContent("Exchange"), fieldWidth))
+                            {
+                                TradplusEditorManager.Instance().ExChangeSDKVersion(AndroidPopupIndex, 1);
+                            }
+                            GUI.enabled = true;
+                            GUILayout.Space(20);
+                        }
+                        else
+                        {
+                            EditorGUILayout.LabelField(new GUIContent("loading..."), versionWidthOption);
+                        }
                     }
                     GUILayout.Space(3);
                 }
@@ -265,24 +292,46 @@ namespace Tardplus.TradplusEditorManager.Editor
                     GUILayout.Space(5);
                     EditorGUILayout.LabelField(new GUIContent("iOS"), networkWidthOption);
                     string currentVersion = TradplusEditorManager.Instance().configInfo.iOS.sdkVersion;
-                    EditorGUILayout.LabelField(new GUIContent(currentVersion), versionWidthOption);
-                    GUILayout.Space(3);
-                    if (TradplusEditorManager.Instance().versionInfo != null)
+                    if (TradplusEditorManager.Instance().iOSNoVersionError)
                     {
-                        iOSPopupIndex = EditorGUILayout.IntPopup(iOSPopupIndex, TradplusEditorManager.Instance().iOSVersionNameList.ToArray(), TradplusEditorManager.Instance().iOSVersionIndexList.ToArray(), versionWidthOption);
+                        string info = "当前 " + currentVersion + " 版本已下架，请至官网更新unitypackage插件包。";
+                        EditorGUILayout.LabelField(new GUIContent(info), errorLabelStyle,noVersionWidthOption);
                         GUILayout.FlexibleSpace();
-                        string version = TradplusEditorManager.Instance().iOSVersionNameList[iOSPopupIndex];
-                        GUI.enabled = !Equals(currentVersion, version);
-                        if (GUILayout.Button(new GUIContent("Exchange"), fieldWidth))
+                        if (GUILayout.Button(new GUIContent("官网下载"), fieldWidth))
                         {
-                            TradplusEditorManager.Instance().ExChangeSDKVersion(iOSPopupIndex,2);
+                            Application.OpenURL("https://docs.tradplusad.com/docs/doc_u3d/u3d_download/");
                         }
-                        GUI.enabled = true;
                         GUILayout.Space(20);
                     }
                     else
                     {
-                        EditorGUILayout.LabelField(new GUIContent("loading..."), versionWidthOption);
+                        if(TradplusEditorManager.Instance().iOSUseVersionOff)
+                        {
+                            string info = "当前 " + currentVersion + " 版本已下架,请更新版本";
+                            EditorGUILayout.LabelField(new GUIContent(info), errorLabelStyle, versionWidthOption);
+                        }
+                        else
+                        {
+                            EditorGUILayout.LabelField(new GUIContent(currentVersion), versionWidthOption);
+                        }
+                        GUILayout.Space(3);
+                        if (TradplusEditorManager.Instance().versionInfo != null)
+                        {
+                            iOSPopupIndex = EditorGUILayout.IntPopup(iOSPopupIndex, TradplusEditorManager.Instance().iOSVersionNameList.ToArray(), TradplusEditorManager.Instance().iOSVersionIndexList.ToArray(), versionWidthOption);
+                            GUILayout.FlexibleSpace();
+                            string version = TradplusEditorManager.Instance().iOSVersionNameList[iOSPopupIndex];
+                            GUI.enabled = !Equals(currentVersion, version);
+                            if (GUILayout.Button(new GUIContent("Exchange"), fieldWidth))
+                            {
+                                TradplusEditorManager.Instance().ExChangeSDKVersion(iOSPopupIndex, 2);
+                            }
+                            GUI.enabled = true;
+                            GUILayout.Space(20);
+                        }
+                        else
+                        {
+                            EditorGUILayout.LabelField(new GUIContent("loading..."), versionWidthOption);
+                        }
                     }
                     GUILayout.Space(3);
 

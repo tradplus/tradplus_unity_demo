@@ -46,6 +46,12 @@
     }
 }
 
+- (void)setLocalParams:(NSDictionary *)dic
+{
+    self.nativeBanner.localParams = dic;
+    MSLogTrace(@"%s %@", __PRETTY_FUNCTION__,dic);
+}
+
 - (void)setCloseAutoShow:(BOOL)closeAutoShow
 {
     _closeAutoShow = closeAutoShow;

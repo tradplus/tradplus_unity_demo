@@ -1,5 +1,5 @@
 <dependencies>
 <androidPackages>
-<androidPackage spec="com.tradplusad:tradplus:9.0.0.1"/>
+<androidPackage spec="com.tradplusad:tradplus:9.8.0.1"/>
 </androidPackages>
 </dependencies>

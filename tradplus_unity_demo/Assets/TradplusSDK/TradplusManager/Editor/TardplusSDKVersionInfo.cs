@@ -8,6 +8,7 @@ namespace Tardplus.TradplusEditorManager.Editor
         public string sdkId;
         public string version;
         public int isAndroidX;
+        public String extra_info;
     }
 
     [Serializable]
@@ -24,4 +25,5 @@ namespace Tardplus.TradplusEditorManager.Editor
         public string msg;
         public TPSDKVersionData data;
     }
+
 }

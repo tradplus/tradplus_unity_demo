@@ -4,23 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.unity3d.player"
     xmlns:tools="http://schemas.android.com/tools">
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- 限于中国大陆Android 应用市场 Sigmob权限 -->
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <!--    <uses-permission android:name="android.permission.READ_PHONE_STATE" />-->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" /> <!-- pangolin If there is a video ad and it is played with textureView, please be sure to add this, otherwise a black screen will appear -->
-
-    <!-- 如果视频广告使用textureView播放，请务必添加，否则黑屏 -->
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <application
-
-        >
-        <uses-library android:name="org.apache.http.legacy" android:required="false"/>
+    <application>
         <activity android:name="com.unity3d.player.UnityPlayerActivity"
                   android:theme="@style/UnityThemeSelector">
             <intent-filter>
@@ -29,41 +13,5 @@
             </intent-filter>
             <meta-data android:name="unityplayer.UnityActivity" android:value="true" />
         </activity>
-
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
-
-        <!--添加Google AdMob App ID-->
-        <!--官方测试APPID，正式上线更换-->
-        <meta-data
-            android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-3940256099942544~3347511713"/>
-
-        <!--添加您的Applovin SDK Key-->
-        <meta-data
-            android:name="applovin.sdk.key"
-            android:value="-Xtl_oRuS0L4WSmxnIHXusTCoMrq2cslufstvSvGFnVQWLcoeZCu-_NXWZE0c6-QqiZ-BIFRxm6zBs2zwByKPb"  />
-
-<!--        <provider-->
-<!--            android:name="androidx.core.content.FileProvider"-->
-<!--            android:authorities="${applicationId}.fileprovider"-->
-<!--            android:exported="false"-->
-<!--            android:grantUriPermissions="true">-->
-<!--            <meta-data-->
-<!--                android:name="android.support.FILE_PROVIDER_PATHS"-->
-<!--                android:resource="@xml/file_paths" />-->
-<!--        </provider>-->
-
-        <!--Android X China-Mainland Traffic app required, Oversea Traffic app can be ignore-->
-<!--                <provider-->
-<!--                    android:name="com.mbridge.msdk.foundation.tools.MBFileProvider"-->
-<!--                    android:authorities="${applicationId}.mbFileProvider"-->
-<!--                    android:exported="false"-->
-<!--                    android:grantUriPermissions="true">-->
-<!--                    <meta-data-->
-<!--                        android:name="android.support.FILE_PROVIDER_PATHS"-->
-<!--                        android:resource="@xml/mb_provider_paths"/>-->
-<!--                </provider>-->
     </application>
 </manifest>

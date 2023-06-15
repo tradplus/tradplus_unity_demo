@@ -177,10 +177,10 @@ namespace TradplusSDK.Android
             return TradPlusSdk.CallStatic<int>("isCOPPAAgeRestrictedUser"); ;
         }
 
-        public void ShowGDPRDialog()
+        public void ShowGDPRDialog(string url)
         {
             ShowGDPRListenerAdapter listener = new ShowGDPRListenerAdapter();
-            TradPlusSdk.CallStatic("showGDPRDialog", listener);
+            TradPlusSdk.CallStatic("showGDPRDialog", listener,url);
         }
 
         public void SetOpenPersonalizedAd(bool open)
@@ -216,11 +216,6 @@ namespace TradplusSDK.Android
 
         }
 
-        public void SetTestDevice(bool testDevice, string testModeId = null)
-        {
-            TradPlusSdk.CallStatic("setTestDevice", testDevice,testModeId);
-
-        }
 
         public void SetFirstShowGDPR(bool first)
         {
@@ -254,6 +249,11 @@ namespace TradplusSDK.Android
         {
             TradPlusSdk.CallStatic("setOpenDelayLoadAds", isOpen);
 
+        }
+
+        public void OpenTradPlusTool(string appId)
+        {
+            TradPlusSdk.CallStatic("openTradPlusTool", appId);
         }
 
         public TradplusAdsAndroid()

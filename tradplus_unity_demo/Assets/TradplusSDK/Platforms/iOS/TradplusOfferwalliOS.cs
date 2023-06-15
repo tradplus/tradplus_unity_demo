@@ -25,7 +25,7 @@ namespace TradplusSDK.iOS
         }
 
         [DllImport("__Internal")]
-        private static extern void TradplusLoadOfferwallAd(string adUnitId, string customMap);
+        private static extern void TradplusLoadOfferwallAd(string adUnitId, string customMap, string localParams);
         public void LoadOfferwallAd(string adUnitId, TPOfferwallExtra extra = null)
         {
             string customMapString = null;
@@ -33,7 +33,12 @@ namespace TradplusSDK.iOS
             {
                 customMapString = Json.Serialize(extra.customMap);
             }
-            TradplusLoadOfferwallAd(adUnitId, customMapString);
+            string localParamsString = null;
+            if (extra.localParams != null)
+            {
+                localParamsString = Json.Serialize(extra.localParams);
+            }
+            TradplusLoadOfferwallAd(adUnitId, customMapString, localParamsString);
         }
 
         [DllImport("__Internal")]

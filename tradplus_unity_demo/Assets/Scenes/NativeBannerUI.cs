@@ -123,7 +123,7 @@ public class NativeBannerUI : MonoBehaviour
                     customMap.Add("segment_tag", "nativeBanner_segment_tag");
                     extra.customMap = customMap;
 
-                    Dictionary<string, string> localParams = new Dictionary<string, string>();
+                    Dictionary<string, object> localParams = new Dictionary<string, object>();
                     localParams.Add("user_id", "nativeBanner_userId");
                     localParams.Add("custom_data", "nativeBanner_customData");
                     extra.localParams = localParams;

@@ -25,7 +25,7 @@ namespace TradplusSDK.iOS
         }
 
         [DllImport("__Internal")]
-        private static extern void TradplusLoadRewardVideoAd(string adUnitId,string userId,string customData, string customMap);
+        private static extern void TradplusLoadRewardVideoAd(string adUnitId,string userId,string customData, string customMap, string localParams);
         public void LoadRewardVideoAd(string adUnitId, TPRewardVideoExtra extra)
         {
             string customMapString = null;
@@ -33,7 +33,12 @@ namespace TradplusSDK.iOS
             {
                 customMapString = Json.Serialize(extra.customMap);
             }
-            TradplusLoadRewardVideoAd(adUnitId, extra.userId,extra.customData, customMapString);
+            string localParamsString = null;
+            if (extra.localParams != null)
+            {
+                localParamsString = Json.Serialize(extra.localParams);
+            }
+            TradplusLoadRewardVideoAd(adUnitId, extra.userId,extra.customData, customMapString, localParamsString);
         }
 
         [DllImport("__Internal")]

@@ -126,7 +126,7 @@ namespace TradplusSDK.iOS
 
         [DllImport("__Internal")]
         private static extern void TradplusShowGDPRDialog();
-        public void ShowGDPRDialog()
+        public void ShowGDPRDialog(string url)
         {
             TradplusShowGDPRDialog();
         }
@@ -183,6 +183,13 @@ namespace TradplusSDK.iOS
                 settingMapString = Json.Serialize(settingMap);
             }
             TradplusSetSettingDataParam(settingMapString);
+        }
+
+        [DllImport("__Internal")]
+        private static extern void TradplusOpenTradPlusTool();
+        public void OpenTradPlusTool(string appId)
+        {
+            TradplusOpenTradPlusTool();
         }
 
         //注册回调全局展示回调

@@ -1,5 +1,6 @@
 ﻿#if UNITY_IOS
 
+using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEditor.Callbacks;
@@ -79,6 +80,20 @@ namespace Tardplus.TradplusEditorManager.Editor
                 rootDict.SetString("NSUserTrackingUsageDescription", TradplusEditorManager.Instance().IDFAInfo);
             }
 
+            if (TradplusEditorManager.Instance().SKAdNetworkList)
+            {
+                Dictionary<string, string> list = GetSKAdNetworkList();
+                if(list != null)
+                {
+                    PlistElementArray SKAdNetworkItems = rootDict.CreateArray("SKAdNetworkItems");
+                    foreach (string key in list.Keys)
+                    {
+                        PlistElementDict item = SKAdNetworkItems.AddDict();
+                        item.SetString("SKAdNetworkIdentifier", key);
+                    }
+                }
+            }
+
             File.WriteAllText(infoPlistPath, plist.WriteToString());
         }
 
@@ -96,6 +111,45 @@ namespace Tardplus.TradplusEditorManager.Editor
             pbxProject.SetBuildProperty(target, "ENABLE_BITCODE", "NO");
 
             pbxProject.WriteToFile(projectPath);
+        }
+
+        private static Dictionary<string, string> GetSKAdNetworkList()
+        {
+            string[] paths = AssetDatabase.FindAssets("TPNetWorkInfo");
+            Dictionary<string, string> list = new Dictionary<string, string>();
+            foreach (string item in paths)
+            {
+                string path = AssetDatabase.GUIDToAssetPath(item);
+                if (path.EndsWith("TPNetWorkInfo.json"))
+                {
+                    string json = File.ReadAllText(path);
+                    Debug.Log("path" + path + "json " + json);
+                    TardplusSaveNetworkInfo saveInfo = JsonUtility.FromJson<TardplusSaveNetworkInfo>(json);
+                    string[] filePaths = AssetDatabase.FindAssets(saveInfo.uniqueNetworkId + "_SKAdNetwork_List");
+                    if (filePaths.Length > 0)
+                    {
+                        string filePath = AssetDatabase.GUIDToAssetPath(filePaths[0]);
+                        string fileJson = File.ReadAllText(filePath);
+                        TardplusSKAdNetworkInfo SKAdNetworkInfo = JsonUtility.FromJson<TardplusSKAdNetworkInfo>(fileJson);
+                        foreach (string skadnetwork in SKAdNetworkInfo.skadnetwork_ids)
+                        {
+                            list[skadnetwork] = "";
+                        }
+                    }
+                }
+            }
+            if (list.Keys.Count > 0)
+            {
+                //string saveString = "<key>SKAdNetworkItems</key>\n<array>\n";
+                //foreach (string skadnetwork in list.Keys)
+                //{
+                //    saveString += "<dict>\n<key>SKAdNetworkIdentifier</key>\n<string>" + skadnetwork + "</string>\n</dict>\n";
+                //}
+                //saveString += "</array>";
+                //Debug.Log("saveString " + saveString);
+                return list;
+            }
+            return null;
         }
 
         //pod install 后对特殊源进行配置修改
@@ -243,6 +297,40 @@ namespace Tardplus.TradplusEditorManager.Editor
                     "-framework \"BigoADS\"",
                     "-framework \"OMSDK_Bigosg\"",
                 };
+                removeSetting(pathArray, sdkPathArray, frameworkArray);
+                AddFrameworkPath(buildPath, sdkPathArray, frameworkArray);
+            }
+
+            //Fyber v8.2.0
+            string FyberSDKPath = buildPath + "/Pods/Target Support Files/Fyber_Marketplace_SDK/";
+            pathDir = new DirectoryInfo(FyberSDKPath);
+            //确认pod是否有Fyber
+            if (pathDir.Exists)
+            {
+                string[] sdkPathArray = new string[] {
+                "\"${PODS_ROOT}/Fyber_Marketplace_SDK/IASDKCore\"",
+                "\"${PODS_XCFRAMEWORKS_BUILD_DIR}/Fyber_Marketplace_SDK\""};
+
+                string[] frameworkArray = new string[] {
+                "-framework \"IASDKCore\""};
+                removeSetting(pathArray, sdkPathArray, frameworkArray);
+                AddFrameworkPath(buildPath, sdkPathArray, frameworkArray);
+            }
+
+            //Start.io v4.9.1
+            string StartIOSDKPath = buildPath + "/Pods/Target Support Files/StartAppSDK/";
+            pathDir = new DirectoryInfo(StartIOSDKPath);
+            //确认pod是否有Start.io
+            if (pathDir.Exists)
+            {
+                string[] sdkPathArray = new string[] {
+                "\"${PODS_ROOT}/StartAppSDK\"",
+                "\"${PODS_XCFRAMEWORKS_BUILD_DIR}/StartAppSDK\"",
+            };
+
+                string[] frameworkArray = new string[] {
+                "-framework \"StartApp\""
+            };
                 removeSetting(pathArray, sdkPathArray, frameworkArray);
                 AddFrameworkPath(buildPath, sdkPathArray, frameworkArray);
             }

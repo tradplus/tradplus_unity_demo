@@ -26,7 +26,7 @@ namespace TradplusSDK.iOS
         }
 
         [DllImport("__Internal")]
-        private static extern void TradplusLoadNativeAd(string adUnitId, float x, float y, float width, float height, int adPosition, string customMap);
+        private static extern void TradplusLoadNativeAd(string adUnitId, float x, float y, float width, float height, int adPosition, string customMap, string localParams);
         public void LoadNativeAd(string adUnitId, TPNativeExtra extra)
         {
             string customMapString = null;
@@ -34,7 +34,12 @@ namespace TradplusSDK.iOS
             {
                 customMapString = Json.Serialize(extra.customMap);
             }
-            TradplusLoadNativeAd(adUnitId,extra.x,extra.y,extra.width,extra.height,(int)extra.adPosition, customMapString);
+            string localParamsString = null;
+            if (extra.localParams != null)
+            {
+                localParamsString = Json.Serialize(extra.localParams);
+            }
+            TradplusLoadNativeAd(adUnitId,extra.x,extra.y,extra.width,extra.height,(int)extra.adPosition, customMapString, localParamsString);
         }
 
         [DllImport("__Internal")]
