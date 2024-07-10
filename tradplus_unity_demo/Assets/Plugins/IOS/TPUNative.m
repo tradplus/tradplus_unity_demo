@@ -51,10 +51,16 @@
     MSLogTrace(@"%s %@", __PRETTY_FUNCTION__,dic);
 }
 
-- (void)loadAd
+- (void)loadAdWithMaxWaitTime:(float)maxWaitTime
 {
     MSLogTrace(@"%s", __PRETTY_FUNCTION__);
-    [self.native loadAd];
+    [self.native loadAdWithMaxWaitTime:maxWaitTime];
+}
+
+- (void)openAutoLoadCallback
+{
+    MSLogTrace(@"%s", __PRETTY_FUNCTION__);
+    [self.native openAutoLoadCallback];
 }
 
 - (void)setX:(float)x y:(float)y adPosition:(int)adPosition

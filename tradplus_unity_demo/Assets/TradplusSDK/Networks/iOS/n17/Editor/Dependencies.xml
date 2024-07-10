@@ -1,6 +1,6 @@
 <dependencies>
 <iosPods>
-<iosPod name ="TradPlusAdSDK/CSJAdapter" version="9.3.0"/>
-<iosPod name ="Ads-CN" version="5.2.0.5"/>
+<iosPod name ="TradPlusAdSDK/CSJAdapter" version="11.7.0"/>
+<iosPod name ="Ads-CN" version="6.1.3.4"/>
 </iosPods>
 </dependencies>

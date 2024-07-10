@@ -23,9 +23,9 @@
     return self.iconImageView;
 }
 
-- (UIView *)nativeMediaView
+- (UIImageView *)nativeMainImageView
 {
-    return self.mainView;
+    return self.imageView;
 }
 
 - (UILabel *)nativeCallToActionTextLabel

@@ -38,6 +38,8 @@ namespace TradplusSDK.Android
             info.Add("adPosition", (int)extra.adPosition);
             info.Add("localParams", extra.localParams);
             info.Add("isSimpleListener", extra.isSimpleListener);
+            info.Add("maxWaitTime", extra.maxWaitTime);
+            info.Add("openAutoLoadCallback", extra.openAutoLoadCallback);
 
 
 

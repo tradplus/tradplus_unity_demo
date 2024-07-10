@@ -25,7 +25,7 @@ namespace TradplusSDK.iOS
         }
 
         [DllImport("__Internal")]
-        private static extern void TradplusLoadOfferwallAd(string adUnitId, string customMap, string localParams);
+        private static extern void TradplusLoadOfferwallAd(string adUnitId, string customMap, string localParams, bool openAutoLoadCallback, float maxWaitTime);
         public void LoadOfferwallAd(string adUnitId, TPOfferwallExtra extra = null)
         {
             string customMapString = null;
@@ -38,7 +38,7 @@ namespace TradplusSDK.iOS
             {
                 localParamsString = Json.Serialize(extra.localParams);
             }
-            TradplusLoadOfferwallAd(adUnitId, customMapString, localParamsString);
+            TradplusLoadOfferwallAd(adUnitId, customMapString, localParamsString,extra.openAutoLoadCallback,extra.maxWaitTime);
         }
 
         [DllImport("__Internal")]
@@ -110,6 +110,31 @@ namespace TradplusSDK.iOS
             {
                 Debug.LogError("customAdInfo is null");
             }
+        }
+
+        public void ClearCallback()
+        {
+            TradplusOfferwallSetCallbacks(
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+           );
         }
 
         //回调部分

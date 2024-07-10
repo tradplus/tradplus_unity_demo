@@ -37,9 +37,12 @@ namespace TradplusSDK.Android
             info.Add("customMap", extra.customMap);
             info.Add("adPosition", (int)extra.adPosition);
             info.Add("closeAutoShow", extra.closeAutoShow);
+            info.Add("closeAutoDestroy", extra.closeAutoDestroy);
             info.Add("x", extra.x);
             info.Add("y", extra.y);
             info.Add("isSimpleListener", extra.isSimpleListener);
+            info.Add("maxWaitTime", extra.maxWaitTime);
+            info.Add("openAutoLoadCallback", extra.openAutoLoadCallback);
 
 
             info.Add("localParams", extra.localParams);

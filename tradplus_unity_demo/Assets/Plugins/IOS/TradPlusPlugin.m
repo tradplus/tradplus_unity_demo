@@ -6,6 +6,7 @@
 #import "TPUNativeManager.h"
 #import "TPUNativeBannerManager.h"
 #import "TPUSDKManager.h"
+#import "TPUSplashManager.h"
 
 static NSString *stringFromUTF8String(const char *bytes) { return bytes ? @(bytes) : nil; }
 
@@ -190,7 +191,7 @@ void TradplusSDKSetAdImpressionCallback(TPOnAdImpressionCallback onAdImpressionC
 
 #pragma mark - Interstitial
 
-void TradplusLoadInterstitialAd(const char* adUnitId,const char* customMap,const char* localParams)
+void TradplusLoadInterstitialAd(const char* adUnitId,const char* customMap,const char* localParams,bool openAutoLoadCallback, float maxWaitTime)
 {
     NSString *jsonString = stringFromUTF8String(customMap);
     NSDictionary *dic = nil;
@@ -207,7 +208,7 @@ void TradplusLoadInterstitialAd(const char* adUnitId,const char* customMap,const
         localParamsDic = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
     }
     NSString *adUnitIDStr = stringFromUTF8String(adUnitId);
-    [[TPUInterstitialManager sharedInstance] loadWithAdUnitID:adUnitIDStr customMap:dic localParams:localParamsDic];
+    [[TPUInterstitialManager sharedInstance] loadWithAdUnitID:adUnitIDStr customMap:dic localParams:localParamsDic openAutoLoadCallback:openAutoLoadCallback maxWaitTime:maxWaitTime];
 }
 
 void TradplusShowInterstitialAd(const char* adUnitId,const char* sceneId)
@@ -280,7 +281,7 @@ void TradplusInterstitialSetCallbacks(TPInterstitialLoadedCallback adLoadedCallb
 
 #pragma mark - RewardVideo
 
-void TradplusLoadRewardVideoAd(const char* adUnitId,const char* userId,const char* customData,const char* customMap,const char* localParams)
+void TradplusLoadRewardVideoAd(const char* adUnitId,const char* userId,const char* customData,const char* customMap,const char* localParams,bool openAutoLoadCallback, float maxWaitTime)
 {
     NSString *jsonString = stringFromUTF8String(customMap);
     NSDictionary *dic = nil;
@@ -299,7 +300,7 @@ void TradplusLoadRewardVideoAd(const char* adUnitId,const char* userId,const cha
         NSData *data = [localParamsString dataUsingEncoding:NSUTF8StringEncoding];
         localParamsDic = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
     }
-    [[TPURewardVideoManager sharedInstance] loadWithAdUnitID:adUnitIDStr userId:userIDStr customData:customDataStr customMap:dic localParams:localParamsDic];
+    [[TPURewardVideoManager sharedInstance] loadWithAdUnitID:adUnitIDStr userId:userIDStr customData:customDataStr customMap:dic localParams:localParamsDic openAutoLoadCallback:openAutoLoadCallback maxWaitTime:maxWaitTime];
 }
 
 void TradplusShowRewardVideoAd(const char* adUnitId,const char* sceneId)
@@ -386,7 +387,7 @@ void TradplusRewardVideoSetCallbacks(TPRewardVideoLoadedCallback adLoadedCallbac
 
 #pragma mark - Offerwall
 
-void TradplusLoadOfferwallAd(const char* adUnitId,const char* customMap,const char* localParams)
+void TradplusLoadOfferwallAd(const char* adUnitId,const char* customMap,const char* localParams,bool openAutoLoadCallback, float maxWaitTime)
 {
     NSString *jsonString = stringFromUTF8String(customMap);
     NSDictionary *dic = nil;
@@ -403,7 +404,7 @@ void TradplusLoadOfferwallAd(const char* adUnitId,const char* customMap,const ch
         localParamsDic = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
     }
     NSString *adUnitIDStr = stringFromUTF8String(adUnitId);
-    [[TPUOfferwallManager sharedInstance] loadWithAdUnitID:adUnitIDStr customMap:dic localParams:localParamsDic];
+    [[TPUOfferwallManager sharedInstance] loadWithAdUnitID:adUnitIDStr customMap:dic localParams:localParamsDic openAutoLoadCallback:openAutoLoadCallback maxWaitTime:maxWaitTime];
 }
 
 void TradplusShowOfferwallAd(const char* adUnitId,const char* sceneId)
@@ -507,7 +508,7 @@ void TradplusOfferwallSetCallbacks(TPOfferwallLoadedCallback adLoadedCallback,
 
 #pragma mark - Banner
 
-void TradplusLoadBannerAd(const char* adUnitId, bool closeAutoShow, float x, float y, float width, float height,int adPosition,int contentMode, const char* sceneId, const char* customMap,const char* className,const char* localParams)
+void TradplusLoadBannerAd(const char* adUnitId, bool closeAutoShow, float x, float y, float width, float height,int adPosition,int contentMode, const char* sceneId, const char* customMap,const char* className,const char* localParams,bool openAutoLoadCallback, float maxWaitTime,const char* backgroundColor)
 {
     NSString *jsonString = stringFromUTF8String(customMap);
     NSDictionary *dic = nil;
@@ -526,7 +527,8 @@ void TradplusLoadBannerAd(const char* adUnitId, bool closeAutoShow, float x, flo
     NSString *adUnitIDStr = stringFromUTF8String(adUnitId);
     NSString *sceneIdStr = stringFromUTF8String(sceneId);
     NSString *classNameStr = stringFromUTF8String(className);
-    [[TPUBannerManager sharedInstance] loadWithAdUnitID:adUnitIDStr closeAutoShow:closeAutoShow x:x y:y width:width height:height adPosition:adPosition contentMode:contentMode sceneId:sceneIdStr customMap:dic className:classNameStr localParams:localParamsDic];
+    NSString *backgroundColorStr = stringFromUTF8String(backgroundColor);
+    [[TPUBannerManager sharedInstance] loadWithAdUnitID:adUnitIDStr closeAutoShow:closeAutoShow x:x y:y width:width height:height adPosition:adPosition contentMode:contentMode sceneId:sceneIdStr customMap:dic className:classNameStr localParams:localParamsDic openAutoLoadCallback:openAutoLoadCallback maxWaitTime:maxWaitTime backgroundColor:backgroundColorStr];
 }
 
 void TradplusShowBannerAd(const char* adUnitId,const char* sceneId)
@@ -613,7 +615,7 @@ void TradplusBannerSetCallbacks(TPBannerLoadedCallback adLoadedCallback,
 
 #pragma mark - Native
 
-void TradplusLoadNativeAd(const char* adUnitId, float x, float y, float width, float height,int adPosition, const char* customMap,const char* localParams)
+void TradplusLoadNativeAd(const char* adUnitId, float x, float y, float width, float height,int adPosition, const char* customMap,const char* localParams,bool openAutoLoadCallback, float maxWaitTime)
 {
     NSString *jsonString = stringFromUTF8String(customMap);
     NSDictionary *dic = nil;
@@ -630,7 +632,7 @@ void TradplusLoadNativeAd(const char* adUnitId, float x, float y, float width, f
         localParamsDic = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
     }
     NSString *adUnitIDStr = stringFromUTF8String(adUnitId);
-    [[TPUNativeManager sharedInstance] loadWithAdUnitID:adUnitIDStr x:x y:y width:width height:height adPosition:adPosition customMap:dic localParams:localParamsDic];
+    [[TPUNativeManager sharedInstance] loadWithAdUnitID:adUnitIDStr x:x y:y width:width height:height adPosition:adPosition customMap:dic localParams:localParamsDic openAutoLoadCallback:openAutoLoadCallback maxWaitTime:maxWaitTime];
 }
 
 void TradplusShowNativeAd(const char* adUnitId,const char* sceneId,const char* className)
@@ -722,7 +724,7 @@ void TradplusNativeSetCallbacks(TPNativeLoadedCallback adLoadedCallback,
 
 #pragma mark - NativeBanner
 
-void TradplusLoadNativeBannerAd(const char* adUnitId, bool closeAutoShow, float x, float y, float width, float height,int adPosition, const char* sceneId, const char* customMap,const char* className,const char* localParams)
+void TradplusLoadNativeBannerAd(const char* adUnitId, bool closeAutoShow, float x, float y, float width, float height,int adPosition, const char* sceneId, const char* customMap,const char* className,const char* localParams,bool openAutoLoadCallback, float maxWaitTime,const char* backgroundColor)
 {
     NSString *jsonString = stringFromUTF8String(customMap);
     NSDictionary *dic = nil;
@@ -741,7 +743,8 @@ void TradplusLoadNativeBannerAd(const char* adUnitId, bool closeAutoShow, float 
     NSString *adUnitIDStr = stringFromUTF8String(adUnitId);
     NSString *sceneIdStr = stringFromUTF8String(sceneId);
     NSString *classNameStr = stringFromUTF8String(className);
-    [[TPUNativeBannerManager sharedInstance] loadWithAdUnitID:adUnitIDStr closeAutoShow:closeAutoShow x:x y:y width:width height:height adPosition:adPosition sceneId:sceneIdStr customMap:dic className:classNameStr localParams:localParamsDic];
+    NSString *backgroundColorStr = stringFromUTF8String(backgroundColor);
+    [[TPUNativeBannerManager sharedInstance] loadWithAdUnitID:adUnitIDStr closeAutoShow:closeAutoShow x:x y:y width:width height:height adPosition:adPosition sceneId:sceneIdStr customMap:dic className:classNameStr localParams:localParamsDic openAutoLoadCallback:openAutoLoadCallback maxWaitTime:maxWaitTime backgroundColor:backgroundColorStr];
 }
 
 void TradplusShowNativeBannerAd(const char* adUnitId,const char* sceneId)
@@ -824,4 +827,97 @@ void TradplusNativeBannerSetCallbacks(TPNativeBannerLoadedCallback adLoadedCallb
     [TPUNativeBannerManager sharedInstance].oneLayerLoadFailedCallback = adOneLayerLoadFailedCallback;
     [TPUNativeBannerManager sharedInstance].allLoadedCallback = adAllLoadedCallback;
     [TPUNativeBannerManager sharedInstance].adIsLoadingCallback = adIsLoadingCallback;
+}
+
+#pragma mark - Splash
+
+
+void TradplusLoadSplashAd(const char* adUnitId,const char* customMap,const char* localParams,bool openAutoLoadCallback, float maxWaitTime)
+{
+    NSString *jsonString = stringFromUTF8String(customMap);
+    NSDictionary *dic = nil;
+    if(jsonString != nil)
+    {
+        NSData *data = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+        dic = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+    }
+    NSString *localParamsString = stringFromUTF8String(localParams);
+    NSDictionary *localParamsDic = nil;
+    if(localParamsString != nil)
+    {
+        NSData *data = [localParamsString dataUsingEncoding:NSUTF8StringEncoding];
+        localParamsDic = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+    }
+    NSString *adUnitIDStr = stringFromUTF8String(adUnitId);
+    [[TPUSplashManager sharedInstance] loadWithAdUnitID:adUnitIDStr customMap:dic localParams:localParamsDic openAutoLoadCallback:openAutoLoadCallback maxWaitTime:maxWaitTime];
+}
+
+void TradplusShowSplashAd(const char* adUnitId,const char* sceneId)
+{
+    NSString *adUnitIDStr = stringFromUTF8String(adUnitId);
+    NSString *sceneIDStr = stringFromUTF8String(sceneId);
+    [[TPUSplashManager sharedInstance] showWithAdUnitID:adUnitIDStr sceneId:sceneIDStr];
+}
+
+bool TradplusSplashAdReady(const char* adUnitId)
+{
+    NSString *adUnitIDStr = stringFromUTF8String(adUnitId);
+    return [[TPUSplashManager sharedInstance] adReadyWithAdUnitID:adUnitIDStr];
+}
+
+void TradplusEntrySplashAdScenario(const char* adUnitId,const char* sceneId)
+{
+    NSString *adUnitIDStr = stringFromUTF8String(adUnitId);
+    NSString *sceneIDStr = stringFromUTF8String(sceneId);
+    [[TPUSplashManager sharedInstance] entryAdScenarioWithAdUnitID:adUnitIDStr sceneId:sceneIDStr];
+}
+
+void TradplusSetCustomAdInfoSplash(const char* adUnitId,const char* customAdInfo)
+{
+    NSString *jsonString = stringFromUTF8String(customAdInfo);
+    NSDictionary *dic = nil;
+    if(jsonString != nil)
+    {
+        NSData *data = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+        dic = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+    }
+    NSString *adUnitIDStr = stringFromUTF8String(adUnitId);
+    [[TPUSplashManager sharedInstance] setCustomAdInfo:dic adUnitID:adUnitIDStr];
+}
+
+void TradplusSplashSetCallbacks(TPSplashLoadedCallback adLoadedCallback,
+                                TPSplashLoadFailedCallback adLoadFailedCallback,
+                                TPSplashImpressionCallback adImpressionCallback,
+                                TPSplashShowFailedCallback adShowFailedCallback,
+                                TPSplashClickedCallback adClickedCallback,
+                                TPSplashClosedCallback adClosedCallback,
+                                TPSplashStartLoadCallback adStartLoadCallback,
+                                TPSplashBiddingStartCallback adBiddingStartCallback,
+                                TPSplashBiddingEndCallback adBiddingEndCallback,
+                                TPSplashOneLayerStartLoadCallback adOneLayerStartLoadCallback,
+                                TPSplashOneLayerLoadedCallback adOneLayerLoadedCallback,
+                                TPSplashOneLayerLoadFailedCallback adOneLayerLoadFailedCallback,
+                                TPSplashAllLoadedCallback adAllLoadedCallback,
+                                TPSplashAdIsLoadingCallback adIsLoadingCallback,
+                                TPSplashZoomOutStartCallback adZoomOutStartCallback,
+                                TPSplashZoomOutEndCallback adZoomOutEndCallback,
+                                TPSplashSkipCallback adSkipCallback)
+{
+    [TPUSplashManager sharedInstance].loadedCallback = adLoadedCallback;
+    [TPUSplashManager sharedInstance].loadFailedCallback = adLoadFailedCallback;
+    [TPUSplashManager sharedInstance].impressionCallback = adImpressionCallback;
+    [TPUSplashManager sharedInstance].showFailedCallback = adShowFailedCallback;
+    [TPUSplashManager sharedInstance].clickedCallback = adClickedCallback;
+    [TPUSplashManager sharedInstance].closedCallback = adClosedCallback;
+    [TPUSplashManager sharedInstance].startLoadCallback = adStartLoadCallback;
+    [TPUSplashManager sharedInstance].biddingStartCallback = adBiddingStartCallback;
+    [TPUSplashManager sharedInstance].biddingEndCallback = adBiddingEndCallback;
+    [TPUSplashManager sharedInstance].oneLayerStartLoadCallback = adOneLayerStartLoadCallback;
+    [TPUSplashManager sharedInstance].oneLayerLoadedCallback = adOneLayerLoadedCallback;
+    [TPUSplashManager sharedInstance].oneLayerLoadFailedCallback = adOneLayerLoadFailedCallback;
+    [TPUSplashManager sharedInstance].allLoadedCallback = adAllLoadedCallback;
+    [TPUSplashManager sharedInstance].adIsLoadingCallback = adIsLoadingCallback;
+    [TPUSplashManager sharedInstance].zoomOutStartCallback = adZoomOutStartCallback;
+    [TPUSplashManager sharedInstance].zoomOutEndCallback = adZoomOutEndCallback;
+    [TPUSplashManager sharedInstance].skipCallback = adSkipCallback;
 }

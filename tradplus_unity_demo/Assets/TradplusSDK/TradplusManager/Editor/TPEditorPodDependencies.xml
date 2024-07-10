@@ -1,5 +1,5 @@
 <dependencies>
 <iosPods>
-<iosPod name="TradPlusAdSDK" version="9.3.0"/>
+<iosPod name="TradPlusAdSDK" version="11.7.0"/>
 </iosPods>
 </dependencies>

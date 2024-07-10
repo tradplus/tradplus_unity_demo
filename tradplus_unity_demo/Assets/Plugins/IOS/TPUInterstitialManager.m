@@ -44,7 +44,7 @@
     return nil;
 }
 
-- (void)loadWithAdUnitID:(NSString *)adUnitID customMap:(NSDictionary *)customMap localParams:(NSDictionary *)localParams
+- (void)loadWithAdUnitID:(NSString *)adUnitID customMap:(NSDictionary *)customMap localParams:(NSDictionary *)localParams openAutoLoadCallback:(BOOL)openAutoLoadCallback maxWaitTime:(float)maxWaitTime
 {
     if(adUnitID == nil)
     {
@@ -59,8 +59,12 @@
     }
     [interstitial setLocalParams:localParams];
     [interstitial setCustomMap:customMap];
+    if(openAutoLoadCallback)
+    {
+        [interstitial openAutoLoadCallback];
+    }
     [interstitial setAdUnitID:adUnitID];
-    [interstitial loadAd];
+    [interstitial loadAdWithMaxWaitTime:maxWaitTime];
 }
 
 - (void)showWithAdUnitID:(NSString *)adUnitID sceneId:(NSString *)sceneId;

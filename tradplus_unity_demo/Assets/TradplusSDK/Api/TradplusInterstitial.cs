@@ -1,18 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
-#if UNITY_IOS
+#if UNITY_EDITOR
+using TradplusSDK.Unity;
+#elif UNITY_IOS
 using TradplusSDK.iOS;
-#endif
+#elif UNITY_ANDROID
 using TradplusSDK.Android;
+#else
+using TradplusSDK.Unity;
+#endif
 using UnityEngine;
 
 namespace TradplusSDK.Api
 {
+
     public class TPInterstitial:
-#if UNITY_IOS
-        TradplusInterstitialiOS
+#if UNITY_EDITOR
+     TPSdkUnityInterstitial
+#elif UNITY_IOS
+     TradplusInterstitialiOS
+#elif UNITY_ANDROID
+     TradplusInterstitialAndroid
 #else
-        TradplusInterstitialAndroid
+     TPSdkUnityInterstitial
 #endif
     { }
 
@@ -32,7 +42,12 @@ namespace TradplusSDK.Api
         ///<summary>
         ///本地参数
         ///</summary>
-        public Dictionary<string, object> localParams; 
+        public Dictionary<string, object> localParams;
+
+        public bool openAutoLoadCallback;
+
+        public float maxWaitTime;
+
         public TPInterstitialExtra()
         {
         }
@@ -59,11 +74,19 @@ namespace TradplusSDK.Api
         ///<param name="extra">附加参数</param> 
         public void LoadInterstitialAd(string adUnitId, TPInterstitialExtra extra = null)
         {
-            if(extra == null)
+#if UNITY_EDITOR
+            if (this.OnInterstitialLoaded != null)
+            {
+                Dictionary<string, object> adInfo = new Dictionary<string, object>();
+                this.OnInterstitialLoaded(adUnitId, adInfo);
+            }
+#elif UNITY_IOS || UNITY_ANDROID
+            if (extra == null)
             {
                 extra = new TPInterstitialExtra();
             }
             TPInterstitial.Instance().LoadInterstitialAd(adUnitId, extra);
+#endif
         }
 
         ///<summary>
@@ -107,9 +130,22 @@ namespace TradplusSDK.Api
             TPInterstitial.Instance().SetCustomAdInfo(adUnitId, customAdInfo);
         }
 
-//接口回调
+        ///<summary>
+        ///开发者在 OnApplicationQuit 生命周期时调用关闭回调
+        ///仅iOS支持
+        ///</summary>
+        public void ClearCallback()
+        {
+#if UNITY_EDITOR
 
-//常用回调接口
+#elif UNITY_IOS
+            TPInterstitial.Instance().ClearCallback();
+#endif
+        }
+
+        //接口回调
+
+        //常用回调接口
 
         ///<summary>
         ///加载成功 string adUnitId,Dictionary adInfo

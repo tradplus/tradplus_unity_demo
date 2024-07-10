@@ -32,6 +32,8 @@ namespace TradplusSDK.Android
             info.Add("customMap", extra.customMap);
             info.Add("localParams", extra.localParams);
             info.Add("isSimpleListener", extra.isSimpleListener);
+            info.Add("maxWaitTime", extra.maxWaitTime);
+            info.Add("openAutoLoadCallback", extra.openAutoLoadCallback);
 
 
             TPInterstitial.Call("loadAd", adUnitId, Json.Serialize(info), loadListenerAdapter);

@@ -32,7 +32,7 @@ namespace Tardplus.TradplusEditorManager.Editor
 
                 if(replaceString.Length > 0)
                 {
-                    replaceString = "target 'Unity-iPhone' do \n" + replaceString;
+                    replaceString = "target 'Unity-iPhone' do \nuse_frameworks!\n" + replaceString;
                     string path = buildPath + "/Podfile";
                     string Podfile = File.ReadAllText(path);
                     //Podfile = Podfile.Replace("target 'Unity-iPhone' do", replaceString);
@@ -239,11 +239,24 @@ namespace Tardplus.TradplusEditorManager.Editor
             //确认pod是否有Verve
             if (pathDir.Exists)
             {
-                string[] sdkPathArray = new string[] {
-                    "\"${PODS_CONFIGURATION_BUILD_DIR}/HyBid\"",
-                    "\"${PODS_ROOT}/HyBid/PubnativeLite/PubnativeLite/OMSDK-1.3.29\"",
-                    "\"${PODS_XCFRAMEWORKS_BUILD_DIR}/HyBid/Core\""
-                };
+                string omsdkStr = finidString(pathArray,"${PODS_ROOT}/HyBid/PubnativeLite/PubnativeLite/OMSDK-","\"");
+                string[] sdkPathArray;
+                if (omsdkStr != null)
+                {
+                    omsdkStr = "\"" + omsdkStr + "\"";
+                    sdkPathArray = new string[] {
+                        omsdkStr,
+                        "\"${PODS_CONFIGURATION_BUILD_DIR}/HyBid\"",
+                        "\"${PODS_XCFRAMEWORKS_BUILD_DIR}/HyBid/Core\""
+                    };
+                }
+                else
+                {
+                    sdkPathArray = new string[] {
+                        "\"${PODS_CONFIGURATION_BUILD_DIR}/HyBid\"",
+                        "\"${PODS_XCFRAMEWORKS_BUILD_DIR}/HyBid/Core\""
+                    };
+                }
 
                 string[] frameworkArray = new string[] {
                     "-framework \"HyBid\"",
@@ -288,15 +301,49 @@ namespace Tardplus.TradplusEditorManager.Editor
             //确认pod是否有Bigo
             if (pathDir.Exists)
             {
-                string[] sdkPathArray = new string[] {
-                    "\"${PODS_ROOT}/BigoADS/BigoADS\"",
-                    "\"${PODS_XCFRAMEWORKS_BUILD_DIR}/BigoADS\"",
-                };
+                string podStr = finidString(pathArray, "${PODS_XCFRAMEWORKS_BUILD_DIR}/BigoADS", "\"");
+                if (podStr != null)
+                {
+                    string[] sdkPathArray = new string[] {
+                        "\"${PODS_ROOT}/BigoADS/BigoADS\"",
+                        "\"${PODS_XCFRAMEWORKS_BUILD_DIR}/BigoADS\"",
+                    };
+
+                    string[] frameworkArray = new string[] {
+                        "-framework \"BigoADS\"",
+                        "-framework \"OMSDK_Bigosg\"",
+                    };
+                    removeSetting(pathArray, sdkPathArray, frameworkArray);
+                    AddFrameworkPath(buildPath, sdkPathArray, frameworkArray);
+                }
+                
+            }
+            ///Tapjoy 
+            string TapjoySDKPath = buildPath + "/Pods/Target Support Files/TapjoySDK/";
+            pathDir = new DirectoryInfo(TapjoySDKPath);
+            //确认pod是否有Tapjoy
+            if (pathDir.Exists)
+            {
+                string podStr = finidString(pathArray, "${PODS_ROOT}/TapjoySDK/TapjoySDK_iOS_", "\"");
+                string[] sdkPathArray;
+                if (podStr != null)
+                {
+                    podStr = "\"" + podStr + "\"";
+                    sdkPathArray = new string[] {
+                     podStr,
+                     "\"${PODS_XCFRAMEWORKS_BUILD_DIR}/TapjoySDK\"",
+                 };
+                }
+                else
+                {
+                    sdkPathArray = new string[] {
+                     "\"${PODS_XCFRAMEWORKS_BUILD_DIR}/TapjoySDK\"",
+                 };
+                }
 
                 string[] frameworkArray = new string[] {
-                    "-framework \"BigoADS\"",
-                    "-framework \"OMSDK_Bigosg\"",
-                };
+                 "-framework \"Tapjoy\""
+             };
                 removeSetting(pathArray, sdkPathArray, frameworkArray);
                 AddFrameworkPath(buildPath, sdkPathArray, frameworkArray);
             }
@@ -331,6 +378,114 @@ namespace Tardplus.TradplusEditorManager.Editor
                 string[] frameworkArray = new string[] {
                 "-framework \"StartApp\""
             };
+                removeSetting(pathArray, sdkPathArray, frameworkArray);
+                AddFrameworkPath(buildPath, sdkPathArray, frameworkArray);
+            }
+            //Maio-v2
+            string MaioDKPath = buildPath + "/Pods/Target Support Files/MaioSDK-v2/";
+            pathDir = new DirectoryInfo(MaioDKPath);
+            //确认pod是否有Maio-v2
+            if (pathDir.Exists)
+            {
+                string[] sdkPathArray = new string[] {
+                "\"${PODS_ROOT}/MaioSDK-v2\"",
+                "\"${PODS_XCFRAMEWORKS_BUILD_DIR}/MaioSDK-v2\"",
+            };
+
+                string[] frameworkArray = new string[] {
+                "-framework \"Maio\""
+            };
+                removeSetting(pathArray, sdkPathArray, frameworkArray);
+                AddFrameworkPath(buildPath, sdkPathArray, frameworkArray);
+            }
+            ///AmazonPublisherServicesSDK
+            string AmazonDKPath = buildPath + "/Pods/Target Support Files/AmazonPublisherServicesSDK/";
+            pathDir = new DirectoryInfo(AmazonDKPath);
+            //确认pod是否有Amazon
+            if (pathDir.Exists)
+            {
+                string podStr = finidString(pathArray, "${PODS_ROOT}/AmazonPublisherServicesSDK/APS_iOS_SDK-", "\"");
+                string[] sdkPathArray;
+                if (podStr != null)
+                {
+                    podStr = "\"" + podStr + "\"";
+                    sdkPathArray = new string[] {
+                        podStr,
+                        "\"${PODS_XCFRAMEWORKS_BUILD_DIR}/AmazonPublisherServicesSDK\"",
+                    };
+                }
+                else
+                {
+                    sdkPathArray  = new string[] {
+                        "\"${PODS_XCFRAMEWORKS_BUILD_DIR}/AmazonPublisherServicesSDK\"",
+                    };
+                }
+
+                string[] frameworkArray = new string[] {
+                "-framework \"DTBiOSSDK\""
+            };
+                removeSetting(pathArray, sdkPathArray, frameworkArray);
+                AddFrameworkPath(buildPath, sdkPathArray, frameworkArray);
+            }
+            ///KwaiAdsSDK 
+            string KwaiAdsSDKPath = buildPath + "/Pods/Target Support Files/TradPlusKwaiAdsSDK/";
+            pathDir = new DirectoryInfo(KwaiAdsSDKPath);
+            //确认pod是否有TradPlusKwaiAdsSDK
+            if (pathDir.Exists)
+            {
+                string[] sdkPathArray = new string[] {
+                    "\"${PODS_ROOT}/TradPlusKwaiAdsSDK/KwaiAdsSDK\"",
+                    "\"${PODS_XCFRAMEWORKS_BUILD_DIR}/TradPlusKwaiAdsSDK\"",
+                };
+
+                string[] frameworkArray = new string[] {
+                    "-framework \"KwaiAdsSDK\""
+                };
+                removeSetting(pathArray, sdkPathArray, frameworkArray);
+                AddFrameworkPath(buildPath, sdkPathArray, frameworkArray);
+            }
+            //AppLovin
+            string AppLovinSDKPath = buildPath + "/Pods/Target Support Files/AppLovinSDK/";
+            pathDir = new DirectoryInfo(AppLovinSDKPath);
+            //确认pod是否有AppLovin
+            if (pathDir.Exists)
+            {
+                string podStr = finidString(pathArray, "${PODS_ROOT}/AppLovinSDK/applovin-ios-sdk-", "\"");
+                string[] sdkPathArray;
+                if (podStr != null)
+                {
+                    podStr = "\"" + podStr + "\"";
+                    sdkPathArray = new string[] {
+                         podStr,
+                         "\"${PODS_XCFRAMEWORKS_BUILD_DIR}/AppLovinSDK\"",
+                     };
+                }
+                else
+                {
+                    sdkPathArray = new string[] {
+                         "\"${PODS_XCFRAMEWORKS_BUILD_DIR}/AppLovinSDK\"",
+                     };
+                }
+                string[] frameworkArray = new string[] {
+                    "-framework \"AppLovinSDK\""
+                };
+                removeSetting(pathArray, sdkPathArray, frameworkArray);
+                AddFrameworkPath(buildPath, sdkPathArray, frameworkArray);
+            }
+            //Inmobi
+            string InmobiSDKPath = buildPath + "/Pods/Target Support Files/InMobiSDK/";
+            pathDir = new DirectoryInfo(InmobiSDKPath);
+            //确认pod是否有Inmobi
+            if (pathDir.Exists)
+            {
+                string[] sdkPathArray = new string[] {
+                    "\"${PODS_ROOT}/InMobiSDK\"",
+                    "\"${PODS_XCFRAMEWORKS_BUILD_DIR}/InMobiSDK\"",
+                };
+
+                string[] frameworkArray = new string[] {
+                    "-framework \"InMobiSDK\""
+                };
                 removeSetting(pathArray, sdkPathArray, frameworkArray);
                 AddFrameworkPath(buildPath, sdkPathArray, frameworkArray);
             }
@@ -384,6 +539,32 @@ namespace Tardplus.TradplusEditorManager.Editor
                     File.WriteAllText(fliePath, fileData);
                 }
             }
+        }
+        private static string finidString(string[] pathArray, string startStr, string endStr)
+        {
+            foreach (string fliePath in pathArray)
+            {
+                if (System.IO.File.Exists(fliePath))
+                {
+                    string str = File.ReadAllText(fliePath);
+                    int startIndex = str.IndexOf(startStr);
+                    string callBackStr = "";
+                    if (startIndex > 0)
+                    {
+                        string tempStr = str.Substring(startIndex);
+                        int endIndex = tempStr.IndexOf(endStr);
+                        if (endIndex > 0)
+                        {
+                            callBackStr = tempStr.Remove(endIndex);
+                        }
+                    }
+                    if (callBackStr.Length > 0)
+                    {
+                        return callBackStr;
+                    }
+                }
+            }
+            return null;
         }
     }
 }

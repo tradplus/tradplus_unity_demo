@@ -1,6 +1,6 @@
 <dependencies>
 <iosPods>
-<iosPod name ="TradPlusAdSDK/FacebookAdapter" version="9.3.0"/>
-<iosPod name ="FBAudienceNetwork" version="6.12.0"/>
+<iosPod name ="TradPlusAdSDK/FacebookAdapter" version="11.7.0"/>
+<iosPod name ="FBAudienceNetwork" version="6.15.1"/>
 </iosPods>
 </dependencies>

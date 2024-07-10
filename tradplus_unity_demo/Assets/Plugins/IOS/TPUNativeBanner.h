@@ -17,7 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,readonly)BOOL isAdReady;
 
 - (void)setAdUnitID:(NSString * _Nonnull)adUnitID;
-- (void)loadAdWithSceneId:(nullable NSString *)sceneId;
+- (void)loadAdWithSceneId:(nullable NSString *)sceneId maxWaitTime:(float)maxWaitTime;
+- (void)openAutoLoadCallback;
 - (void)showAdWithSceneId:(nullable NSString *)sceneId;
 - (void)setCustomMap:(NSDictionary *)dic;
 - (void)setLocalParams:(NSDictionary *)dic;
@@ -28,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)display;
 - (void)destroy;
 - (void)setCustomAdInfo:(NSDictionary *)customAdInfo;
-
+- (void)setBackgroundColor:(NSString *)backgroundColor;
 
 @property (nonatomic,assign)BOOL closeAutoShow;
 @property (nonatomic,copy)NSString *className;

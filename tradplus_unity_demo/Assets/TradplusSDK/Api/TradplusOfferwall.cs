@@ -1,17 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
-#if UNITY_IOS
+#if UNITY_EDITOR
+using TradplusSDK.Unity;
+#elif UNITY_IOS
 using TradplusSDK.iOS;
-#endif
+#elif UNITY_ANDROID
 using TradplusSDK.Android;
+#else
+using TradplusSDK.Unity;
+#endif
 
 namespace TradplusSDK.Api
 {
     public class TPOfferwall :
-#if UNITY_IOS
+#if UNITY_EDITOR
+        TPSdkUnityOfferwall
+#elif UNITY_IOS
         TradplusOfferwalliOS
-#else
+#elif UNITY_ANDROID
         TradplusOfferwallAndroid
+#else
+        TPSdkUnityOfferwall
 #endif
     { }
 
@@ -32,6 +41,11 @@ namespace TradplusSDK.Api
         ///本地参数
         ///</summary>
         public Dictionary<string, object> localParams;
+
+        public bool openAutoLoadCallback;
+
+        public float maxWaitTime;
+
         public TPOfferwallExtra()
         {
         }
@@ -57,11 +71,19 @@ namespace TradplusSDK.Api
         ///<param name="extra">附加参数</param> 
         public void LoadOfferwallAd(string adUnitId, TPOfferwallExtra extra = null)
         {
+#if UNITY_EDITOR
+            if (this.OnOfferwallLoaded != null)
+            {
+                Dictionary<string, object> adInfo = new Dictionary<string, object>();
+                this.OnOfferwallLoaded(adUnitId, adInfo);
+            }
+#elif  UNITY_IOS || UNITY_ANDROID
             if (extra == null)
             {
                 extra = new TPOfferwallExtra();
             }
             TPOfferwall.Instance().LoadOfferwallAd(adUnitId, extra);
+#endif  
         }
 
         ///<summary>
@@ -80,7 +102,7 @@ namespace TradplusSDK.Api
         ///<param name="adUnitId">广告位ID</param>
         public bool OfferwallAdReady(string adUnitId)
         {
-            return TPOfferwall.Instance().OfferwallAdReady(adUnitId); ;
+            return TPOfferwall.Instance().OfferwallAdReady(adUnitId);
         }
 
         ///<summary>
@@ -149,9 +171,22 @@ namespace TradplusSDK.Api
             TPOfferwall.Instance().SetCustomAdInfo(adUnitId, customAdInfo);
         }
 
-//接口回调
+        ///<summary>
+        ///开发者在 OnApplicationQuit 生命周期时调用关闭回调
+        ///仅iOS支持
+        ///</summary>
+        public void ClearCallback()
+        {
+#if UNITY_EDITOR
 
-//常用回调接口
+#elif UNITY_IOS
+            TPOfferwall.Instance().ClearCallback();
+#endif
+        }
+
+        //接口回调
+
+        //常用回调接口
 
         ///<summary>
         ///加载成功 string adUnitId,Dictionary adInfo

@@ -30,6 +30,9 @@ namespace Tardplus.TradplusEditorManager.Editor
         private int iOSPopupIndex;
         private int AndroidPopupIndex;
 
+        string searchText;
+        string showSearchText;
+
         static TradplusEditorManagerWindow manager;
 
         public static void ShowManager()
@@ -71,7 +74,7 @@ namespace Tardplus.TradplusEditorManager.Editor
                 padding = new RectOffset(1, 1, 1, 1)
             };
             TradplusEditorManager.Instance().GetConfig();
-            
+            searchText = "";
         }
 
         private void OnDisable()
@@ -159,6 +162,17 @@ namespace Tardplus.TradplusEditorManager.Editor
         private void DrawNetworkList()
         {
             EditorGUILayout.LabelField("Ad Networks", titleLabelStyle);
+            GUILayout.Space(10);
+            GUILayout.BeginHorizontal();
+            GUILayout.Space(15);
+            this.searchText = GUILayout.TextField(searchText);
+            GUILayout.Space(5);
+            if (GUILayout.Button(new GUIContent("search"), fieldWidth))
+            {
+                this.showSearchText = this.searchText;
+            }
+            GUILayout.Space(30);
+            GUILayout.EndHorizontal();
             GUILayout.Space(5);
             GUILayout.BeginHorizontal();
             GUILayout.Space(10);
@@ -167,9 +181,21 @@ namespace Tardplus.TradplusEditorManager.Editor
                 DrawRowHeader("Network",true);
                 foreach (TardplusNetworkDesc desc in TradplusEditorManager.Instance().networkInfo.networkList)
                 {
-                    if (Equals(desc.uniqueNetworkId.ToLower(), "n40"))
+                    //if (Equals(desc.uniqueNetworkId.ToLower(), "n40"))
+                    //{
+                    //    continue;
+                    //}
+                    if(this.showSearchText != null && this.showSearchText.Length > 0)
                     {
-                        continue;
+                        string name = desc.nameEn;
+                        if (desc.nameCn != null && desc.nameCn.Length > 0)
+                        {
+                            name = desc.nameEn + "-" + desc.nameCn;
+                        }
+                        if (!name.ToLower().Contains(this.showSearchText.ToLower()))
+                        {
+                            continue;
+                        }
                     }
                     using (new EditorGUILayout.VerticalScope("box"))
                     {

@@ -1,6 +1,5 @@
 <dependencies>
 <iosPods>
-<iosPod name ="TradPlusAdSDK/InMobiAdapter" version="9.3.0"/>
-<iosPod name ="InMobiSDK/Core" version="10.1.2"/>
+<iosPod name ="TradPlusAdSDK/InMobiAdapter" version="11.7.0"/>
 </iosPods>
 </dependencies>

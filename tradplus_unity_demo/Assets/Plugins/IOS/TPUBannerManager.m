@@ -8,6 +8,7 @@
 #import "TPUBannerManager.h"
 #import "TPUBanner.h"
 #import <TradPlusAds/TradPlusAds.h>
+#import "TPUPluginUtil.h"
 
 @interface TPUBannerManager()
 
@@ -44,7 +45,7 @@
     return nil;
 }
 
-- (void)loadWithAdUnitID:(NSString *)adUnitID closeAutoShow:(BOOL)closeAutoShow x:(float)x y:(float)y width:(float)width height:(float)height adPosition:(int)adPosition contentMode:(int)contentMode sceneId:(NSString *)sceneId customMap:(NSDictionary *)customMap className:(NSString *)className localParams:(NSDictionary *)localParams
+- (void)loadWithAdUnitID:(NSString *)adUnitID closeAutoShow:(BOOL)closeAutoShow x:(float)x y:(float)y width:(float)width height:(float)height adPosition:(int)adPosition contentMode:(int)contentMode sceneId:(NSString *)sceneId customMap:(NSDictionary *)customMap className:(NSString *)className localParams:(NSDictionary *)localParams openAutoLoadCallback:(BOOL)openAutoLoadCallback maxWaitTime:(float)maxWaitTime backgroundColor:(NSString *)backgroundColor
 {
     if(adUnitID == nil)
     {
@@ -61,14 +62,37 @@
     [banner setCustomMap:customMap];
     [banner setLocalParams:localParams];
     CGSize size = CGSizeZero;
-    size.width = width;
-    size.height = height;
+    if(width == 0)
+    {
+        UIView *rootView = [TPUPluginUtil unityViewController].view;
+        size.width = [UIScreen mainScreen].bounds.size.width;
+        if (@available(iOS 11.0, *)) {
+            size.width = size.width - rootView.safeAreaInsets.left - rootView.safeAreaInsets.right;
+        }
+    }
+    else
+    {
+        size.width = width;
+    }
+    if(height == 0)
+    {
+        size.height = 50;
+    }
+    else
+    {
+        size.height = height;
+    }
     [banner setBannerSize:size];
     [banner setBannerContentMode:contentMode];
     banner.closeAutoShow = closeAutoShow;
     [banner setX:x y:y adPosition:adPosition];
     [banner setAdUnitID:adUnitID];
-    [banner loadAdWithSceneId:sceneId];
+    [banner setBackgroundColor:backgroundColor];
+    if(openAutoLoadCallback)
+    {
+        [banner openAutoLoadCallback];
+    }
+    [banner loadAdWithSceneId:sceneId maxWaitTime:maxWaitTime];
 }
 
 - (void)showWithAdUnitID:(NSString *)adUnitID sceneId:(NSString *)sceneId;

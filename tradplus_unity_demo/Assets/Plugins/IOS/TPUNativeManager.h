@@ -30,7 +30,7 @@ typedef void (*TPNativeAdIsLoadingCallback)(const char* adUnitId);
 
 + (TPUNativeManager *)sharedInstance;
 
-- (void)loadWithAdUnitID:(NSString *)adUnitID x:(float)x y:(float)y width:(float)width height:(float)height adPosition:(int)adPosition customMap:(NSDictionary *)customMap localParams:(NSDictionary *)localParams;
+- (void)loadWithAdUnitID:(NSString *)adUnitID x:(float)x y:(float)y width:(float)width height:(float)height adPosition:(int)adPosition customMap:(NSDictionary *)customMap localParams:(NSDictionary *)localParams openAutoLoadCallback:(BOOL)openAutoLoadCallback maxWaitTime:(float)maxWaitTime;
 - (void)showWithAdUnitID:(NSString *)adUnitID sceneId:(NSString *)sceneId className:(NSString *)className;
 - (BOOL)adReadyWithAdUnitID:(NSString *)adUnitID;
 - (void)entryAdScenarioWithAdUnitID:(NSString *)adUnitID sceneId:(NSString *)sceneId;

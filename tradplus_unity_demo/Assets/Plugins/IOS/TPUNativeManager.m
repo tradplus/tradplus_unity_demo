@@ -44,7 +44,7 @@
     return nil;
 }
 
-- (void)loadWithAdUnitID:(NSString *)adUnitID x:(float)x y:(float)y width:(float)width height:(float)height adPosition:(int)adPosition customMap:(NSDictionary *)customMap localParams:(NSDictionary *)localParams
+- (void)loadWithAdUnitID:(NSString *)adUnitID x:(float)x y:(float)y width:(float)width height:(float)height adPosition:(int)adPosition customMap:(NSDictionary *)customMap localParams:(NSDictionary *)localParams openAutoLoadCallback:(BOOL)openAutoLoadCallback maxWaitTime:(float)maxWaitTime
 {
     if(adUnitID == nil)
     {
@@ -64,8 +64,12 @@
     [native setTemplateRenderSize:size];
     [native setX:x y:y adPosition:adPosition];
     [native setLocalParams:localParams];
+    if(openAutoLoadCallback)
+    {
+        [native openAutoLoadCallback];
+    }
     [native setAdUnitID:adUnitID];
-    [native loadAd];
+    [native loadAdWithMaxWaitTime:maxWaitTime];
 }
 
 - (void)showWithAdUnitID:(NSString *)adUnitID sceneId:(NSString *)sceneId className:(NSString *)className

@@ -1,18 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
-#if UNITY_IOS
+#if UNITY_EDITOR
+using TradplusSDK.Unity;
+#elif UNITY_IOS
 using TradplusSDK.iOS;
-#endif
+#elif UNITY_ANDROID
 using TradplusSDK.Android;
+#else
+using TradplusSDK.Unity;
+#endif
 
 namespace TradplusSDK.Api
 {
     public class TPNativeBanner :
-#if UNITY_IOS
+#if UNITY_EDITOR
+        TPSdkUnityNativeBanner
+#elif UNITY_IOS
         TradplusNativeBanneriOS
-#else
+#elif UNITY_ANDROID
         TradplusNativeBannerAndroid
+#else
+        TPSdkUnityNativeBanner
 #endif
+
     { }
 
     ///<summary>
@@ -28,7 +38,11 @@ namespace TradplusSDK.Api
         ///是否关闭自动展示
         ///</summary>
         public bool closeAutoShow;
-
+        ///<summary>
+        ///是否关闭自动销毁
+        ///仅Android支持
+        ///</summary>
+        public bool closeAutoDestroy;
         ///<summary>
         ///原生横幅广告展示坐标 x，默认 0
         ///</summary>
@@ -40,7 +54,7 @@ namespace TradplusSDK.Api
         public float y;
 
         ///<summary>
-        ///原生横幅广告展示 width，默认 320
+        ///原生横幅广告展示 width，默认 全屏
         ///</summary>
         public float width;
 
@@ -68,11 +82,21 @@ namespace TradplusSDK.Api
         ///</summary>
         public string className;
 
+        ///<summary>
+        ///自定义背景色 例如：#FFFFFF(仅iOS支持)
+        ///</summary>
+        public string backgroundColor;
+
+        public bool openAutoLoadCallback;
+
+        public float maxWaitTime;
+
         public TPNativeBannerExtra()
         {
-            width = 320;
+            width = 0;
             height = 50;
             adPosition = TradplusBase.AdPosition.TopLeft;
+            backgroundColor = "";
         }
     }
 
@@ -97,11 +121,20 @@ namespace TradplusSDK.Api
         ///<param name="extra">附加参数</param> 
         public void LoadNativeBannerAd(string adUnitId, string sceneId = "", TPNativeBannerExtra extra = null)
         {
+#if UNITY_EDITOR
+            if (this.OnNativeBannerLoaded != null)
+            {
+                Dictionary<string, object> adInfo = new Dictionary<string, object>();
+                this.OnNativeBannerLoaded(adUnitId, adInfo);
+            }
+
+#elif UNITY_IOS || UNITY_ANDROID
             if (extra == null)
             {
                 extra = new TPNativeBannerExtra();
             }
             TPNativeBanner.Instance().LoadNativeBannerAd(adUnitId, sceneId, extra);
+#endif
         }
 
         ///<summary>
@@ -176,9 +209,22 @@ namespace TradplusSDK.Api
             TPNativeBanner.Instance().SetCustomAdInfo(adUnitId, customAdInfo);
         }
 
-//接口回调
+        ///<summary>
+        ///开发者在 OnApplicationQuit 生命周期时调用关闭回调
+        ///仅iOS支持
+        ///</summary>
+        public void ClearCallback()
+        {
+#if UNITY_EDITOR
 
-//常用回调接口
+#elif UNITY_IOS
+            TPNativeBanner.Instance().ClearCallback();
+#endif
+        }
+
+        //接口回调
+
+        //常用回调接口
 
         ///<summary>
         ///加载成功 string adUnitId,Dictionary adInfo

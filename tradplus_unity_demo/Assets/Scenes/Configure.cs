@@ -89,6 +89,15 @@ public class Configure
         }
     }
 
+    private static string splashUnitId;
+    public string SplashUnitId
+    {
+        get
+        {
+            return splashUnitId;
+        }
+    }
+
     public void ShowLog(string logStr)
     {
         Debug.LogWarning(logStr);
@@ -211,6 +220,7 @@ public class Configure
         bannerUnitId = "9E56C2D02AAB859FF45CC9BDC6C91C21";
         nativeUnitId = "293161A28F7C5D6750F97BA97A11FEC8";
         nativeBannerUnitId = "88BD49596ABC9F70F82FA2C43B0EC54B";
+        splashUnitId = "E5BC6369FC7D96FD47612B279BC5AAE0";
 
         mainCustomMap.Add("user_id", "test_user_id");
         mainCustomMap.Add("user_age", "19");
@@ -233,6 +243,7 @@ public class Configure
         nativeBannerUnitId = "9F4D76E204326B16BD42FA877AFE8E7D";
         offerwallUnitId = "4F7F1B9288B2FD513C8549A4A9F5D60F";
         interActiveUnitId = "EA55BF39C860B46B2E92B48F4C521368";
+        splashUnitId = "D9118E91DD06DF6D322369455CAED618";
 
         mainCustomMap.Add("user_id", "test_user_id");
         mainCustomMap.Add("user_age", "19");

@@ -24,7 +24,7 @@ namespace TradplusSDK.iOS
         }
 
         [DllImport("__Internal")]
-        private static extern void TradplusLoadBannerAd(string adUnitId, bool closeAutoShow, float x, float y, float width, float height,int adPosition, int contentMode, string sceneId, string customMap,string className, string localParams);
+        private static extern void TradplusLoadBannerAd(string adUnitId, bool closeAutoShow, float x, float y, float width, float height,int adPosition, int contentMode, string sceneId, string customMap,string className, string localParams, bool openAutoLoadCallback, float maxWaitTime,string backgroundColor);
         public void LoadBannerAd(string adUnitId, string sceneId , TPBannerExtra extra)
         {
             string customMapString = null;
@@ -37,7 +37,7 @@ namespace TradplusSDK.iOS
             {
                 localParamsString = Json.Serialize(extra.localParams);
             }
-            TradplusLoadBannerAd(adUnitId, extra.closeAutoShow,extra.x,extra.y,extra.width,extra.height,(int)extra.adPosition, (int)extra.contentMode , sceneId,customMapString, extra.className, localParamsString);
+            TradplusLoadBannerAd(adUnitId, extra.closeAutoShow,extra.x,extra.y,extra.width,extra.height,(int)extra.adPosition, (int)extra.contentMode , sceneId,customMapString, extra.className, localParamsString, extra.openAutoLoadCallback, extra.maxWaitTime,extra.backgroundColor);
         }
 
         [DllImport("__Internal")]
@@ -104,7 +104,27 @@ namespace TradplusSDK.iOS
             }
         }
 
-//回调部分
+        public void ClearCallback()
+        {
+            TradplusBannerSetCallbacks(
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+           );
+        }
+
+        //回调部分
 
         //注册回调
         [DllImport("__Internal")]

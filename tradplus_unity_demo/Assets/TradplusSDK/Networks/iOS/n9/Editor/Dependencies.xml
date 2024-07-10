@@ -1,6 +1,5 @@
 <dependencies>
 <iosPods>
-<iosPod name ="TradPlusAdSDK/AppLovinAdapter" version="9.3.0"/>
-<iosPod name ="AppLovinSDK" version="11.9.0"/>
+<iosPod name ="TradPlusAdSDK/AppLovinAdapter" version="11.7.0"/>
 </iosPods>
 </dependencies>

@@ -1,14 +1,14 @@
 <dependencies>
 <androidPackages>
+<androidPackage spec="com.tradplusad:tradplus:12.0.0.1">
+</androidPackage>
 <androidPackage spec="androidx.legacy:legacy-support-v4:1.0.0">
 </androidPackage>
 <androidPackage spec="androidx.appcompat:appcompat:1.3.0-alpha02">
 </androidPackage>
-<androidPackage spec="com.tradplusad:tradplus:9.8.0.1">
+<androidPackage spec="com.applovin:applovin-sdk:12.5.0">
 </androidPackage>
-<androidPackage spec="com.applovin:applovin-sdk:11.10.1">
-</androidPackage>
-<androidPackage spec="com.tradplusad:tradplus-applovin:9.9.8.0.1">
+<androidPackage spec="com.tradplusad:tradplus-applovin:9.12.0.0.1">
 </androidPackage>
 <androidPackage spec="com.google.android.gms:play-services-ads-identifier:17.0.0">
 </androidPackage>

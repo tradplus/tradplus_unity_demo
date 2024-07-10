@@ -28,7 +28,7 @@ typedef void (*TPBannerAdIsLoadingCallback)(const char* adUnitId);
 
 + (TPUBannerManager *)sharedInstance;
 
-- (void)loadWithAdUnitID:(NSString *)adUnitID closeAutoShow:(BOOL)closeAutoShow x:(float)x y:(float)y width:(float)width height:(float)height adPosition:(int)adPosition contentMode:(int)contentMode sceneId:(NSString *)sceneId customMap:(NSDictionary *)customMap className:(NSString *)className localParams:(NSDictionary *)localParams;
+- (void)loadWithAdUnitID:(NSString *)adUnitID closeAutoShow:(BOOL)closeAutoShow x:(float)x y:(float)y width:(float)width height:(float)height adPosition:(int)adPosition contentMode:(int)contentMode sceneId:(NSString *)sceneId customMap:(NSDictionary *)customMap className:(NSString *)className localParams:(NSDictionary *)localParams openAutoLoadCallback:(BOOL)openAutoLoadCallback maxWaitTime:(float)maxWaitTime backgroundColor:(NSString *)backgroundColor;
 - (void)showWithAdUnitID:(NSString *)adUnitID sceneId:(NSString *)sceneId;
 - (BOOL)adReadyWithAdUnitID:(NSString *)adUnitID;
 - (void)entryAdScenarioWithAdUnitID:(NSString *)adUnitID sceneId:(NSString *)sceneId;

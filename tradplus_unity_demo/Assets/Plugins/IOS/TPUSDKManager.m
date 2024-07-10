@@ -48,10 +48,12 @@
 - (void)initSDKWithAppID:(NSString *)appID
 {
     [TradPlus initSDK:appID completionBlock:^(NSError * _Nonnull error) {
-        if([TPUSDKManager sharedInstance].onInitFinishCallback != nil)
-        {
-            [TPUSDKManager sharedInstance].onInitFinishCallback((error == nil));
-        }
+        tp_dispatch_main_async_safe(^{
+            if([TPUSDKManager sharedInstance].onInitFinishCallback != nil)
+            {
+                [TPUSDKManager sharedInstance].onInitFinishCallback((error == nil));
+            }
+        });
     }];
 }
 

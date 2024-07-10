@@ -222,6 +222,16 @@ namespace TradplusSDK.iOS
                 );
         }
 
+        public void ClearCallback()
+        {
+            TradplusSDKSetCallbacks(
+                null,
+                null,
+                null,
+                null
+                );
+        }
+
         //OnInitFinish
         public event Action<bool> OnInitFinish;
 

@@ -1,9 +1,10 @@
 {
 	"platform":"MyTarget",
 	"url":"https://target.my.com/help/partners/mob/ios14integration/en",
-	"last_check":"2023-05-05",
+	"last_check":"2024-02-05",
 	"uid":"n33",
 	"skadnetwork_ids":[
-		"n9x2a789qt.skadnetwork"
+		"n9x2a789qt.skadnetwork",
+		"r26jy69rpl.skadnetwork"
 	]
 }

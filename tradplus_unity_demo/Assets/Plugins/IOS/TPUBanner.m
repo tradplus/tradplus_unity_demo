@@ -27,6 +27,15 @@
     return self;
 }
 
+- (void)setBackgroundColor:(NSString *)backgroundColor
+{
+    if(backgroundColor != nil && backgroundColor.length > 0)
+    {
+        UIColor *color = [TPUPluginUtil colorWithString:backgroundColor];
+        self.banner.backgroundColor = color;
+    }
+}
+
 - (void)setClassName:(NSString *)className
 {
     if(className != nil && className.length > 0)
@@ -110,10 +119,16 @@
     MSLogTrace(@"%s %@", __PRETTY_FUNCTION__,dic);
 }
 
-- (void)loadAdWithSceneId:(nullable NSString *)sceneId
+- (void)loadAdWithSceneId:(nullable NSString *)sceneId maxWaitTime:(float)maxWaitTime
 {
     MSLogTrace(@"%s sceneId:%@", __PRETTY_FUNCTION__,sceneId);
-    [self.banner loadAdWithSceneId:sceneId];
+    [self.banner loadAdWithSceneId:sceneId maxWaitTime:maxWaitTime];
+}
+
+- (void)openAutoLoadCallback
+{
+    MSLogTrace(@"%s", __PRETTY_FUNCTION__);
+    [self.banner openAutoLoadCallback];
 }
 
 - (void)showAdWithSceneId:(nullable NSString *)sceneId

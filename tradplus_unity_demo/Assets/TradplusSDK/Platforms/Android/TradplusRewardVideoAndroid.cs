@@ -34,6 +34,8 @@ namespace TradplusSDK.Android
             info.Add("userId", extra.userId);
             info.Add("customData", extra.customData);
             info.Add("isSimpleListener", extra.isSimpleListener);
+            info.Add("maxWaitTime", extra.maxWaitTime);
+            info.Add("openAutoLoadCallback", extra.openAutoLoadCallback);
 
 
 

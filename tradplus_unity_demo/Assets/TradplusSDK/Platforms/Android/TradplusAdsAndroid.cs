@@ -209,18 +209,21 @@ namespace TradplusSDK.Android
             TradPlusSdk.CallStatic("setPrivacyUserAgree", open);
 
         }
+        public void SetAuthUID(bool needUid)
+        {
+            TradPlusSdk.CallStatic("setAuthUID", needUid);
+
+        }
 
         public void SetMaxDatabaseSize(int size)
         {
             TradPlusSdk.CallStatic("setMaxDatabaseSize", size);
-
         }
 
 
         public void SetFirstShowGDPR(bool first)
         {
             TradPlusSdk.CallStatic("setFirstShowGDPR", first);
-
         }
 
         public bool IsFirstShowGDPR()

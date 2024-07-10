@@ -25,7 +25,7 @@ namespace TradplusSDK.iOS
         }
 
         [DllImport("__Internal")]
-        private static extern void TradplusLoadRewardVideoAd(string adUnitId,string userId,string customData, string customMap, string localParams);
+        private static extern void TradplusLoadRewardVideoAd(string adUnitId,string userId,string customData, string customMap, string localParams, bool openAutoLoadCallback, float maxWaitTime);
         public void LoadRewardVideoAd(string adUnitId, TPRewardVideoExtra extra)
         {
             string customMapString = null;
@@ -38,7 +38,7 @@ namespace TradplusSDK.iOS
             {
                 localParamsString = Json.Serialize(extra.localParams);
             }
-            TradplusLoadRewardVideoAd(adUnitId, extra.userId,extra.customData, customMapString, localParamsString);
+            TradplusLoadRewardVideoAd(adUnitId, extra.userId,extra.customData, customMapString, localParamsString,extra.openAutoLoadCallback,extra.maxWaitTime);
         }
 
         [DllImport("__Internal")]
@@ -82,6 +82,34 @@ namespace TradplusSDK.iOS
             {
                 Debug.LogError("customAdInfo is null");
             }
+        }
+
+        public void ClearCallback()
+        {
+            TradplusRewardVideoSetCallbacks(
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+           );
         }
 
         //回调部分

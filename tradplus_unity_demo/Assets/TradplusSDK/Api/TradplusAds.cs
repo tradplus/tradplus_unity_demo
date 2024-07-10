@@ -1,23 +1,33 @@
 ﻿using System;
-#if UNITY_IOS
+#if UNITY_EDITOR
+using TradplusSDK.Unity;
+#elif UNITY_IOS
 using TradplusSDK.iOS;
-#endif
+#elif UNITY_ANDROID
 using TradplusSDK.Android;
+#else
+using TradplusSDK.Unity;
+#endif
+
 using System.Collections.Generic;
 
 namespace TradplusSDK.Api
 {
     public class TPAds :
-#if UNITY_IOS
-        TradplusAdsiOS
+#if UNITY_EDITOR
+    TPSdkUnityAds
+#elif UNITY_IOS
+    TradplusAdsiOS
+#elif UNITY_ANDROID
+     TradplusAdsAndroid
 #else
-        TradplusAdsAndroid
+    TPSdkUnityAds
 #endif
     { }
 
     public class TradplusAds
     {
-        public static string PluginVersion = "1.1.1";
+        public static string PluginVersion = "1.2.2";
 
         private static TradplusAds _instance;
 
@@ -183,6 +193,16 @@ namespace TradplusSDK.Api
         }
 
         ///<summary>
+        ///开启获取AuthId  false 关闭 ，true 开启
+        ///</summary>
+        public void SetAuthUID(bool needUid)
+        {
+#if UNITY_ANDROID
+                    TPAds.Instance().SetAuthUID(needUid);
+#endif
+        }
+
+        ///<summary>
         ///清理指定广告位下的广告缓存，一般使用场景：用于切换用户后清除激励视频的缓存广告
         ///</summary>
         public void ClearCache(string adUnitId)
@@ -312,6 +332,19 @@ namespace TradplusSDK.Api
                 this.onGlobalAdImpression = OnGlobalAdImpression;
                 TPAds.Instance().OnGlobalAdImpression += OnGlobalAdImpression;
             }
+        }
+
+        ///<summary>
+        ///开发者在 OnApplicationQuit 生命周期时调用关闭回调
+        ///仅iOS支持
+        ///</summary>
+        public void ClearCallback()
+        {
+#if UNITY_EDITOR
+
+#elif UNITY_IOS
+            TPAds.Instance().ClearCallback();
+#endif
         }
 
         ///<summary>

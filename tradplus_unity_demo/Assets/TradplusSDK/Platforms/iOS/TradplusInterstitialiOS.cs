@@ -24,7 +24,7 @@ namespace TradplusSDK.iOS
         }
 
         [DllImport("__Internal")]
-        private static extern void TradplusLoadInterstitialAd(string adUnitId,string customMap,string localParams);
+        private static extern void TradplusLoadInterstitialAd(string adUnitId,string customMap,string localParams, bool openAutoLoadCallback, float maxWaitTime);
         public void LoadInterstitialAd(string adUnitId, TPInterstitialExtra extra)
         {
             string customMapString = null;
@@ -37,7 +37,7 @@ namespace TradplusSDK.iOS
             {
                 localParamsString = Json.Serialize(extra.localParams);
             }
-            TradplusLoadInterstitialAd(adUnitId, customMapString, localParamsString);
+            TradplusLoadInterstitialAd(adUnitId, customMapString, localParamsString,extra.openAutoLoadCallback,extra.maxWaitTime);
         }
 
         [DllImport("__Internal")]
@@ -81,6 +81,28 @@ namespace TradplusSDK.iOS
             {
                 Debug.LogError("customAdInfo is null");
             }
+        }
+
+        public void ClearCallback()
+        {
+            TradplusInterstitialSetCallbacks(
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+           );
         }
 
         //回调部分

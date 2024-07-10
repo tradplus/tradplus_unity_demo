@@ -128,11 +128,11 @@ namespace Tardplus.TradplusEditorManager.Editor
                 if (Equals(itemUniqueNetworkId, networkUniqueNetworkId))
                 {
                     //移除ADX
-                    if (Equals(itemUniqueNetworkId, "n40"))
-                    {
-                        TradplusEditorManager.Instance().removeNetwork(networkUniqueNetworkId, saveInfo.os, desc);
-                        return;
-                    }
+                    //if (Equals(itemUniqueNetworkId, "n40"))
+                    //{
+                    //    TradplusEditorManager.Instance().removeNetwork(networkUniqueNetworkId, saveInfo.os, desc);
+                    //    return;
+                    //}
                     if (saveInfo.os == 1)
                     {
                         desc.android_update = false;

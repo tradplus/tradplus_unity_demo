@@ -33,7 +33,7 @@ typedef void (*TPOfferwallAdIsLoadingCallback)(const char* adUnitId);
 
 + (TPUOfferwallManager *)sharedInstance;
 
-- (void)loadWithAdUnitID:(NSString *)adUnitID customMap:(NSDictionary *)customMap localParams:(NSDictionary *)localParams;
+- (void)loadWithAdUnitID:(NSString *)adUnitID customMap:(NSDictionary *)customMap localParams:(NSDictionary *)localParams openAutoLoadCallback:(BOOL)openAutoLoadCallback maxWaitTime:(float)maxWaitTime;
 - (void)showWithAdUnitID:(NSString *)adUnitID sceneId:(NSString *)sceneId;
 - (BOOL)adReadyWithAdUnitID:(NSString *)adUnitID;
 - (void)entryAdScenarioWithAdUnitID:(NSString *)adUnitID sceneId:(NSString *)sceneId;

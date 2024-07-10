@@ -1,7 +1,7 @@
 {
 	"platform":"Inmob",
 	"url":"https://www.inmobi.com/skadnetworkids.json",
-	"last_check":"2023-05-06",
+	"last_check":"2024-02-05",
 	"uid":"n23",
 	"skadnetwork_ids":[
 		"uw77j35x4d.skadnetwork",
@@ -64,6 +64,9 @@
 		"52fl2v3hgk.skadnetwork",
 		"6g9af3uyq4.skadnetwork",
 		"x5l83yy675.skadnetwork",
+		"mqn7fxpca7.skadnetwork",
+		"g6gcrrvk4p.skadnetwork",
+		"r45fhb6rf7.skadnetwork",
 		"c3frkrj4fj.skadnetwork"
 	]
 }

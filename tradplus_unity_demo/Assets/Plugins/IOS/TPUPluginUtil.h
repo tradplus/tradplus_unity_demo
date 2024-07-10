@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSString *)getJsonStringWithDic:(NSDictionary *)dic;
 + (NSString *)getJsonStringWithError:(NSError *)error;
 + (CGRect)getRectWithSize:(CGSize)size adPosition:(int)adPosition;
++ (UIColor *)colorWithString:(NSString *)colorStr;
 @end
 
 NS_ASSUME_NONNULL_END

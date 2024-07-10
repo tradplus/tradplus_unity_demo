@@ -44,7 +44,7 @@
     return nil;
 }
 
-- (void)loadWithAdUnitID:(NSString *)adUnitID userId:(NSString *)userId customData:(NSString *)customData customMap:(NSDictionary *)customMap localParams:(NSDictionary *)localParams
+- (void)loadWithAdUnitID:(NSString *)adUnitID userId:(NSString *)userId customData:(NSString *)customData customMap:(NSDictionary *)customMap localParams:(NSDictionary *)localParams openAutoLoadCallback:(BOOL)openAutoLoadCallback maxWaitTime:(float)maxWaitTime
 {
     if(adUnitID == nil)
     {
@@ -59,12 +59,16 @@
     }
     [rewardVideo setCustomMap:customMap];
     [rewardVideo setLocalParams:localParams];
+    if(openAutoLoadCallback)
+    {
+        [rewardVideo openAutoLoadCallback];
+    }
     [rewardVideo setAdUnitID:adUnitID];
     if(userId != nil)
     {
         [rewardVideo setServerSideVerificationOptionsWithUserID:userId customData:customData];
     }
-    [rewardVideo loadAd];
+    [rewardVideo loadAdWithMaxWaitTime:maxWaitTime];
 }
 
 - (void)showWithAdUnitID:(NSString *)adUnitID sceneId:(NSString *)sceneId;

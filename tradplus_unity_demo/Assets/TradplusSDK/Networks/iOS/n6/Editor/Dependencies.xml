@@ -1,6 +1,5 @@
 <dependencies>
 <iosPods>
-<iosPod name ="TradPlusAdSDK/TapjoyAdapter" version="9.3.0"/>
-<iosPod name ="TapjoySDK" version="13.0.0"/>
+<iosPod name ="TradPlusAdSDK/TapjoyAdapter" version="11.7.0"/>
 </iosPods>
 </dependencies>

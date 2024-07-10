@@ -15,13 +15,15 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,readonly)BOOL isAdReady;
 
 - (void)setAdUnitID:(NSString * _Nonnull)adUnitID;
-- (void)loadAdWithSceneId:(nullable NSString *)sceneId;
+- (void)loadAdWithSceneId:(nullable NSString *)sceneId maxWaitTime:(float)maxWaitTime;
+- (void)openAutoLoadCallback;
 - (void)showAdWithSceneId:(nullable NSString *)sceneId;
 - (void)setCustomMap:(NSDictionary *)dic;
 - (void)entryAdScenario:(nullable NSString *)sceneId;
 - (void)setBannerSize:(CGSize)size;
 - (void)setBannerContentMode:(NSInteger)mode;
 - (void)setLocalParams:(NSDictionary *)dic;
+- (void)setBackgroundColor:(NSString *)backgroundColor;
 - (void)setX:(float)x y:(float)y adPosition:(int)adPosition;
 - (void)hide;
 - (void)display;

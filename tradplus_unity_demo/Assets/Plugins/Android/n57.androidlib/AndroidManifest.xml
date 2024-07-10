@@ -2,7 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.tradplus.n57">
+    <uses-permission android:name="android.permission.AD_ID" />
     <application>
+        
 
     </application>
 </manifest>
